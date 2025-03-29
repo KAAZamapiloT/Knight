@@ -19,7 +19,9 @@ set(SOURCES
 
 # Add executable
 #add_executable(Knight ${SOURCES})
-add_executable(Knight main.cpp)
+add_executable(Knight main.cpp
+        external/Vulkan-Headers/include/vulkan/vulkan.h
+        external/GLFW/src/cocoa_joystick.h)
 # Include directories (target-specific)
 target_include_directories(Knight PRIVATE
         ${Vulkan_INCLUDE_DIRS}

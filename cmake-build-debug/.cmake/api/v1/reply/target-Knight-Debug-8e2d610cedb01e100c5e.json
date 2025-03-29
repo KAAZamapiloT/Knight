@@ -35,13 +35,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 36,
+				"line" : 38,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 24,
+				"line" : 26,
 				"parent" : 0
 			}
 		]
@@ -142,6 +142,14 @@
 			[
 				0
 			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
 		}
 	],
 	"sources" : 
@@ -151,6 +159,16 @@
 			"compileGroupIndex" : 0,
 			"path" : "main.cpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "external/Vulkan-Headers/include/vulkan/vulkan.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "external/GLFW/src/cocoa_joystick.h",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"
