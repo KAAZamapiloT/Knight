@@ -1,0 +1,3 @@
+H:/DEV_CHALLANGE/Knight/cmake-build-debug/CMakeFiles/Knight.dir
+H:/DEV_CHALLANGE/Knight/cmake-build-debug/CMakeFiles/edit_cache.dir
+H:/DEV_CHALLANGE/Knight/cmake-build-debug/CMakeFiles/rebuild_cache.dir
