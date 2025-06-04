@@ -141,6 +141,7 @@
     <ClCompile Include="external\imgui-1.91.9b\imgui_tables.cpp" />
     <ClCompile Include="external\imgui-1.91.9b\imgui_widgets.cpp" />
     <ClCompile Include="external\src\glad.c" />
+    <ClCompile Include="src\Graphics\ForwardRenderer.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLGraphicsAPI.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\UI\ImguiLayer.cpp" />
@@ -278,6 +279,7 @@
     <ClInclude Include="external\SDL3-3.2.14\include\SDL3\SDL_version.h" />
     <ClInclude Include="external\SDL3-3.2.14\include\SDL3\SDL_video.h" />
     <ClInclude Include="external\SDL3-3.2.14\include\SDL3\SDL_vulkan.h" />
+    <ClInclude Include="src\Graphics\ForwardRenderer.hpp" />
     <ClInclude Include="shaders\shapes.h" />
     <ClInclude Include="src\OpenGl\OpenGLGraphicsAPI.h" />
     <ClInclude Include="shaders\triangle.h" />
