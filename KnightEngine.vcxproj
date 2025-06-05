@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PublicIncludeDirectories>H:\GameEngine\KnightEngine\KnightEngine\external\spdlog-1.15.3\include;H:\GameEngine\KnightEngine\KnightEngine\external\glm-1.0.1;H:\GameEngine\KnightEngine\KnightEngine\shaders;H:\GameEngine\KnightEngine\KnightEngine\external\SDL3-3.2.14\include;H:\GameEngine\KnightEngine\KnightEngine\external\glm;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <PublicIncludeDirectories>$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)\external\SDL3-3.2.14\include;$(ProjectDir)\external\glm;$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -105,9 +105,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>H:\GameEngine\KnightEngine\KnightEngine\external\spdlog-1.15.3\include;H:\GameEngine\KnightEngine\KnightEngine\external\glm-1.0.1;H:\GameEngine\KnightEngine\KnightEngine\shaders;$(ProjectDir)KnightEngine\external\glm;H:\GameEngine\KnightEngine\KnightEngine\src;H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b\backends;H:\GameEngine\KnightEngine\KnightEngine\external\include;H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b;H:\GameEngine\KnightEngine\KnightEngine\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)KnightEngine\external\glm;$(ProjectDir)\src;$(ProjectDir)\external\imgui-1.91.9b\backends;$(ProjectDir)\external\include;$(ProjectDir)\external\imgui-1.91.9b;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8
  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>

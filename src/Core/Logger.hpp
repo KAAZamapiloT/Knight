@@ -5,10 +5,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include<string>
 #include <utility> 
-#define KE_LOG_INFO(...)    Logger::Log(INFO, __VA_ARGS__)
-#define KE_LOG_WARN(...)    Logger::Log(WARN, __VA_ARGS__)
-#define KE_LOG_DEBUG(...)   Logger::Log(DEBUG, __VA_ARGS__)
-#define KE_LOG_CRITICAL(...) Logger::Log(CRITICAL, __VA_ARGS__)
+
 #define KE_TAG_LOG_INFO(tag, ...)    Logger::C_LOG(tag, INFO, __VA_ARGS__)
 #define KE_TAG_LOG_WARN(tag, ...)    Logger::C_LOG(tag, WARN, __VA_ARGS__)
 #define KE_TAG_LOG_DEBUG(tag, ...)   Logger::C_LOG(tag, DEBUG, __VA_ARGS__)
@@ -52,3 +49,25 @@ public:
     }
 };
 
+//  Logging macros: disabled in Release, enabled in Debug
+#if defined(_DEBUG) || !defined(NDEBUG)
+#define KE_LOG_INFO(...)     Logger::Log(INFO, __VA_ARGS__)
+#define KE_LOG_WARN(...)     Logger::Log(WARN, __VA_ARGS__)
+#define KE_LOG_DEBUG(...)    Logger::Log(DEBUG, __VA_ARGS__)
+#define KE_LOG_CRITICAL(...) Logger::Log(CRITICAL, __VA_ARGS__)
+
+#define KE_TAG_LOG_INFO(tag, ...)    Logger::C_LOG(tag, INFO, __VA_ARGS__)
+#define KE_TAG_LOG_WARN(tag, ...)    Logger::C_LOG(tag, WARN, __VA_ARGS__)
+#define KE_TAG_LOG_DEBUG(tag, ...)   Logger::C_LOG(tag, DEBUG, __VA_ARGS__)
+#define KE_TAG_LOG_CRITICAL(tag, ...) Logger::C_LOG(tag, CRITICAL, __VA_ARGS__)
+#else
+    // No-ops in ship build
+#define KE_LOG_INFO(...)     ((void)0)
+#define KE_LOG_WARN(...)     ((void)0)
+#define KE_LOG_DEBUG(...)    ((void)0)
+#define KE_LOG_CRITICAL(...) ((void)0)
+#define KE_TAG_LOG_INFO(tag, ...)    ((void)0)
+#define KE_TAG_LOG_WARN(tag, ...)    ((void)0)
+#define KE_TAG_LOG_DEBUG(tag, ...)   ((void)0)
+#define KE_TAG_LOG_CRITICAL(tag, ...)((void)0)
+#endif
