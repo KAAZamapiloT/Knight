@@ -516,4 +516,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="docs\Logger.md" />
+    <None Include="docs\DevLog.md" />
+  </ItemGroup>
 </Project>

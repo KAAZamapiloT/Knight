@@ -9,6 +9,10 @@
 #define KE_LOG_WARN(...)    Logger::Log(WARN, __VA_ARGS__)
 #define KE_LOG_DEBUG(...)   Logger::Log(DEBUG, __VA_ARGS__)
 #define KE_LOG_CRITICAL(...) Logger::Log(CRITICAL, __VA_ARGS__)
+#define KE_TAG_LOG_INFO(tag, ...)    Logger::C_LOG(tag, INFO, __VA_ARGS__)
+#define KE_TAG_LOG_WARN(tag, ...)    Logger::C_LOG(tag, WARN, __VA_ARGS__)
+#define KE_TAG_LOG_DEBUG(tag, ...)   Logger::C_LOG(tag, DEBUG, __VA_ARGS__)
+#define KE_TAG_LOG_CRITICAL(tag, ...) Logger::C_LOG(tag, CRITICAL, __VA_ARGS__)
 enum LogLevel
 {
 	CRITICAL,
@@ -40,6 +44,11 @@ public:
             spdlog::info(format, std::forward<Args>(args)...);
             break;
         }
+    }
+    template<typename... Args>
+    static void C_LOG(const std::string tag, LogLevel level, const char* fmt, Args&&... args) {
+        std::string tagged_fmt = "[" + tag + "] " + fmt;
+        Log(level, tagged_fmt.c_str(), std::forward<Args>(args)...);
     }
 };
 

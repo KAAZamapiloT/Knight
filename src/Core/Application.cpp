@@ -33,6 +33,7 @@ void Application::Run()
 		KE_LOG_CRITICAL("IMGUI Initialization failed!");
         return;
     }
+    
     Triangle tri;
     Shapes sh;
     sh.InitLineShader();
@@ -48,7 +49,7 @@ void Application::Run()
             if (e.type == SDL_EVENT_QUIT) m_Running = false;
             ImGui_ImplSDL3_ProcessEvent(&e);
         }
-		
+        
         // ImGui frame start
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
@@ -86,10 +87,13 @@ bool Application::OnInit_OpenGL()
 
 bool Application::OnInit_Imgui()
 {
-  
+	
+	// Initialize ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	// Setup Dear ImGui style
+	// You can customize the style here if needed
 	ImGui::StyleColorsDark();
-    
-
 
     ImGui::Begin("Knight Engine UI");
     ImGui::Text("CAN I ENTER DIFFRENT TEXT");
