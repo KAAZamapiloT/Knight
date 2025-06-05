@@ -2,6 +2,7 @@
 #include "triangle.h"
 #include"vector"
 #include "shapes.h"
+#include "Core/Logger.hpp"
 namespace KnightEngine {
 
 // Implementation of Application class
@@ -18,15 +19,18 @@ Application::~Application()
 void Application::Run()
 {
     if (!Init_SDL()) {
-        std::cerr << "SDL Initialization failed!" << std::endl;
+      //  std::cerr << "SDL Initialization failed!" << std::endl;
+		KE_LOG_CRITICAL("SDL Initialization failed!");
         return;
     }
     if (!Init_OpenGL() ) {
-        std::cerr << "OPEN_GL Initialization failed!" << std::endl;
+      //  std::cerr << "OPEN_GL Initialization failed!" << std::endl;
+		KE_LOG_CRITICAL("OPEN_GL Initialization failed!");
         return;
     }
     if (!Init_Imgui()) {
-        std::cerr << "IMGUI Initialization failed!" << std::endl;
+       // std::cerr << "IMGUI Initialization failed!" << std::endl;
+		KE_LOG_CRITICAL("IMGUI Initialization failed!");
         return;
     }
     Triangle tri;
@@ -36,6 +40,7 @@ void Application::Run()
     tri.Init();
     
     // Main game loop
+    KE_LOG_INFO("Running Application");
     while (m_Running)
     {
         SDL_Event e;
@@ -43,7 +48,7 @@ void Application::Run()
             if (e.type == SDL_EVENT_QUIT) m_Running = false;
             ImGui_ImplSDL3_ProcessEvent(&e);
         }
-
+		
         // ImGui frame start
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
@@ -66,6 +71,7 @@ void Application::Run()
 
         SDL_GL_SwapWindow(m_Window);
     }
+	KE_LOG_CRITICAL("Application is shutting down");
 }
 
 bool Application::OnInit_SDL()
@@ -99,11 +105,15 @@ bool Application::Init_SDL()
 {
    bool b= SDL_Init(SDL_INIT_VIDEO);
    if (!b) {
-       std::cerr << "Initializatio failed" << SDL_GetError() << std::endl; return false;
+      // std::cerr << "Initializatio failed" << SDL_GetError() << std::endl; return false;
+	   KE_LOG_CRITICAL("Initialization failed: " , std::string(SDL_GetError()));
+	   return false;
    }
     m_Window = SDL_CreateWindow("KnightEngine", m_width, m_height, SDL_WINDOW_OPENGL);
     if (!m_Window) {
-        std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;  return false;
+      //  std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;  return false;
+		KE_LOG_CRITICAL("Window creation failed: " , std::string(SDL_GetError()));
+		return false;
     }
     return true;
     
@@ -113,11 +123,13 @@ bool Application::Init_OpenGL()
 {
     m_Context = SDL_GL_CreateContext(m_Window);
     if (!m_Context) {
-        std::cerr << "OpenGL context creation failed: " << SDL_GetError() << std::endl;
+       // std::cerr << "OpenGL context creation failed: " << SDL_GetError() << std::endl;
+		KE_LOG_CRITICAL("OpenGL context creation failed: " , std::string(SDL_GetError()));
         return false;
     }
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
+      //  std::cerr << "Failed to initialize GLAD" << std::endl;
+		KE_LOG_CRITICAL("Failed to initialize GLAD");
         return false;
     }
     return true;
@@ -131,12 +143,14 @@ bool Application::Init_Imgui()
 
     // Backend bindings
     if (!ImGui_ImplSDL3_InitForOpenGL(m_Window, m_Context)) {
-        std::cerr << "Failed to initialize ImGui SDL3 backend!" << std::endl;
+       // std::cerr << "Failed to initialize ImGui SDL3 backend!" << std::endl;
+		KE_LOG_CRITICAL("Failed to initialize ImGui SDL3 backend!");
         return false;
     }
 
     if (!ImGui_ImplOpenGL3_Init("#version 460")) {
-        std::cerr << "Failed to initialize ImGui OpenGL backend!" << std::endl;
+      //  std::cerr << "Failed to initialize ImGui OpenGL backend!" << std::endl;
+		KE_LOG_CRITICAL("Failed to initialize ImGui OpenGL backend!");
         return false;
     }
     return true;
