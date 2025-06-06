@@ -6,10 +6,6 @@
 #include<string>
 #include <utility> 
 
-#define KE_TAG_LOG_INFO(tag, ...)    Logger::C_LOG(tag, INFO, __VA_ARGS__)
-#define KE_TAG_LOG_WARN(tag, ...)    Logger::C_LOG(tag, WARN, __VA_ARGS__)
-#define KE_TAG_LOG_DEBUG(tag, ...)   Logger::C_LOG(tag, DEBUG, __VA_ARGS__)
-#define KE_TAG_LOG_CRITICAL(tag, ...) Logger::C_LOG(tag, CRITICAL, __VA_ARGS__)
 enum LogLevel
 {
 	CRITICAL,
@@ -47,6 +43,14 @@ public:
         std::string tagged_fmt = "[" + tag + "] " + fmt;
         Log(level, tagged_fmt.c_str(), std::forward<Args>(args)...);
     }
+	template<typename... Args>
+	static void NLog(LogLevel level, const char* format, Args&&... args) {
+	
+	}
+    template<typename... Args>
+    static void NC_LOG(const std::string tag, LogLevel level, const char* fmt, Args&&... args) {
+
+    }
 };
 
 //  Logging macros: disabled in Release, enabled in Debug
@@ -62,12 +66,13 @@ public:
 #define KE_TAG_LOG_CRITICAL(tag, ...) Logger::C_LOG(tag, CRITICAL, __VA_ARGS__)
 #else
     // No-ops in ship build
-#define KE_LOG_INFO(...)     ((void)0)
-#define KE_LOG_WARN(...)     ((void)0)
-#define KE_LOG_DEBUG(...)    ((void)0)
-#define KE_LOG_CRITICAL(...) ((void)0)
-#define KE_TAG_LOG_INFO(tag, ...)    ((void)0)
-#define KE_TAG_LOG_WARN(tag, ...)    ((void)0)
-#define KE_TAG_LOG_DEBUG(tag, ...)   ((void)0)
-#define KE_TAG_LOG_CRITICAL(tag, ...)((void)0)
+#define KE_LOG_INFO(...)     Logger::NLog(INFO, __VA_ARGS__)
+#define KE_LOG_WARN(...)     Logger::NLog(WARN, __VA_ARGS__)
+#define KE_LOG_DEBUG(...)    Logger::NLog(DEBUG, __VA_ARGS__)
+#define KE_LOG_CRITICAL(...) Logger::NLog(CRITICAL, __VA_ARGS__)
+
+#define KE_TAG_LOG_INFO(tag, ...)    Logger::NC_LOG(tag, INFO, __VA_ARGS__)
+#define KE_TAG_LOG_WARN(tag, ...)    Logger::NC_LOG(tag, WARN, __VA_ARGS__)
+#define KE_TAG_LOG_DEBUG(tag, ...)   Logger::NC_LOG(tag, DEBUG, __VA_ARGS__)
+#define KE_TAG_LOG_CRITICAL(tag, ...) Logger::NC_LOG(tag, CRITICAL, __VA_ARGS__)
 #endif
