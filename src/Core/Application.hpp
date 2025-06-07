@@ -5,9 +5,10 @@
 #include "imgui_impl_opengl3.h"
 #include"imgui_impl_sdl3.h"
 #include<iostream>
+#include "EngineApi.hpp"
 namespace KnightEngine {
 
-    class Application
+    class KNIGHT_ENGINE_API Application
     {
     public:
         Application();

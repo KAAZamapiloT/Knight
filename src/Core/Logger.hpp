@@ -5,7 +5,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include<string>
 #include <utility> 
-
+#include "EngineApi.hpp"
 enum LogLevel
 {
 	CRITICAL,
@@ -15,7 +15,7 @@ enum LogLevel
   
 
 };
-class Logger {
+class KNIGHT_ENGINE_API Logger {
 public:
     template<typename... Args>
     static void Log(LogLevel level, const char* format, Args&&... args)

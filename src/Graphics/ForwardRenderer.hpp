@@ -1,5 +1,6 @@
 #pragma once
-class ForwardRenderer
+#include "EngineApi.hpp"
+class KNIGHT_ENGINE_API ForwardRenderer
 {
 
 public:

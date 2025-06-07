@@ -49,3 +49,33 @@
 ---
 
 _“Logs are your eyes into a blind engine — see what it’s thinking.”_
+
+# DevLog Entry – Work Started on Rendering System
+
+**Date:** 2025-06-07  
+**Module:** Core Rendering System  
+**Author:** mikazama
+
+---
+
+## Progress Summary
+
+- Started laying the groundwork for the rendering system.
+- Added foundational classes: `Mesh.h`, `Camera.h`, `RenderCommand.h`.
+- Planning to implement these classes next.
+- Next major milestone: render a cube on screen to verify the rendering pipeline.
+- Concurrently working on structuring the engine build system to support compilation as a DLL.
+
+---
+
+## Next Steps
+
+1. Implement the core functionality of `Mesh`, `Camera`, and `RenderCommand`.
+2. Set up the rendering pipeline to draw a basic cube.
+3. Continue framework adjustments for DLL compilation support.
+
+---
+
+## Notes
+
+This phase is critical to establishing a solid rendering foundation while preparing the engine for modular deployment.

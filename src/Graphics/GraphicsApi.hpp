@@ -1,8 +1,8 @@
 #pragma once
-
+#include "EngineApi.hpp"
 namespace Knight {
 
-    class GraphicsAPI {
+    class KNIGHT_ENGINE_API GraphicsAPI {
     public:
         virtual void Init() = 0;
         virtual void SetViewport(int x, int y, int width, int height) = 0;

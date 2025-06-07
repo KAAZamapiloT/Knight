@@ -3,8 +3,9 @@
 
 #include <glad/glad.h>
 #include <iostream>
-
-class Shader {
+#include <string>
+#include "EngineApi.hpp"
+class KNIGHT_ENGINE_API Shader {
 public:
     GLuint ID = 0;
 	Shader() = default;
