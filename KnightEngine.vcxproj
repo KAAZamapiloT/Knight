@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\OpenGl\OpenGlTexture.cpp" />
+    <ClCompile Include="src\Graphics\Camera.cpp" />
     <ClCompile Include="external\imgui-1.91.9b\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="external\imgui-1.91.9b\backends\imgui_impl_sdl3.cpp" />
     <ClCompile Include="external\imgui-1.91.9b\imgui.cpp" />
@@ -147,7 +149,11 @@
     <ClCompile Include="external\imgui-1.91.9b\imgui_tables.cpp" />
     <ClCompile Include="external\imgui-1.91.9b\imgui_widgets.cpp" />
     <ClCompile Include="external\src\glad.c" />
+    <ClCompile Include="src\Graphics\Material.cpp" />
+    <ClCompile Include="src\Graphics\Mesh.cpp" />
     <ClCompile Include="src\Graphics\ForwardRenderer.cpp" />
+    <ClCompile Include="src\Graphics\RenderCommand.cpp" />
+    <ClCompile Include="src\Graphics\RenderQueue.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLGraphicsAPI.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\UI\ImguiLayer.cpp" />
@@ -161,6 +167,8 @@
     <ClCompile Include="src\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\OpenGl\OpenGlTexture.hpp" />
+    <ClInclude Include="src\Graphics\Camera.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\common.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\exponential.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\ext.hpp" />
@@ -285,8 +293,13 @@
     <ClInclude Include="external\SDL3-3.2.14\include\SDL3\SDL_version.h" />
     <ClInclude Include="external\SDL3-3.2.14\include\SDL3\SDL_video.h" />
     <ClInclude Include="external\SDL3-3.2.14\include\SDL3\SDL_vulkan.h" />
+    <ClInclude Include="src\Graphics\Material.hpp" />
+    <ClInclude Include="src\Graphics\Mesh.hpp" />
     <ClInclude Include="src\Graphics\ForwardRenderer.hpp" />
+    <ClInclude Include="src\Graphics\RenderCommand.hpp" />
+    <ClInclude Include="src\Graphics\RenderQueue.hpp" />
     <ClInclude Include="shaders\shapes.h" />
+    <ClInclude Include="src\EngineApi.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLGraphicsAPI.h" />
     <ClInclude Include="shaders\triangle.h" />
     <ClInclude Include="src\Core\Application.hpp" />

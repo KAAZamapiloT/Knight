@@ -1,6 +1,7 @@
 #pragma once
 #include"Graphics/GraphicsApi.hpp"
 #include<memory>
+#include"Core/Logger.hpp"
 namespace Knight{
 	class KNIGHT_ENGINE_API Renderer
 	{

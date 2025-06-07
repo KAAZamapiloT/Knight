@@ -1,11 +1,12 @@
 #include "Renderer.hpp"
-#include "OpenGl/OpenGLGraphicsAPI.h"
+
 namespace Knight {
 
    // std::unique_ptr<GraphicsAPI> Renderer::s_API = std::make_unique<OpenGLGraphicsAPI>();
 
     void Renderer::Init() {
      //   s_API->Init();
+		KE_TAG_LOG_INFO("Renderer", "Renderer initialized successfully");
     }
 
     void Renderer::BeginFrame() {

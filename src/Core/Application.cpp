@@ -3,6 +3,8 @@
 #include"vector"
 #include "shapes.h"
 #include "Core/Logger.hpp"
+#include"Graphics/Renderer.hpp"
+
 namespace KnightEngine {
 
 // Implementation of Application class
@@ -36,6 +38,9 @@ void Application::Run()
     
     Triangle tri;
     Shapes sh;
+	Knight::Renderer R;
+	
+    R.Init();
     sh.InitLineShader();
     
     tri.Init();
