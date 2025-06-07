@@ -6,6 +6,9 @@
 #include <string>
 #include "Graphics/Shader.hpp"
 #include <chrono>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 class Triangle {
     std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
 public:

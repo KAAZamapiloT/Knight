@@ -14,6 +14,9 @@ public:
 	virtual unsigned int GetHeight() const override;
 	virtual unsigned int GetID() const override;
 
-	
+private:
+	unsigned int m_height;
+	unsigned int m_width;
+	unsigned int m_textureID;
 };
 

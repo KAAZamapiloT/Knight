@@ -15,7 +15,12 @@ namespace Knight {
             None = 0, OpenGL = 1, Vulkan = 2
         };
 
-       // static API GetAPI();
+         static API GetAPI() {
+			return m_CurrentAPI;
+         }
+         
+       private:
+           static API m_CurrentAPI;
     };
 
 } // namespace Knight

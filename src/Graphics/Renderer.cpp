@@ -1,11 +1,16 @@
 #include "Renderer.hpp"
 
+#include "Core/Logger.hpp"
 namespace Knight {
-
-   // std::unique_ptr<GraphicsAPI> Renderer::s_API = std::make_unique<OpenGLGraphicsAPI>();
-
+    std::unique_ptr<GraphicsAPI> Renderer::s_API = nullptr;
+	
     void Renderer::Init() {
-     //   s_API->Init();
+     s_API = CreateGraphicsAPI();
+       if (!s_API) {
+			KE_TAG_LOG_CRITICAL("Renderer", "Failed to create GraphicsAPI instance");
+            return;
+        }
+       s_API->Init();
 		KE_TAG_LOG_INFO("Renderer", "Renderer initialized successfully");
     }
 
@@ -17,9 +22,13 @@ namespace Knight {
         // Placeholder – for post-processing, etc.
     }
 
-    //GraphicsAPI* Renderer::GetAPI() {
-        //return s_API.get();
-		
-    //}
+    void Renderer::ClearColor(float r, float g, float b, float a)
+    {
+	s_API->Clear(r, g, b, a);
+    }
+
+   
+
+   
 
 }

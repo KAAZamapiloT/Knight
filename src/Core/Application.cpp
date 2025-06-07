@@ -4,7 +4,7 @@
 #include "shapes.h"
 #include "Core/Logger.hpp"
 #include"Graphics/Renderer.hpp"
-
+#include"utils/Math.hpp"
 namespace KnightEngine {
 
 // Implementation of Application class
@@ -39,8 +39,11 @@ void Application::Run()
     Triangle tri;
     Shapes sh;
 	Knight::Renderer R;
-	
-    R.Init();
+    float frequency = 0.1f;
+	float f = 0.0f;
+    float blue = glm::sin(f * frequency);
+	float ep = glm::sin(f);
+   R.Init();
     sh.InitLineShader();
     
     tri.Init();
@@ -70,9 +73,15 @@ void Application::Run()
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        tri.Render();
-       // sh.render();
+        blue = glm::sin(f * frequency);
+        blue = (blue + 1.0f) * 0.5f;
+        
+		R.ClearColor(0.5f, 0.0f, blue, 0.0f);
+		//R.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		
+		f = f + 0.01f;
+        tri.Render();
+        sh.render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         SDL_GL_SwapWindow(m_Window);

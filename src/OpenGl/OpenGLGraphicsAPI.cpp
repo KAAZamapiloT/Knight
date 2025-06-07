@@ -1,4 +1,4 @@
-#include "OpenGLGraphicsAPI.h"
+#include "OpenGLGraphicsAPI.hpp"
 #include"glad/glad.h"
 #include"SDL3/SDL.h"
 #include "Core/Logger.hpp"
@@ -27,11 +27,24 @@ void OpenGLGraphicsAPI::Clear(float r, float g, float b, float a)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void OpenGLGraphicsAPI::SetViewport(int x, int y, int width, int height)
+{
+	glViewport(x, y, width, height);
+	m_VWidth = width;
+	m_VHeight = height;
+	KE_TAG_LOG_DEBUG("OpenGLGraphicsAPI", "Viewport set to ({}, {}, {}, {})", x, y, width, height);
+}
+
 void OpenGLGraphicsAPI::Draw()
 {
 
 }
 
+void OpenGLGraphicsAPI::DrawIndexed(unsigned int indexCount)
+{
+}
+
 void OpenGLGraphicsAPI::Present()
 {
+
 }

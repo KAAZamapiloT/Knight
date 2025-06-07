@@ -1,7 +1,8 @@
 #pragma once
-#include"Graphics/GraphicsApi.hpp"
+#include"Graphics/GraphicsFactory.hpp"
 #include<memory>
 #include"Core/Logger.hpp"
+
 namespace Knight{
 	class KNIGHT_ENGINE_API Renderer
 	{
@@ -9,9 +10,9 @@ namespace Knight{
 		void Init();
 		void BeginFrame();
 		void EndFrame();
-		
+		void ClearColor(float r, float g, float b, float a);
 	private:
-		//static GraphicsAPI* GetAPI();
-		//static std::unique_ptr<GraphicsAPI> s_API;
+		
+	static  std::unique_ptr<GraphicsAPI> s_API;
 	};
 }
