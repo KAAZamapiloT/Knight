@@ -93,6 +93,15 @@
     <ClCompile Include="src\OpenGl\OpenGlTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\GraphicsApi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\GraphicsFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Event\Event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\include\glad\glad.h">
@@ -425,7 +434,7 @@
     <ClInclude Include="src\Graphics\GraphicsApi.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OpenGl\OpenGLGraphicsAPI.h">
+    <ClInclude Include="src\OpenGl\OpenGLGraphicsAPI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="external\glm-1.0.1\glm\simd\common.h">
@@ -552,6 +561,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\OpenGl\OpenGlTexture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\GraphicsFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event\Event.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

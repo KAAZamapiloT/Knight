@@ -1,14 +1,18 @@
 #include "RenderQueue.hpp"
 
-RenderCommand* RenderQueue::DispatchCommand()
-{
-    return nullptr;
-}
+namespace Knight {
+    RenderCommand* RenderQueue::DispatchCommand()
+    {
+        return nullptr;
+    }
 
-void RenderQueue::AddCommand(const RenderCommand& command)
-{
-}
+    void RenderQueue::AddCommand(const RenderCommand& command)
+    {
 
-void RenderQueue::ClearCommands()
-{
+    }
+
+    void RenderQueue::ClearCommands()
+    {
+		m_RenderCommands->clear();
+    }
 }

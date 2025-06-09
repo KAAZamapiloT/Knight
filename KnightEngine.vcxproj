@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Event\Event.cpp" />
+    <ClCompile Include="src\Graphics\GraphicsApi.cpp" />
+    <ClCompile Include="src\Graphics\GraphicsFactory.cpp" />
     <ClCompile Include="src\OpenGl\OpenGlTexture.cpp" />
     <ClCompile Include="src\Graphics\Camera.cpp" />
     <ClCompile Include="external\imgui-1.91.9b\backends\imgui_impl_opengl3.cpp" />
@@ -167,6 +170,8 @@
     <ClCompile Include="src\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Event\Event.hpp" />
+    <ClInclude Include="src\Graphics\GraphicsFactory.hpp" />
     <ClInclude Include="src\OpenGl\OpenGlTexture.hpp" />
     <ClInclude Include="src\Graphics\Camera.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\common.hpp" />
@@ -300,7 +305,7 @@
     <ClInclude Include="src\Graphics\RenderQueue.hpp" />
     <ClInclude Include="shaders\shapes.h" />
     <ClInclude Include="src\EngineApi.hpp" />
-    <ClInclude Include="src\OpenGl\OpenGLGraphicsAPI.h" />
+    <ClInclude Include="src\OpenGl\OpenGLGraphicsAPI.hpp" />
     <ClInclude Include="shaders\triangle.h" />
     <ClInclude Include="src\Core\Application.hpp" />
     <ClInclude Include="src\Engine.hpp" />

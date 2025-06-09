@@ -39,6 +39,8 @@ void Application::Run()
     Triangle tri;
     Shapes sh;
 	Knight::Renderer R;
+    Knight::RenderCommand rc;
+
     float frequency = 0.1f;
 	float f = 0.0f;
     float blue = glm::sin(f * frequency);
@@ -47,7 +49,8 @@ void Application::Run()
     sh.InitLineShader();
     
     tri.Init();
-    
+    R.Init();
+    rc.Init();
     // Main game loop
     KE_LOG_INFO("Running Application");
     while (m_Running)
@@ -76,8 +79,12 @@ void Application::Run()
         blue = glm::sin(f * frequency);
         blue = (blue + 1.0f) * 0.5f;
         
-		R.ClearColor(0.5f, 0.0f, blue, 0.0f);
-		//R.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+       
+		R.BeginFrame();
+       // R.SumbitCommandBuffer();
+		R.EndFrame();
+        
+		rc.ClearColor(0.1f, blue, 0.1f, 1.0f);
 		
 		f = f + 0.01f;
         tri.Render();

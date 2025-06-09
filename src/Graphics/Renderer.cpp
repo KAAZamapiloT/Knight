@@ -17,15 +17,22 @@ namespace Knight {
     void Renderer::BeginFrame() {
        // s_API->Clear(0.1f, 0.1f, 0.1f, 1.0f);
     }
+
+    void Renderer::SumbitCommand(RenderCommand& q)
+    {
+		s_RenderQueue.get()->AddCommand(q);
+    }
      
     void Renderer::EndFrame() {
         // Placeholder – for post-processing, etc.
     }
 
-    void Renderer::ClearColor(float r, float g, float b, float a)
+    void Renderer::ClearCommand()
     {
-	s_API->Clear(r, g, b, a);
+		s_RenderQueue.get()->ClearCommands();
     }
+
+  
 
    
 

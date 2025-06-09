@@ -1,9 +1,11 @@
 #include "RenderCommand.hpp"
 
-void RenderCommand::BindVertex()
-{
-}
+namespace Knight {
+	std::unique_ptr<GraphicsAPI> RenderCommand::s_API = nullptr;
+	
+	RenderCommand::RenderCommand()
+	{
+		s_API = CreateGraphicsAPI();
+	}
 
-void RenderCommand::BindArray()
-{
 }
