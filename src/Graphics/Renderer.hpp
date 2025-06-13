@@ -2,6 +2,7 @@
 #include"Graphics/GraphicsFactory.hpp"
 #include<memory>
 #include<Graphics/RenderQueue.hpp>
+#include"Graphics/Mesh.hpp"
 #include"Core/Logger.hpp"
 
 namespace Knight{
@@ -10,7 +11,8 @@ namespace Knight{
 	public:
 		void Init();
 		void BeginFrame();
-		void SumbitCommand(RenderCommand& q);
+		void SubmitCommand(RenderCommand& q);
+		
 		void EndFrame();
 
 		void ClearCommand();

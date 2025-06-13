@@ -44,6 +44,10 @@ void OpenGLGraphicsAPI::DrawIndexed(unsigned int indexCount)
 {
 }
 
+void OpenGLGraphicsAPI::DrawLine()
+{
+}
+
 void OpenGLGraphicsAPI::Present()
 {
 

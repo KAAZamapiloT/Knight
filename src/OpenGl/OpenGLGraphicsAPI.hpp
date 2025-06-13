@@ -18,9 +18,9 @@ public:
 		
 	void DrawIndexed(unsigned int indexCount) override;
 		
-		
+	void DrawLine() override;
 	
-	void Present();
+	void Present() override;
 	// Swap buffers to present the rendered frame
 private:
 	unsigned int m_VWidth = 800;

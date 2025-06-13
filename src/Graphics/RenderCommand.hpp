@@ -18,7 +18,6 @@ namespace Knight {
 			KE_TAG_LOG_INFO("RenderCommand", "RenderCommand initialized successfully");
 		}
 		//void BindVertex();
-		//void SetClearColor();
 		void ClearColor(float r, float g, float b, float a) {
 			s_API->Clear(r, g, b, a);
 		}
@@ -27,6 +26,7 @@ namespace Knight {
 			s_API->SetViewport(x, y, width, height);
 		}
 		//void BindArray();
+		//void DrawIndexed();
 	private:
 		static std::unique_ptr<GraphicsAPI> s_API;
 	};

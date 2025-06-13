@@ -7,6 +7,7 @@ OpenGlTexture::OpenGlTexture(const char* path)
 
 OpenGlTexture::~OpenGlTexture()
 {
+
 }
 
 void OpenGlTexture::Bind(unsigned int slot) const
