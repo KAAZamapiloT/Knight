@@ -139,7 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Event\Event.cpp" />
+    <ClCompile Include="src\OpenGl\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Event\EventDispathcer.cpp" />
     <ClCompile Include="src\Graphics\GraphicsApi.cpp" />
     <ClCompile Include="src\Graphics\GraphicsFactory.cpp" />
     <ClCompile Include="src\OpenGl\OpenGlTexture.cpp" />
@@ -170,8 +171,13 @@
     <ClCompile Include="src\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\OpenGl\OpenGLVertexArray.hpp" />
+    <ClInclude Include="src\Event\EventDispathcer.hpp" />
     <ClInclude Include="src\Event\Event.hpp" />
     <ClInclude Include="src\Graphics\GraphicsFactory.hpp" />
+    <ClInclude Include="src\Graphics\IndexBuffer.hpp" />
+    <ClInclude Include="src\Graphics\VertexArray.hpp" />
+    <ClInclude Include="src\Graphics\VertexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGlTexture.hpp" />
     <ClInclude Include="src\Graphics\Camera.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\common.hpp" />
