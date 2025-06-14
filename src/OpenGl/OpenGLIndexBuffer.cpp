@@ -1,11 +1,11 @@
 #include "OpenGLIndexBuffer.hpp"
 
-void OpenGLIndexBuffer::Bind()
+void OpenGLIndexBuffer::Bind() const 
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 }
 
-void OpenGLIndexBuffer::Unbind()
+void OpenGLIndexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

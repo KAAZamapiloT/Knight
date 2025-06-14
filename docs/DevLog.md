@@ -79,3 +79,41 @@ _“Logs are your eyes into a blind engine — see what it’s thinking.”_
 ## Notes
 
 This phase is critical to establishing a solid rendering foundation while preparing the engine for modular deployment.
+
+# DevLog Entry – Rendering System Abstractions & Progress
+
+**Date:** 2025-06-14  
+**Module:** Core Rendering System  
+**Author:** mikazama
+
+---
+
+##  Progress Summary
+
+- Abstracted and implemented core graphics API interfaces:
+  - `VertexBuffer` and its implementation: `OpenGLVertexBuffer`
+  - `IndexBuffer` and its implementation: `OpenGLIndexBuffer`
+  - `VertexArray` and its implementation: `OpenGLVertexArray`
+- Designed the system to support multiple rendering backends in the future via polymorphic interfaces.
+- Ensured buffer creation and binding follow modern OpenGL practices.
+- Basic vertex array management now handled in a modular, backend-agnostic way.
+- Continued incremental setup for DLL-style modular engine compilation.
+
+---
+
+##  Next Steps
+
+1. Complete implementation of `Mesh`, `Camera`, and `RenderCommand` classes.
+2. Integrate `VertexArray` usage with `RenderCommand` to validate abstraction layer.
+3. Set up rendering pipeline to draw a basic cube using abstracted buffer systems.
+4. Finalize early-stage rendering loop.
+5. Modularize the window layer if necessary, possibly with namespace wrapping.
+
+---
+
+##  Notes
+
+- Abstracting buffers and VAOs was a key step toward achieving engine modularity.
+- These abstractions form the spine of a cross-platform rendering API.
+- With these systems in place, rendering logic can now decouple from OpenGL specifics.
+- Important to maintain consistent ownership via `std::shared_ptr` across interfaces.

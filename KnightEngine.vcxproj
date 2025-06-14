@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\SDLWindow.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLIndexBuffer.cpp" />
@@ -174,8 +175,10 @@
     <ClCompile Include="src\Core\Logger.cpp" />
     <ClCompile Include="src\Platform\Windows.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
+    <ClCompile Include="src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\SDLWindow.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLIndexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexArray.hpp" />
@@ -338,6 +341,7 @@
     <ClInclude Include="src\Graphics\Texture.hpp" />
     <ClInclude Include="src\utils\FileIO.hpp" />
     <ClInclude Include="src\utils\Math.hpp" />
+    <ClInclude Include="src\Core\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="docs\DevLog.md" />

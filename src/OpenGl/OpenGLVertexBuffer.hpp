@@ -12,8 +12,8 @@ public:
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 	}
 
-	void Bind() override;
-	void Unbind() override;
+	void Bind() const override;
+	void Unbind() const  override;
 	static std::shared_ptr<VertexBuffer> Create(float* data, uint32_t size) {
 		return std::make_shared<OpenGLVertexBuffer>(data, size);
 	}

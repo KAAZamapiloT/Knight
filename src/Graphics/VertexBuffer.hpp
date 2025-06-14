@@ -5,8 +5,8 @@
 class KNIGHT_ENGINE_API VertexBuffer {
 public:
 	
-virtual	void Bind()=0;
-virtual	void Unbind()=0;
+virtual	void Bind()const =0;
+virtual	void Unbind()const =0;
 
 static std::shared_ptr<VertexBuffer> Create(float* data, uint32_t size);
 
