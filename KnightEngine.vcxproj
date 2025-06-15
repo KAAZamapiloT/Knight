@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Event\EventHandler.cpp" />
     <ClCompile Include="src\Event\ApplicationEvent.cpp" />
     <ClCompile Include="src\Event\KeyboardEvent.cpp" />
     <ClCompile Include="src\Event\MouseEvent.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Event\EventHandler.hpp" />
     <ClInclude Include="src\Event\ApplicationEvent.hpp" />
     <ClInclude Include="src\Event\KeyboardEvent.hpp" />
     <ClInclude Include="src\Event\MouseEvent.hpp" />

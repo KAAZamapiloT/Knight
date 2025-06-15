@@ -1,14 +1,12 @@
 #pragma once
 #include"EngineApi.hpp"
-#include"Event/Event.hpp"
+#include "Engine.hpp"
 namespace KnightEngine {
-	class KNIGHT_ENGINE_API MouseEvent : public Event
+	class KNIGHT_ENGINE_API EventHandler
 	{
 	public:
 
-
 	private:
-
 
 	};
 }
