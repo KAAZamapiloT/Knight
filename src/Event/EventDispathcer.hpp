@@ -10,6 +10,7 @@ namespace KnightEngine
 	public:
 		EventDispathcer(Event& event)
 			: m_Event(event) {
+			
 		}
 		template<typename T, typename F>
 		bool Dispatch(F func)
@@ -26,6 +27,7 @@ namespace KnightEngine
 		{
 			return Dispatch<T>([](T&) {});
 		}
+		
 	private:
 		Event& m_Event;
 	};

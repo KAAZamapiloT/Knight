@@ -21,4 +21,17 @@ namespace KnightEngine {
     private:
         std::queue<std::shared_ptr<Event>> m_Queue;
     };
+
+
+    class KNIGHT_ENGINE_API EventQueueListner {
+    public:
+        void PollEvents(Event& E);
+	private:
+		EventQueue m_EventQueue;
+		EventQueue m_HighPriorityQueue;
+
+    };
 }
+
+
+
