@@ -40,7 +40,7 @@ void Application::Run()
     Shapes sh;
 	Knight::Renderer R;
     Knight::RenderCommand rc;
-
+	
     float frequency = 0.1f;
 	float f = 0.0f;
     float blue = glm::sin(f * frequency);
@@ -60,12 +60,13 @@ void Application::Run()
             if (e.type == SDL_EVENT_QUIT) m_Running = false;
             ImGui_ImplSDL3_ProcessEvent(&e);
         }
-        
+        //................................
+		
         // ImGui frame start
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
-
+        //..................................
         // Game logic & UI
       //  OnUpdate();
        // OnRenderUI();
@@ -90,10 +91,15 @@ void Application::Run()
         tri.Render();
         sh.render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+        //...................................................
         SDL_GL_SwapWindow(m_Window);
+        
+		//...................................................
     }
 	KE_LOG_CRITICAL("Application is shutting down");
+	OnShutdown();
+	Shutdown();
+	KE_LOG_CRITICAL("Application shutdown complete");
 }
 
 bool Application::OnInit_SDL()
@@ -124,6 +130,7 @@ bool Application::OnInit_Imgui()
 
 void Application::OnShutdown()
 {
+    
 }
 
 bool Application::Init_SDL()
@@ -191,6 +198,8 @@ void Application::Shutdown()
     SDL_GL_DestroyContext(m_Context);
     SDL_DestroyWindow(m_Window);
     SDL_Quit();
+
+	
 }
 
 } // namespace KnightEngine

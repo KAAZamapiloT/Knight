@@ -6,6 +6,7 @@
 #include"imgui_impl_sdl3.h"
 #include<iostream>
 #include "EngineApi.hpp"
+#include "Platform/SDLWindow.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -29,6 +30,8 @@ namespace KnightEngine {
         bool m_Running = true;
         SDL_Window* m_Window = nullptr;
         SDL_GLContext m_Context = nullptr;
+        const char* t = "TestWindow";
+        
     };
 
     // To be defined in client

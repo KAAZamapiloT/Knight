@@ -7,7 +7,7 @@ namespace KnightEngine {
 	class KNIGHT_ENGINE_API SDLWindow : public  Window
 	{
 	public:
-		void PollEvents() override;
+		bool PollEvents() override;
 		void SwapBuffers() override;
 		void* GetNativeWindow() override;
 		int GetWidth() const override { return m_Width; }
