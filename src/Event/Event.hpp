@@ -9,7 +9,9 @@ namespace KnightEngine
 		WindowResize, WindowClose, WindowFocus, WindowLostFocus, WindowMoved, WindowMinimized,
 		ApplicationTick, ApplicationUpdate, ApplicationRender,
 		KeyPressed, KeyReleased,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled 
+	///	PhysicsCollision, PhysicsTrigger, PhysicsContact,
+	///	AIPathfinding, AIStateChange, AIAction
 	};
 	enum class Category
 	{
@@ -18,7 +20,9 @@ namespace KnightEngine
 		EventCategoryInput = BIT(1),
 		EventCategoryKeyboard = BIT(2),
 		EventCategoryMouse = BIT(3),
-		EventCategoryMouseButton = BIT(4)
+		EventCategoryMouseButton = BIT(4),
+	///	EventCategoryPhysics = BIT(5),
+	///	EventCategoryAI = BIT(6)
 	};
 
 	class KNIGHT_ENGINE_API Event
@@ -34,4 +38,4 @@ namespace KnightEngine
 		bool blocking = false;
 	};
 }
-
+/// AI AND PHYSICS EVENTS ARE ADVANCED CONCEPTS AND WILL BE IMPLEMENTED LATER IF TIME PERMITS 

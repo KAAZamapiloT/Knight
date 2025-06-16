@@ -25,7 +25,7 @@ namespace KnightEngine {
 
     class KNIGHT_ENGINE_API EventQueueListner {
     public:
-        void PushEvents(Event& E);
+        ///void PushEvents(Event& E);
         void DispatchEvents();
 	private:
 		EventQueue m_EventQueue;
