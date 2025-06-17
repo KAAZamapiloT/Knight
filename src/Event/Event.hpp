@@ -59,7 +59,7 @@ public:
      * @param name Human-readable name of the event, useful for debugging/logging.
      */
     Event(const std::string& name) : m_Name(name) {}
-
+    Event() = default;
     /**
      * @brief Virtual destructor for polymorphic use.
      */
@@ -70,7 +70,14 @@ public:
      * @return The event's name as a string.
      */
     virtual std::string GetName() = 0;
-
+    
+	/**
+	 * @brief Sets the name of the event.
+	 * @param name New name for the event.
+	 */
+	virtual void SetName(const std::string& name) {
+		m_Name = name;
+	}
     /**
      * @brief User-defined logic to process the event.
      * Must be implemented by all derived event classes.
