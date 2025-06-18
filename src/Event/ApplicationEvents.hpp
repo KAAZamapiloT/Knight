@@ -7,6 +7,7 @@ class KNIGHT_ENGINE_API AppTickEvent : public Event {
 public:
 	void Handle() override {
 		// Custom logic for handling application tick event
+
 	}
 	EVENT_CLASS_TYPE(AppTick)
     EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)

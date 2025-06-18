@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Event\EventDispatcher.cpp" />
     <ClCompile Include="src\Event\ApplicationEvents.cpp" />
     <ClCompile Include="src\Platform\SDLWindow.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="src\Event\WindowEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Event\EventDispatcher.hpp" />
     <ClInclude Include="src\Event\ApplicationEvents.hpp" />
     <ClInclude Include="src\Event\Event.hpp" />
     <ClInclude Include="src\Platform\SDLWindow.hpp" />

@@ -36,4 +36,3 @@ public:
 private:
 	Event& m_Event; ///< Reference to the event being dispatched.
 };
-

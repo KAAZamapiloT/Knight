@@ -8,7 +8,7 @@ class KNIGHT_ENGINE_API WindowCloseEvent : public Event {
 public:
 	void Handle() override {
 		// Custom logic for handling window close event
-
+    
 	}
 	EVENT_CLASS_TYPE(WindowClose)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
