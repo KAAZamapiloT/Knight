@@ -24,7 +24,7 @@ public:
 	EVENT_CLASS_TYPE(WindowResize)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 private:
-
+	unsigned int m_width, m_height;
 };
 class KNIGHT_ENGINE_API WindowFocusEvent : public Event {
 public:
@@ -34,7 +34,7 @@ public:
 	}
 	
 	EVENT_CLASS_TYPE(WindowFocus)
-		EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
+	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 private:
 
 };
@@ -59,5 +59,21 @@ public:
 	EVENT_CLASS_TYPE(WindowMoved)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 private:
-
+	int m_x, m_y;
+};
+class KNIGHT_ENGINE_API WindowMinimizedEvent : public Event {
+public:
+	void Handle() override {
+		// Custom logic for handling window minimized event
+	}
+	EVENT_CLASS_TYPE(WindowMinimized)
+		EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
+};
+class KNIGHT_ENGINE_API WindowMaximizedEvent : public Event {
+public:
+	void Handle() override {
+		// Custom logic for handling window maximized event
+	}
+	EVENT_CLASS_TYPE(WindowMaximized)
+		EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 };

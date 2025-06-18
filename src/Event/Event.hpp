@@ -9,7 +9,7 @@
  */
 enum class EventType {
     None = 0,
-    WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
+	WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved, WindowMinimized, WindowMaximized,
     AppTick, AppUpdate, AppRender,
     KeyPressed, KeyReleased,
     MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
@@ -67,10 +67,6 @@ public:
      * @brief Virtual destructor for polymorphic use.
      */
     virtual ~Event() = default;
-
-    
-
-	
     /**
      * @brief User-defined logic to process the event.
      * Must be implemented by all derived event classes.

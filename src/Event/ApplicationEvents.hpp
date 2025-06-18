@@ -19,6 +19,8 @@ public:
 	}
 	EVENT_CLASS_TYPE(AppUpdate)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
+private:
+
 };
 class KNIGHT_ENGINE_API AppRenderEvent : public Event {
 public:
@@ -27,6 +29,8 @@ public:
 	}
 	EVENT_CLASS_TYPE(AppRender)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
+private:
+	
 };
 
 
