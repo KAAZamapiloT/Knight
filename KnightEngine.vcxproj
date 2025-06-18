@@ -139,12 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Event\EventBus.cpp" />
-    <ClCompile Include="src\Event\EventHandler.cpp" />
-    <ClCompile Include="src\Event\ApplicationEvent.cpp" />
-    <ClCompile Include="src\Event\EventQueue.cpp" />
-    <ClCompile Include="src\Event\KeyboardEvent.cpp" />
-    <ClCompile Include="src\Event\MouseEvent.cpp" />
+    <ClCompile Include="src\Event\ApplicationEvents.cpp" />
     <ClCompile Include="src\Platform\SDLWindow.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
@@ -152,7 +147,6 @@
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\Event\EventDispathcer.cpp" />
     <ClCompile Include="src\Graphics\GraphicsApi.cpp" />
     <ClCompile Include="src\Graphics\GraphicsFactory.cpp" />
     <ClCompile Include="src\OpenGl\OpenGlTexture.cpp" />
@@ -182,20 +176,15 @@
     <ClCompile Include="src\Platform\Windows.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Event\WindowEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Event\EventBus.hpp" />
-    <ClInclude Include="src\Event\EventHandler.hpp" />
-    <ClInclude Include="src\Event\ApplicationEvent.hpp" />
-    <ClInclude Include="src\Event\EventQueue.hpp" />
-    <ClInclude Include="src\Event\KeyboardEvent.hpp" />
-    <ClInclude Include="src\Event\MouseEvent.hpp" />
+    <ClInclude Include="src\Event\ApplicationEvents.hpp" />
+    <ClInclude Include="src\Event\Event.hpp" />
     <ClInclude Include="src\Platform\SDLWindow.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLIndexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexArray.hpp" />
-    <ClInclude Include="src\Event\EventDispathcer.hpp" />
-    <ClInclude Include="src\Event\Event.hpp" />
     <ClInclude Include="src\Graphics\GraphicsFactory.hpp" />
     <ClInclude Include="src\Graphics\IndexBuffer.hpp" />
     <ClInclude Include="src\Graphics\VertexArray.hpp" />
@@ -354,6 +343,7 @@
     <ClInclude Include="src\utils\FileIO.hpp" />
     <ClInclude Include="src\utils\Math.hpp" />
     <ClInclude Include="src\Core\Window.hpp" />
+    <ClInclude Include="src\Event\WindowEvent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="docs\DevLog.md" />

@@ -26,7 +26,7 @@ enum class EventCategory {
     EventCategoryKeyboard = BIT(2),
     EventCategoryMouse = BIT(3),
     EventCategoryMouseButton = BIT(4),
-    EventCatregoryAI = BIT(5),
+    EventCategoryAI = BIT(5),
     EventCategoryPhysics = BIT(6)
 };
 
@@ -55,29 +55,16 @@ enum class EventCategory {
 class KNIGHT_ENGINE_API Event {
 public:
     /**
-     * @brief Constructor.
-     * @param name Human-readable name of the event, useful for debugging/logging.
+     *@Constructor.
      */
-    Event(const std::string& name) : m_Name(name) {}
     Event() = default;
     /**
      * @brief Virtual destructor for polymorphic use.
      */
     virtual ~Event() = default;
 
-    /**
-     * @brief Retrieves the name of the event.
-     * @return The event's name as a string.
-     */
-    virtual std::string GetName() = 0;
-    
-	/**
-	 * @brief Sets the name of the event.
-	 * @param name New name for the event.
-	 */
-	virtual void SetName(const std::string& name) {
-		m_Name = name;
-	}
+   
+	
     /**
      * @brief User-defined logic to process the event.
      * Must be implemented by all derived event classes.
@@ -116,6 +103,13 @@ public:
     virtual void SetHighPriority(bool highPriority) {
         b_IsHighPriority = highPriority;
     }
+	/**
+	 * @brief Returns the human-readable name of the event.
+	 * Useful for debugging and logging.
+	 * Must be overridden using the EVENT_CLASS_TYPE macro.
+	 * @return Name of the event as a string.
+	 */
+    virtual const char* GetName() const = 0;
 
     /**
      * @brief Returns the unique type of the event.
@@ -141,7 +135,7 @@ public:
     }
 
 private:
-    std::string m_Name;        ///< Name of the event.
+    
     bool b_IsHandled = false;  ///< Indicates if the event was already handled.
     bool b_IsHighPriority = false; ///< Indicates if the event is prioritized.
 };

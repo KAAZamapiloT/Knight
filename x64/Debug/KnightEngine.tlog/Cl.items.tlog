@@ -1,3 +1,14 @@
+H:\GameEngine\KnightEngine\KnightEngine\src\Platform\SDLWindow.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\SDLWindow.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\IndexBuffer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\IndexBuffer.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\VertexArray.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\VertexArray.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\OpenGl\OpenGLIndexBuffer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\OpenGLIndexBuffer.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\VertexBuffer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\VertexBuffer.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\OpenGl\OpenGLVertexBuffer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\OpenGLVertexBuffer.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\OpenGl\OpenGLVertexArray.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\OpenGLVertexArray.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\GraphicsApi.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\GraphicsApi.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\GraphicsFactory.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\GraphicsFactory.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\OpenGl\OpenGlTexture.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\OpenGlTexture.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\Camera.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Camera.obj
 H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b\backends\imgui_impl_opengl3.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\imgui_impl_opengl3.obj
 H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b\backends\imgui_impl_sdl3.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\imgui_impl_sdl3.obj
 H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b\imgui.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\imgui.obj
@@ -6,6 +17,11 @@ H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b\imgui_draw.cpp;H:
 H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b\imgui_tables.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\imgui_tables.obj
 H:\GameEngine\KnightEngine\KnightEngine\external\imgui-1.91.9b\imgui_widgets.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\imgui_widgets.obj
 H:\GameEngine\KnightEngine\KnightEngine\external\src\glad.c;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\glad.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\Material.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Material.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\Mesh.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Mesh.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\ForwardRenderer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\ForwardRenderer.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\RenderCommand.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\RenderCommand.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\RenderQueue.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\RenderQueue.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\OpenGl\OpenGLGraphicsAPI.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\OpenGLGraphicsAPI.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\Core\Application.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Application.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\UI\ImguiLayer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\ImguiLayer.obj
@@ -17,3 +33,4 @@ H:\GameEngine\KnightEngine\KnightEngine\KnightEngine.cpp;H:\GameEngine\KnightEng
 H:\GameEngine\KnightEngine\KnightEngine\src\Core\Logger.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Logger.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\Platform\Windows.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Windows.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\Texture.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Texture.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Core\Window.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Window.obj

@@ -99,9 +99,6 @@
     <ClCompile Include="src\Graphics\GraphicsFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Event\EventDispathcer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\OpenGl\OpenGLVertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,22 +123,10 @@
     <ClCompile Include="src\Platform\SDLWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Event\MouseEvent.cpp">
+    <ClCompile Include="src\Event\ApplicationEvents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Event\KeyboardEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Event\ApplicationEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Event\EventHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Event\EventBus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Event\EventQueue.cpp">
+    <ClCompile Include="src\Event\WindowEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -608,12 +593,6 @@
     <ClInclude Include="src\Graphics\GraphicsFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Event\Event.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Event\EventDispathcer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphics\VertexArray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -638,22 +617,13 @@
     <ClInclude Include="src\Platform\SDLWindow.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Event\MouseEvent.hpp">
+    <ClInclude Include="src\Event\Event.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Event\KeyboardEvent.hpp">
+    <ClInclude Include="src\Event\ApplicationEvents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Event\ApplicationEvent.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Event\EventHandler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Event\EventBus.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Event\EventQueue.hpp">
+    <ClInclude Include="src\Event\WindowEvent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
