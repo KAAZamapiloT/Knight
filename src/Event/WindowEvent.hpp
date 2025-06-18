@@ -10,12 +10,6 @@ public:
 		// Custom logic for handling window close event
 
 	}
-	EventType GetType() const override {
-		return EventType::WindowClose;
-	}
-	int GetCategoryFlags() const override {
-		return (int)EventCategory::EventCategoryApplication;
-	}
 	EVENT_CLASS_TYPE(WindowClose)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 private:
@@ -26,12 +20,6 @@ public:
 	void Handle() override {
 		// Custom logic for handling window resize event
 
-	}
-	EventType GetType() const override {
-		return EventType::WindowResize;
-	}
-	int GetCategoryFlags() const override {
-		return (int)EventCategory::EventCategoryApplication;
 	}
 	EVENT_CLASS_TYPE(WindowResize)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
@@ -44,12 +32,7 @@ public:
 		// Custom logic for handling window focus event
 
 	}
-	EventType GetType() const override {
-		return EventType::WindowFocus;
-	}
-	int GetCategoryFlags() const override {
-		return (int)EventCategory::EventCategoryApplication;
-	}
+	
 	EVENT_CLASS_TYPE(WindowFocus)
 		EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 private:
@@ -73,13 +56,6 @@ public:
 		// Custom logic for handling window moved event
 
 	}
-	EventType GetType() const override {
-		return EventType::WindowMoved;
-	}
-	int GetCategoryFlags() const override {
-		return (int)EventCategory::EventCategoryApplication;
-	}
-
 	EVENT_CLASS_TYPE(WindowMoved)
 	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 private:

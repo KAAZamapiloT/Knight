@@ -45,6 +45,11 @@ enum class EventCategory {
 #define EVENT_CLASS_CATEGORY(category) \
     virtual int GetCategoryFlags() const override { return category; }
 
+inline EventCategory operator|(EventCategory lhs, EventCategory rhs) {
+    return static_cast<EventCategory>(
+        static_cast<int>(lhs) | static_cast<int>(rhs)
+        );
+}
   /**
    * @class Event
    * @brief Abstract base class for all engine events.
@@ -63,7 +68,8 @@ public:
      */
     virtual ~Event() = default;
 
-   
+    
+
 	
     /**
      * @brief User-defined logic to process the event.
