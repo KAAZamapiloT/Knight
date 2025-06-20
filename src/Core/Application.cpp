@@ -102,6 +102,13 @@ void Application::Run()
 	KE_LOG_CRITICAL("Application shutdown complete");
 }
 
+bool Application::OnWindowResize()
+{
+	// Handle window resize logic here
+	//m_Window = SDL_SetWindowHitTest(m_Window, nullptr, nullptr);
+    return false;
+}
+
 bool Application::OnInit_SDL()
 {
     return false;
