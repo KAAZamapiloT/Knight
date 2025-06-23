@@ -5,7 +5,7 @@ namespace Knight {
 
     void RenderQueue::AddCommand(const RenderCommand& command)
     {
-
+    
     }
 
     void RenderQueue::ClearCommands()

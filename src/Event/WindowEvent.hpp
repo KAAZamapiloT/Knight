@@ -73,7 +73,8 @@ class KNIGHT_ENGINE_API WindowMaximizedEvent : public Event {
 public:
 	void Handle() override {
 		// Custom logic for handling window maximized event
+	
 	}
 	EVENT_CLASS_TYPE(WindowMaximized)
-		EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
+	EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 };

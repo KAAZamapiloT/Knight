@@ -105,7 +105,9 @@ void Application::Run()
 bool Application::OnWindowResize()
 {
 	// Handle window resize logic here
-	//m_Window = SDL_SetWindowHitTest(m_Window, nullptr, nullptr);
+	
+    
+	
     return false;
 }
 

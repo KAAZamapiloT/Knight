@@ -7,6 +7,7 @@
 #include<iostream>
 #include "EngineApi.hpp"
 #include "Platform/SDLWindow.hpp"
+#include"Graphics/Renderer.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -32,7 +33,7 @@ namespace KnightEngine {
         SDL_Window* m_Window = nullptr;
         SDL_GLContext m_Context = nullptr;
         const char* t = "TestWindow";
-        
+		Knight::Renderer* m_Renderer = nullptr;
     };
 
     // To be defined in client
