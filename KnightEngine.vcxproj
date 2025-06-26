@@ -145,7 +145,6 @@
     <ClCompile Include="src\Event\EventDispatcher.cpp" />
     <ClCompile Include="src\Event\ApplicationEvents.cpp" />
     <ClCompile Include="src\KnightEnginepch.cpp" />
-    <ClCompile Include="src\Platform\SDLWindow.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLIndexBuffer.cpp" />
@@ -178,10 +177,10 @@
     <ClCompile Include="src\Platform\GLContext.cpp" />
     <ClCompile Include="KnightEngine.cpp" />
     <ClCompile Include="src\Core\Logger.cpp" />
-    <ClCompile Include="src\Platform\Windows.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
-    <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Event\WindowEvent.cpp" />
+    <ClCompile Include="src\Platform\Window.cpp" />
+    <ClCompile Include="src\Platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Event\MouseEvent.hpp" />
@@ -190,7 +189,6 @@
     <ClInclude Include="src\Event\ApplicationEvents.hpp" />
     <ClInclude Include="src\Event\Event.hpp" />
     <ClInclude Include="src\KnightEnginepch.h" />
-    <ClInclude Include="src\Platform\SDLWindow.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLIndexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexArray.hpp" />
@@ -347,12 +345,12 @@
     <ClInclude Include="src\Platform\GLContext.hpp" />
     <ClInclude Include="src\Core\Logger.hpp" />
     <ClInclude Include="src\Core\Time.hpp" />
-    <ClInclude Include="src\Platform\Windows.hpp" />
     <ClInclude Include="src\Graphics\Texture.hpp" />
     <ClInclude Include="src\utils\FileIO.hpp" />
     <ClInclude Include="src\utils\Math.hpp" />
-    <ClInclude Include="src\Core\Window.hpp" />
     <ClInclude Include="src\Event\WindowEvent.hpp" />
+    <ClInclude Include="src\Platform\Window.hpp" />
+    <ClInclude Include="src\Platform\WindowsWindow.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="docs\DevLog.md" />

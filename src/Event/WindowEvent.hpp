@@ -19,10 +19,14 @@ public:
 private:
 
 };
+
+
 class KNIGHT_ENGINE_API WindowResizeEvent : public Event {
 public:
 	WindowResizeEvent(unsigned int width, unsigned int height)
 		: m_width(width), m_height(height) {
+		std::string info = "WindowResizeEvent created with width: " + std::to_string(width) + " and height: " + std::to_string(height);
+		KE_TAG_LOG_DEBUG("WindowEvent", info.c_str());
 	}
 	void Handle() override {
 		// Custom logic for handling window resize event
@@ -40,8 +44,14 @@ public:
 private:
 	unsigned int m_width, m_height;
 };
+
+
 class KNIGHT_ENGINE_API WindowFocusEvent : public Event {
 public:
+	WindowFocusEvent() {
+		// Constructor logic if needed
+		KE_TAG_LOG_INFO("WindowEvent", "WindowFocusEvent created");
+	}
 	void Handle() override {
 		// Custom logic for handling window focus event
 
@@ -52,8 +62,14 @@ public:
 private:
 
 };
+
+
 class KNIGHT_ENGINE_API WindowLostFocusEvent : public Event {
 public:
+	WindowLostFocusEvent() {
+		// Constructor logic if needed
+		KE_TAG_LOG_INFO("WindowEvent", "WindowLostFocusEvent created");
+	}
 	void Handle() override {
 		// Custom logic for handling window lost focus event
 
@@ -63,9 +79,16 @@ public:
 private:
 
 };
+
+
 class KNIGHT_ENGINE_API WindowMovedEvent : public Event {
 
 public:
+	WindowMovedEvent(int x, int y)
+		: m_x(x), m_y(y) {
+		std::string info = "WindowMovedEvent created with x: " + std::to_string(x) + " and y: " + std::to_string(y);
+		KE_TAG_LOG_DEBUG("WindowEvent", info.c_str());
+	}
 	void Handle() override {
 		// Custom logic for handling window moved event
 
@@ -75,16 +98,32 @@ public:
 private:
 	int m_x, m_y;
 };
+
+
+
+
 class KNIGHT_ENGINE_API WindowMinimizedEvent : public Event {
 public:
+	WindowMinimizedEvent() {
+		// Constructor logic if needed
+		KE_TAG_LOG_INFO("WindowEvent", "WindowMinimizedEvent created");
+	}
 	void Handle() override {
 		// Custom logic for handling window minimized event
 	}
 	EVENT_CLASS_TYPE(WindowMinimized)
 		EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryApplication)
 };
+
+
+
+
 class KNIGHT_ENGINE_API WindowMaximizedEvent : public Event {
 public:
+	WindowMaximizedEvent() {
+		// Constructor logic if needed
+		KE_TAG_LOG_INFO("WindowEvent", "WindowMaximizedEvent created");
+	}
 	void Handle() override {
 		// Custom logic for handling window maximized event
 	

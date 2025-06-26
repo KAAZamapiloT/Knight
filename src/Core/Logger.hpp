@@ -164,3 +164,8 @@ public:
  * KE_LOG_INFO("Initialized subsystem X with value {}", value);
  * KE_TAG_LOG_WARN("Renderer", "Missing shader uniform: {}", name);
  */
+
+
+#define KE_ASSERT(x, ...) { if(!(x)) { KE_LOG_CRITICAL("Assertion failed: {0}", __VA_ARGS__); std::abort(); } }
+#define KE_CORE_ASSERT(x, ...) { if(!(x)) { KE_LOG_CRITICAL("Core assertion failed: {0}", __VA_ARGS__); std::abort(); } }
+#define KE_CORE_ASSERT_TAG(tag, x, ...) { if(!(x)) { KE_TAG_LOG_CRITICAL(tag, "Core assertion failed: {0}", __VA_ARGS__); std::abort(); } }

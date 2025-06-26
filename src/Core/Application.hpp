@@ -6,7 +6,7 @@
 #include"imgui_impl_sdl3.h"
 #include<iostream>
 #include "EngineApi.hpp"
-#include "Platform/SDLWindow.hpp"
+
 #include"Graphics/Renderer.hpp"
 namespace KnightEngine {
 
