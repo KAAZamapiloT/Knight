@@ -5,6 +5,7 @@
 #include "Core/Logger.hpp"
 #include"Graphics/Renderer.hpp"
 #include"utils/Math.hpp"
+#include"Event/WindowEvent.hpp"
 namespace KnightEngine {
 
 // Implementation of Application class
@@ -207,7 +208,7 @@ void Application::Shutdown()
     SDL_GL_DestroyContext(m_Context);
     SDL_DestroyWindow(m_Window);
     SDL_Quit();
-
+    WindowCloseEvent();
 	
 }
 

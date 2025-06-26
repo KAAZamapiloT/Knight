@@ -1,4 +1,4 @@
-#  DevLog Entry ñ Logging System Integration
+Ôªø#  DevLog Entry ‚Äì Logging System Integration
 
 ** Date:** 2025-06-05  
 ** Module:** Core Logger System  
@@ -17,7 +17,7 @@
 ---
 
 ##  Features
-- **Header-only logger** with static functions ó no instantiation needed.
+- **Header-only logger** with static functions ‚Äî no instantiation needed.
 - **Tagged logging** (`C_LOG` planned) for subsystem-specific tracing (e.g., `"Animation"`, `"Physics"`, `"Audio"`).
 - Logger supports **variadic arguments** using `std::forward` for high performance and formatting flexibility.
 - Centralized log level handling using an `enum LogLevel`.
@@ -35,7 +35,7 @@
 
 ##  Notes
 - `spdlog` requires UTF-8; all sources must be compiled with `/utf-8`.
-- `APIENTRY` redefinition warning resolved by checking `glad.h` inclusion order ó should be handled centrally.
+- `APIENTRY` redefinition warning resolved by checking `glad.h` inclusion order ‚Äî should be handled centrally.
 
 ---
 
@@ -48,9 +48,9 @@
 
 ---
 
-_ìLogs are your eyes into a blind engine ó see what itís thinking.î_
+_‚ÄúLogs are your eyes into a blind engine ‚Äî see what it‚Äôs thinking.‚Äù_
 
-# DevLog Entry ñ Work Started on Rendering System
+# DevLog Entry ‚Äì Work Started on Rendering System
 
 **Date:** 2025-06-07  
 **Module:** Core Rendering System  
@@ -80,7 +80,7 @@ _ìLogs are your eyes into a blind engine ó see what itís thinking.î_
 
 This phase is critical to establishing a solid rendering foundation while preparing the engine for modular deployment.
 
-# DevLog Entry ñ Rendering System Abstractions & Progress
+# DevLog Entry ‚Äì Rendering System Abstractions & Progress
 
 **Date:** 2025-06-14  
 **Module:** Core Rendering System  
@@ -117,3 +117,65 @@ This phase is critical to establishing a solid rendering foundation while prepar
 - These abstractions form the spine of a cross-platform rendering API.
 - With these systems in place, rendering logic can now decouple from OpenGL specifics.
 - Important to maintain consistent ownership via `std::shared_ptr` across interfaces.
+
+
+#  DevLog Entry ‚Äì Event System Design & Research
+
+**Date:** 2025-06-25  
+**Module:** Core Event System  
+**Author:** mikazama
+
+---
+
+##  Summary
+
+- Spent focused time studying **The Cherno‚Äôs Hazel engine architecture** to understand best practices in event system design.
+- Began **rebuilding and refactoring** the event system to align with modern, layered engine architecture.
+- Key focus areas: event dispatching, propagation through layers, and structured handler definitions.
+
+---
+
+##  Key Highlights
+
+- Implemented a basic **`EventDispatcher`** for type-safe event handling using templated dispatch.
+- Integrated `Event` base class with virtual category/type checks.
+- Verified the system's ability to:
+  - Send window events (`WindowResizeEvent`, `WindowCloseEvent`) from the platform layer.
+  - Route events via `Application::OnEvent()` to all layers in reverse order (top to bottom).
+- Confirmed that **event `Handled` flags** work correctly to stop further propagation when needed.
+
+---
+##  Integration Approach
+
+- Wiring `Window` class (GLFW/SDL abstraction) to generate events like `WindowResizeEvent` on actual OS events.
+- Events are dispatched through `Application`, then to all active layers via `LayerStack`.
+- Each layer defines `OnEvent(Event&)` for filtering and reacting to specific event types.
+
+---
+
+##  Next Steps
+
+1. Refactor current window event subclasses to carry actual data and meaningful `Handle()` logic.
+2. Create more **engine-specific events** (e.g., `AppTickEvent`, `SceneLoadEvent`, `AssetReloadEvent`).
+3. Add editor-only event overlays/logging to trace event routing visually.
+4. Explore optional **compile-time event type registration** or reflection-based routing for scripting support.
+
+---
+
+##  Notes
+
+- Cherno‚Äôs explanation provided a **clean mental model** for event routing from OS ‚Üí Engine Core ‚Üí Game Layer.
+- Strong focus on **type safety**, **flexibility**, and **minimal overhead**.
+- Long-term goal: make the event system pluggable with script-based callbacks (e.g., Lua, Python).
+
+---
+
+##  Impact
+
+- Improves **decoupling** between systems (e.g., input, window, renderer, UI).
+- Makes the engine more maintainable and testable by tracing clear signal flow.
+- Foundation for future **in-editor hot reloading** and **runtime debugging tools**.
+
+---
+
+_‚ÄúEvery event is a signal; the clearer the path it travels, the smarter the engine becomes.‚Äù_

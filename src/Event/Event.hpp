@@ -135,8 +135,10 @@ public:
     virtual bool IsInCategory(EventCategory category) const {
         return GetCategoryFlags() & static_cast<int>(category);
     }
-
-private:
+	virtual std::string ToString() const {
+		return GetName();
+	}
+protected:
     
     bool b_IsHandled = false;  ///< Indicates if the event was already handled.
     bool b_IsHighPriority = false; ///< Indicates if the event is prioritized.

@@ -5,6 +5,7 @@
 
 class KNIGHT_ENGINE_API AppTickEvent : public Event {
 public:
+	AppTickEvent() {}
 	void Handle() override {
 		// Custom logic for handling application tick event
 
@@ -15,6 +16,7 @@ private:
 };
 class KNIGHT_ENGINE_API AppUpdateEvent : public Event {
 public:
+	AppUpdateEvent() {}
 	void Handle() override {
 		// Custom logic for handling application update event
 	}
@@ -25,6 +27,7 @@ private:
 };
 class KNIGHT_ENGINE_API AppRenderEvent : public Event {
 public:
+	AppRenderEvent() {}
 	void Handle() override {
 		// Custom logic for handling application render event
 	}
