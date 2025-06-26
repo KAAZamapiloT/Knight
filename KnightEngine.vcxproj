@@ -110,6 +110,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)KnightEngine\external\glm;$(ProjectDir)\src;$(ProjectDir)\external\imgui-1.91.9b\backends;$(ProjectDir)\external\include;$(ProjectDir)\external\imgui-1.91.9b;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8
  %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeaderFile>stdafx.h </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,6 +144,7 @@
     <ClCompile Include="src\Event\KeyEvent.cpp" />
     <ClCompile Include="src\Event\EventDispatcher.cpp" />
     <ClCompile Include="src\Event\ApplicationEvents.cpp" />
+    <ClCompile Include="src\KnightEnginepch.cpp" />
     <ClCompile Include="src\Platform\SDLWindow.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
@@ -187,6 +189,7 @@
     <ClInclude Include="src\Event\EventDispatcher.hpp" />
     <ClInclude Include="src\Event\ApplicationEvents.hpp" />
     <ClInclude Include="src\Event\Event.hpp" />
+    <ClInclude Include="src\KnightEnginepch.h" />
     <ClInclude Include="src\Platform\SDLWindow.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLIndexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexBuffer.hpp" />
