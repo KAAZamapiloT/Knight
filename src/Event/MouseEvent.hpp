@@ -6,8 +6,11 @@ class KNIGHT_ENGINE_API MouseMovedEvent :public Event
 public:
 	MouseMovedEvent(float x, float y)
 		: m_MouseX(x), m_MouseY(y) {
-	}
 
+	}
+	void Handle() override {
+		// Custom logic for handling mouse moved event can be added here.
+	}
 	inline float GetX() const { return m_MouseX; } ///< Returns the X coordinate of the mouse.
 	inline float GetY() const { return m_MouseY; } ///< Returns the Y coordinate of the mouse.
 	std::string ToString() const override {

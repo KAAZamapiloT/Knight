@@ -7,6 +7,7 @@ namespace KnightEngine
 {
 	class KNIGHT_ENGINE_API WindowsWindow :public Window
 	{
+
 	public:
 		struct WindowData {
 			int Width, Height;
@@ -35,6 +36,30 @@ namespace KnightEngine
 		
 		WindowData m_Data;
 	
+
+
+	public:
+		using SDLWindowSizeCallback = std::function<void(SDL_Window*, int, int)>;
+		using SDLWindowCloseCallback = std::function<void(SDL_Window*)>;
+		using SDLKeyCallback = std::function<void(SDL_Window*, const SDL_Event&, int, int, int, int)>;
+		using SDLMouseButtonCallback = std::function<void(SDL_Window*, const SDL_Event&, int, int, int)>;
+		using SDLMouseScrollCallback = std::function<void(SDL_Window*, const SDL_Event&, double, double)>;
+		using SDLCursorPosCallback = std::function<void(SDL_Window*, double, double)>;
+
+		SDLWindowSizeCallback      m_WindowSizeCallback;
+		SDLWindowCloseCallback     m_WindowCloseCallback;
+		SDLKeyCallback             m_KeyCallback;
+		SDLMouseButtonCallback     m_MouseButtonCallback;
+		SDLMouseScrollCallback     m_MouseScrollCallback;
+		SDLCursorPosCallback       m_CursorPosCallback;
+
+		void SetWindowSizeCallback(SDL_Window* window,SDLWindowSizeCallback cb) { m_WindowSizeCallback = cb; }
+		void SetWindowCloseCallback(SDL_Window* window,SDLWindowCloseCallback cb) { m_WindowCloseCallback = cb; }
+		void SetKeyCallback(SDL_Window* window,SDLKeyCallback cb) { m_KeyCallback = cb; }
+		void SetMouseButtonCallback(SDL_Window* window,SDLMouseButtonCallback cb) { m_MouseButtonCallback = cb; }
+		void SetMouseScrolledCallback(SDL_Window* window,SDLMouseScrollCallback cb) { m_MouseScrollCallback = cb; }
+		void SetCursorPosCallback(SDL_Window* window,SDLCursorPosCallback cb) { m_CursorPosCallback = cb; }
+
 	};
 
 	}
