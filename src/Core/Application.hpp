@@ -17,6 +17,7 @@ namespace KnightEngine {
         virtual ~Application();
         void Run();
         bool OnWindowResize();
+        void OnEvent(Event& E);
     protected:
         virtual  bool OnInit_SDL();
         virtual  bool OnInit_OpenGL();

@@ -46,14 +46,18 @@ KnightEngine::WindowsWindow::~WindowsWindow()
 	UnRegisterByTitle(m_Data.Title);
 }
 
+///helper function to clean event callback
+
+
+
 void KnightEngine::WindowsWindow::OnUpdate()
 {
 	SDL_Event E;
-	SDL_PollEvent(&E);
-	// HERE DISPACH EVENT IF ITS RECORDED
-	if (E.type == SDL_EVENT_QUIT) {
-		return;
+	while (SDL_PollEvent(&E)) {
+
 	}
+	
+	
 	SDL_GL_SwapWindow(m_Window);
 }
 
@@ -129,7 +133,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 	KE_TAG_LOG_INFO("WindowsWindow", "  Renderer: {}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
 	KE_TAG_LOG_INFO("WindowsWindow", "  Version:  {}", reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 
-    
+   
 }
 
 void KnightEngine::WindowsWindow::Shutdown()

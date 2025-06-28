@@ -7,14 +7,14 @@
 #include"utils/Math.hpp"
 #include"Event/WindowEvent.hpp"
 namespace KnightEngine {
-
+#define BIND_EVENT_FN(X) std::bind(&X, this, std::placeholders::_1)
 // Implementation of Application class
 Application::Application()
 {
     // Initialize core systems here
 	KE_LOG_INFO("Application is starting");
 	M_Window = std::unique_ptr<Window>(Window::Create(WindowProps("KnightEngine", 1240, 720)));
-
+    M_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 }
 
 Application::~Application()
@@ -113,6 +113,12 @@ bool Application::OnWindowResize()
     
 	
     return false;
+}
+
+void Application::OnEvent(Event& E)
+{
+    //Handleing events here
+	KE_TAG_LOG_INFO("ApplicationEvent", "Event received: {}", E.ToString());
 }
 
 bool Application::OnInit_SDL()
