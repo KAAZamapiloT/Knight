@@ -6,7 +6,7 @@
 #include"imgui_impl_sdl3.h"
 #include<iostream>
 #include "EngineApi.hpp"
-
+#include"Platform/Window.hpp"
 #include"Graphics/Renderer.hpp"
 namespace KnightEngine {
 
@@ -34,6 +34,8 @@ namespace KnightEngine {
         SDL_GLContext m_Context = nullptr;
         const char* t = "TestWindow";
 		Knight::Renderer* m_Renderer = nullptr;
+		std::unique_ptr<Window> M_Window = nullptr;
+		
     };
 
     // To be defined in client

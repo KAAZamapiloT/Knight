@@ -48,6 +48,13 @@ KnightEngine::WindowsWindow::~WindowsWindow()
 
 void KnightEngine::WindowsWindow::OnUpdate()
 {
+	SDL_Event E;
+	SDL_PollEvent(&E);
+	// HERE DISPACH EVENT IF ITS RECORDED
+	if (E.type == SDL_EVENT_QUIT) {
+		return;
+	}
+	SDL_GL_SwapWindow(m_Window);
 }
 
 void KnightEngine::WindowsWindow::SetVSync(bool enabled)

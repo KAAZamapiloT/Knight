@@ -12,6 +12,9 @@ namespace KnightEngine {
 Application::Application()
 {
     // Initialize core systems here
+	KE_LOG_INFO("Application is starting");
+	M_Window = std::unique_ptr<Window>(Window::Create(WindowProps("KnightEngine", 1240, 720)));
+
 }
 
 Application::~Application()
@@ -62,7 +65,7 @@ void Application::Run()
             ImGui_ImplSDL3_ProcessEvent(&e);
         }
         //................................
-		
+        M_Window->OnUpdate();
         // ImGui frame start
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
@@ -140,7 +143,9 @@ bool Application::OnInit_Imgui()
 
 void Application::OnShutdown()
 {
-    
+     M_Window.reset();
+     delete m_Window;
+     delete m_Context;
 }
 
 bool Application::Init_SDL()
