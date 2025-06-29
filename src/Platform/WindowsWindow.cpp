@@ -336,6 +336,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 void KnightEngine::WindowsWindow::Shutdown()
 {
 	if (m_GLContext) {
+
 		m_GLContext = nullptr;
 	}
 	if (m_Window) {

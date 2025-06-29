@@ -5,7 +5,7 @@
 #include "Core/Logger.hpp"
 #include"Graphics/Renderer.hpp"
 #include"utils/Math.hpp"
-#include"Event/WindowEvent.hpp"
+
 namespace KnightEngine {
 #define BIND_EVENT_FN(X) std::bind(&X, this, std::placeholders::_1)
 // Implementation of Application class
@@ -93,19 +93,24 @@ void Application::Run()
 	KE_LOG_CRITICAL("Application shutdown complete");
 }
 
-bool Application::OnWindowResize()
-{
-	// Handle window resize logic here
-	
-    
-	
-    return false;
-}
+
+
 
 void Application::OnEvent(Event& E)
 {
     //Handleing events here
+	EventDispatcher dispatcher(E);
+	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+	//dispatcher.Dispatch<AppTickEvent>(BIND_EVENT_FN(Application::OnAppTick));
+	//dispatcher.Dispatch<AppUpdateEvent>(BIND_EVENT_FN(Application::OnAppUpdate));
+	//dispatcher.Dispatch<AppRenderEvent>(BIND_EVENT_FN(Application::OnAppRender));
+	// Log the event
 	KE_TAG_LOG_INFO("ApplicationEvent", "Event received: {}", E.ToString());
+}
+bool Application::OnWindowClose(WindowCloseEvent& E)
+{
+    m_Running = false;
+    return true;
 }
 
 bool Application::OnInit_SDL()

@@ -24,7 +24,7 @@ public:
 	 */
 
 	
-	template<typename T>
+/*	template<typename T>
 	bool Dispatch(const T& func) {
 		if (!m_Event.IsHandled() && m_Event.GetType() == T::GetStaticType()) {
 			m_Event.Handle();
@@ -32,12 +32,12 @@ public:
 		}
 		return false;
 	}
-
+	*/
 	template<typename T>
 	bool Dispatch(Eventfn <T> func) {
 		if (m_Event.GetType() == T::GetStaticType()) {
 			m_Event.SetHandled(func(static_cast<T&>(m_Event)));
-			m_Event.b_IsHandled = func(*(T*)&m_Event); ///< Mark the event as handled.
+			//m_Event.b_IsHandled = func(*(T*)&m_Event); ///< Mark the event as handled.
 			return true;
 		}
 		return false;

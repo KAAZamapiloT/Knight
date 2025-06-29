@@ -8,6 +8,8 @@
 #include "EngineApi.hpp"
 #include"Platform/Window.hpp"
 #include"Graphics/Renderer.hpp"
+#include"Event/WindowEvent.hpp"
+#include"Event/EventDispatcher.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -16,7 +18,7 @@ namespace KnightEngine {
         Application();
         virtual ~Application();
         void Run();
-        bool OnWindowResize();
+        bool OnWindowClose(WindowCloseEvent& E);
         void OnEvent(Event& E);
     protected:
         virtual  bool OnInit_SDL();
