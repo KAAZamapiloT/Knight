@@ -1,103 +1,24 @@
-﻿  ApplicationEvents.cpp
+﻿  EventDispatcher.cpp
 H:\GameEngine\KnightEngine\KnightEngine\src\EngineApi.hpp(1,1): warning C4828: The file contains a character starting at offset 0x25d that is illegal in the current source character set (codepage 65001).
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
+  (compiling source file 'src/Event/EventDispatcher.cpp')
   
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(17,6): error C2535: 'EventType AppTickEvent::GetType(void) const': member function already defined or declared
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(11,12):
-      see declaration of 'AppTickEvent::GetType'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(18,3): error C2535: 'int AppTickEvent::GetCategoryFlags(void) const': member function already defined or declared
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(14,6):
-      see declaration of 'AppTickEvent::GetCategoryFlags'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(17,6): error C3668: 'AppTickEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(32,2): error C2535: 'EventType AppUpdateEvent::GetType(void) const': member function already defined or declared
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(26,12):
-      see declaration of 'AppUpdateEvent::GetType'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(33,3): error C2535: 'int AppUpdateEvent::GetCategoryFlags(void) const': member function already defined or declared
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(29,6):
-      see declaration of 'AppUpdateEvent::GetCategoryFlags'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(32,2): error C3668: 'AppUpdateEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(46,2): error C2535: 'EventType AppRenderEvent::GetType(void) const': member function already defined or declared
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(40,12):
-      see declaration of 'AppRenderEvent::GetType'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(47,3): error C2535: 'int AppRenderEvent::GetCategoryFlags(void) const': member function already defined or declared
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(43,6):
-      see declaration of 'AppRenderEvent::GetCategoryFlags'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.hpp(46,2): error C3668: 'AppRenderEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/ApplicationEvents.cpp')
-  
-  WindowEvent.cpp
+  Application.cpp
 H:\GameEngine\KnightEngine\KnightEngine\src\EngineApi.hpp(1,1): warning C4828: The file contains a character starting at offset 0x25d that is illegal in the current source character set (codepage 65001).
-  (compiling source file 'src/Event/WindowEvent.cpp')
+  (compiling source file 'src/Core/Application.cpp')
   
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(19,2): error C2535: 'EventType WindowCloseEvent::GetType(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(13,12):
-      see declaration of 'WindowCloseEvent::GetType'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'src/Core/Application.cpp')
+      H:\GameEngine\KnightEngine\KnightEngine\external\include\glad\glad.h(32,9):
+      see previous definition of 'APIENTRY'
   
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(20,2): error C2535: 'int WindowCloseEvent::GetCategoryFlags(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(16,6):
-      see declaration of 'WindowCloseEvent::GetCategoryFlags'
+  KnightEngine.cpp
+H:\GameEngine\KnightEngine\KnightEngine\src\EngineApi.hpp(1,1): warning C4828: The file contains a character starting at offset 0x25d that is illegal in the current source character set (codepage 65001).
+  (compiling source file 'KnightEngine.cpp')
   
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(19,2): error C3668: 'WindowCloseEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/WindowEvent.cpp')
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(36,2): error C2535: 'EventType WindowResizeEvent::GetType(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(30,12):
-      see declaration of 'WindowResizeEvent::GetType'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(37,2): error C2535: 'int WindowResizeEvent::GetCategoryFlags(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(33,6):
-      see declaration of 'WindowResizeEvent::GetCategoryFlags'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(36,2): error C3668: 'WindowResizeEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/WindowEvent.cpp')
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(53,2): error C2535: 'EventType WindowFocusEvent::GetType(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(47,12):
-      see declaration of 'WindowFocusEvent::GetType'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(54,3): error C2535: 'int WindowFocusEvent::GetCategoryFlags(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(50,6):
-      see declaration of 'WindowFocusEvent::GetCategoryFlags'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(53,2): error C3668: 'WindowFocusEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/WindowEvent.cpp')
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(64,2): error C3668: 'WindowLostFocusEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/WindowEvent.cpp')
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(83,2): error C2535: 'EventType WindowMovedEvent::GetType(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(76,12):
-      see declaration of 'WindowMovedEvent::GetType'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(84,2): error C2535: 'int WindowMovedEvent::GetCategoryFlags(void) const': member function already defined or declared
-  (compiling source file 'src/Event/WindowEvent.cpp')
-      H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(79,6):
-      see declaration of 'WindowMovedEvent::GetCategoryFlags'
-  
-H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.hpp(83,2): error C3668: 'WindowMovedEvent::GetName': method with override specifier 'override' did not override any base class methods
-  (compiling source file 'src/Event/WindowEvent.cpp')
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'KnightEngine.cpp')
+      H:\GameEngine\KnightEngine\KnightEngine\external\include\glad\glad.h(32,9):
+      see previous definition of 'APIENTRY'
   
   Generating Code...
+  KnightEngine.vcxproj -> H:\GameEngine\KnightEngine\x64\Debug\KnightEngine.exe

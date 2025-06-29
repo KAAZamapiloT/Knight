@@ -140,6 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Layer\LayerStack.cpp" />
+    <ClCompile Include="src\Layer\Layer.cpp" />
     <ClCompile Include="src\Event\MouseEvent.cpp" />
     <ClCompile Include="src\Event\KeyEvent.cpp" />
     <ClCompile Include="src\Event\EventDispatcher.cpp" />
@@ -183,6 +185,8 @@
     <ClCompile Include="src\Platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Layer\LayerStack.hpp" />
+    <ClInclude Include="src\Layer\Layer.hpp" />
     <ClInclude Include="src\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Event\KeyEvent.hpp" />
     <ClInclude Include="src\Event\EventDispatcher.hpp" />

@@ -1,4 +1,8 @@
-H:\GameEngine\KnightEngine\KnightEngine\src\Platform\SDLWindow.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\SDLWindow.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Event\MouseEvent.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\MouseEvent.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Event\KeyEvent.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\KeyEvent.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Event\EventDispatcher.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\EventDispatcher.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Event\ApplicationEvents.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\ApplicationEvents.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\KnightEnginepch.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\KnightEnginepch.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\IndexBuffer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\IndexBuffer.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\VertexArray.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\VertexArray.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\OpenGl\OpenGLIndexBuffer.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\OpenGLIndexBuffer.obj
@@ -31,6 +35,7 @@ H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\Shader.cpp;H:\GameEngine\Kn
 H:\GameEngine\KnightEngine\KnightEngine\src\Platform\GLContext.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\GLContext.obj
 H:\GameEngine\KnightEngine\KnightEngine\KnightEngine.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\KnightEngine.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\Core\Logger.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Logger.obj
-H:\GameEngine\KnightEngine\KnightEngine\src\Platform\Windows.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Windows.obj
 H:\GameEngine\KnightEngine\KnightEngine\src\Graphics\Texture.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Texture.obj
-H:\GameEngine\KnightEngine\KnightEngine\src\Core\Window.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Window.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Event\WindowEvent.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\WindowEvent.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Platform\Window.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\Window.obj
+H:\GameEngine\KnightEngine\KnightEngine\src\Platform\WindowsWindow.cpp;H:\GameEngine\KnightEngine\KnightEngine\x64\Debug\WindowsWindow.obj
