@@ -69,8 +69,7 @@ void KnightEngine::WindowsWindow::OnUpdate()
 	while (SDL_PollEvent(&E)) {
 		if (E.type == SDL_EVENT_QUIT) {
 			KE_TAG_LOG_DEBUG("WindowsWindow", "Quit event received for window: {}", m_Data.Title);
-			WindowCloseEvent closeEvent;
-			m_Data.EventCallback(closeEvent);
+			m_WindowCloseCallback(m_Window);
 			continue;
 		}
 
@@ -92,12 +91,16 @@ void KnightEngine::WindowsWindow::OnUpdate()
 
 		case SDL_EVENT_KEY_DOWN:
 		{
+			if (m_KeyCallback)
+				m_KeyCallback(m_Window, E, E.key.key, E.key.scancode, SDL_EVENT_KEY_DOWN, E.key.mod);
 			
 			break;
 		}
 		case SDL_EVENT_KEY_UP:
 		{
 			// Similarly dispatch your key callbacks
+			if (m_KeyCallback)
+				m_KeyCallback(m_Window, E, E.key.key, E.key.scancode, SDL_EVENT_KEY_UP, E.key.mod);
 			break;
 		}
 
@@ -131,6 +134,7 @@ void KnightEngine::WindowsWindow::OnUpdate()
 		default:
 			break;
 		}
+		
 	}
 
 	SDL_GL_SwapWindow(m_Window);
@@ -331,6 +335,15 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 
 void KnightEngine::WindowsWindow::Shutdown()
 {
+	if (m_GLContext) {
+		m_GLContext = nullptr;
+	}
+	if (m_Window) {
+		SDL_DestroyWindow(m_Window);
+		m_Window = nullptr;
+	}
+	s_SDLInitialized = false;
+	KE_TAG_LOG_INFO("WindowsWindow", "Window {} destroyed", m_Data.Title);
 }
 
 

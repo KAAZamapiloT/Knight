@@ -31,8 +31,8 @@ namespace KnightEngine {
         bool Init_Imgui();
         void Shutdown();
         bool m_Running = true;
-        SDL_Window* m_Window = nullptr;
-        SDL_GLContext m_Context = nullptr;
+        //SDL_Window* m_Window = nullptr;
+        //SDL_GLContext m_Context = nullptr;
         const char* t = "TestWindow";
 		Knight::Renderer* m_Renderer = nullptr;
 		std::unique_ptr<Window> M_Window = nullptr;

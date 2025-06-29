@@ -28,6 +28,7 @@ namespace KnightEngine
 		inline std::string GetTitle() const { return m_Data.Title; }
 		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		EventCallbackFn GetEventCallback() const { return m_Data.EventCallback; }
+		SDL_Window* GetNativeWindow() { return m_Window; }
 	private:
 		SDL_Window* m_Window = nullptr;
 		SDL_GLContext m_GLContext = nullptr;
