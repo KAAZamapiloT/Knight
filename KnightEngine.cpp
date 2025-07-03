@@ -2,9 +2,10 @@
 //
 
 #include "Core/Application.hpp"
-
+#include "UI/ImguiLayer.hpp"
 int main(int argc, char* argv[]) {
-    KnightEngine::Application* app= new KnightEngine::Application();
+    KnightEngine::Application* app=new KnightEngine::Application();
+	app->PushOverlay(new KnightEngine::ImguiLayer());
     app->Run();
     return 0;
 }

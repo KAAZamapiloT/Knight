@@ -3,10 +3,10 @@
 #ifdef KNIGHT_PLATFORM_WINDOWS
 #include"Windows.h"
 #endif // 
-
+#include<stdlib.h>
+#include"cstddef"
 #include"vector"
 #include<iostream>
-
 #include "Core/Logger.hpp"
 #include<string>
 #include<unordered_map>
@@ -21,3 +21,6 @@
 #include<utility>
 #include<stack>
 #include<memory>
+
+#define BIT(X) (1 << X)
+#define KNIGHT_BIND_FN(x) std::bind(&x, this, std::placeholders::_1)

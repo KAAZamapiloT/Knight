@@ -1,7 +1,7 @@
 #pragma once
 #include"EngineApi.hpp"
 #include"Graphics/VertexBuffer.hpp"
-#include "memory"
+#include"KnightEnginepch.h"
 #include"glad/glad.h"
 class KNIGHT_ENGINE_API OpenGLVertexBuffer :public VertexBuffer
 {

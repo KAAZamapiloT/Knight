@@ -10,6 +10,7 @@
 #include"Graphics/Renderer.hpp"
 #include"Event/WindowEvent.hpp"
 #include"Event/EventDispatcher.hpp"
+#include"Layer/LayerStack.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -20,6 +21,10 @@ namespace KnightEngine {
         void Run();
         bool OnWindowClose(WindowCloseEvent& E);
         void OnEvent(Event& E);
+        void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
+		inline Window& GetWindow() { return *M_Window; }
+		static inline Application* GetInstance() { return sInstance; }
     protected:
         virtual  bool OnInit_SDL();
         virtual  bool OnInit_OpenGL();
@@ -38,7 +43,9 @@ namespace KnightEngine {
         const char* t = "TestWindow";
 		Knight::Renderer* m_Renderer = nullptr;
 		std::unique_ptr<Window> M_Window = nullptr;
-		
+		LayerStack m_LayerStack; ///< The stack of layers in the application.
+
+		static Application* sInstance; ///< Singleton instance of the application.
     };
 
     // To be defined in client

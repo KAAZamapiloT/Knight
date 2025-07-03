@@ -1,7 +1,7 @@
 #pragma once
 #include"EngineApi.hpp"
 #include "Event/Event.hpp"
-#include"Core/Logger.hpp"
+#include"KnightEnginepch.h"
 
 class KNIGHT_ENGINE_API AppTickEvent : public Event {
 public:

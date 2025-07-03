@@ -2,7 +2,7 @@
 
 #include"EngineApi.hpp"
 #include "Event/Event.hpp"
-#include"Core/Logger.hpp"
+#include"KnightEnginepch.h"
 
 class KNIGHT_ENGINE_API WindowCloseEvent : public Event {
 public:

@@ -229,16 +229,19 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		KE_TAG_LOG_CRITICAL("WindowsWindow", "OpenGL context could not be created! SDL_Error: {}", SDL_GetError());
 		return;
 	}
-	CheckSDLError("SDL_GL_CreateContext");
+	else {
+		KE_TAG_LOG_WARN("WindowsWindow", "OpenGL context created successfully for window: {}", m_Data.Title);
+	}
 	SDL_GL_MakeCurrent(m_Window, m_GLContext);
 	SDL_GL_SetSwapInterval(m_Data.VSync ? 1 : 0);
 	SDL_SetWindowTitle(m_Window, m_Data.Title.c_str());
+	
 	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
 		KE_TAG_LOG_CRITICAL("WindowsWindow", "Failed to initialize GLAD.");
 		return;
 	}
 
-	glViewport(0, 0, m_Data.Width, m_Data.Height);
+	//glViewport(0, 0, m_Data.Width, m_Data.Height);
 
 	KE_TAG_LOG_INFO("WindowsWindow", "OpenGL Info:");
 	KE_TAG_LOG_INFO("WindowsWindow", "  Vendor:   {}", reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
@@ -277,13 +280,14 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		switch (Action) {
 		case SDL_EVENT_KEY_DOWN:
 		{
-			KeyPressedEvent keyPressedEvent(KeyCode, e.key.repeat);
+			//KeyPressedEvent keyPressedEvent(KeyCode, e.key.repeat);
+			KeyPressedEvent keyPressedEvent(KeyCode, ScanCode, Mods, e.key.repeat);
 			data.EventCallback(keyPressedEvent);
 			break;
 		}
 		case SDL_EVENT_KEY_UP:
 		{
-			KeyReleasedEvent keyReleasedEvent(KeyCode);
+			KeyReleasedEvent keyReleasedEvent(KeyCode,ScanCode,Mods);
 			data.EventCallback(keyReleasedEvent);
 			break;
 		}

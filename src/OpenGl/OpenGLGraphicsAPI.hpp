@@ -1,6 +1,7 @@
 #pragma once
 #include "EngineApi.hpp"
 #include "Graphics/GraphicsApi.hpp"
+#include"KnightEnginepch.h"
 class KNIGHT_ENGINE_API OpenGLGraphicsAPI : public Knight::GraphicsAPI
 {
 public:

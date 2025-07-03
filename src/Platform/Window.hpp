@@ -1,8 +1,8 @@
 #pragma once
-#include"Engine.hpp"
-#include "Core/Logger.hpp"
+#include"KnightEnginepch.h"
 #include"EngineApi.hpp"
 #include"Event/Event.hpp"
+#include"SDL3/SDL.h"`
 namespace KnightEngine {
 	
 	struct WindowProps {
@@ -31,7 +31,8 @@ namespace KnightEngine {
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
-		
+		virtual SDL_Window* GetNativeWindow() const = 0;// { return nullptr; }
+		virtual SDL_GLContext GetSDLGLContext() const = 0;// { return nullptr; }
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
 }
