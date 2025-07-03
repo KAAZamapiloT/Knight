@@ -88,7 +88,8 @@ void Application::Run()
 		}
         // This polls SDL events, invokes your callbacks, then swaps buffers.
         M_Window->OnUpdate();
-        
+		
+		
         // === ImGui new frame ===
        // ImGui_ImplOpenGL3_NewFrame();
        // ImGui_ImplSDL3_NewFrame();
@@ -167,33 +168,6 @@ bool Application::OnWindowClose(WindowCloseEvent& E)
     return true;
 }
 
-bool Application::OnInit_SDL()
-{
-    return false;
-}
-
-bool Application::OnInit_OpenGL()
-{
-    return false;
-}
-
-bool Application::OnInit_Imgui()
-{
-	/*
-	// Initialize ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	// Setup Dear ImGui style
-	// You can customize the style here if needed
-	ImGui::StyleColorsDark();
-
-    ImGui::Begin("Knight Engine UI");
-   ImGui::Text("CAN I ENTER DIFFRENT TEXT");
-    ImGui::End();
-    return true;
-    */
-    return true;
-}
 
 void Application::OnShutdown()
 {
@@ -201,48 +175,7 @@ void Application::OnShutdown()
     
 }
 
-bool Application::Init_SDL()
-{
-  
-    return true;
-}
 
-bool Application::Init_OpenGL()
-{
-    /*m_Context = SDL_GL_CreateContext(m_Window);
-    if (!m_Context) {
-       // std::cerr << "OpenGL context creation failed: " << SDL_GetError() << std::endl;
-		KE_LOG_CRITICAL("OpenGL context creation failed: " , std::string(SDL_GetError()));
-        return false;
-    }
-    if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
-      //  std::cerr << "Failed to initialize GLAD" << std::endl;
-		KE_LOG_CRITICAL("Failed to initialize GLAD");
-        return false;
-    }*/
-    return true;
-}
-
-bool Application::Init_Imgui()
-{
-  /*  IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGui::StyleColorsDark();
-
-    // Backend bindings
-    if (!ImGui_ImplSDL3_InitForOpenGL(, m_Context)) {
-       // std::cerr << "Failed to initialize ImGui SDL3 backend!" << std::endl;
-		KE_LOG_CRITICAL("Failed to initialize ImGui SDL3 backend!");
-        return false;
-    }
-
-    if (!ImGui_ImplOpenGL3_Init("#version 460")) {
-      //  std::cerr << "Failed to initialize ImGui OpenGL backend!" << std::endl;
-		KE_LOG_CRITICAL("Failed to initialize ImGui OpenGL backend!");
-        return false;
-    }*/
-    return true;
-}
 
 void Application::Shutdown()
 {
