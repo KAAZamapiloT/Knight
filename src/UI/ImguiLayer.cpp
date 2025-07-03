@@ -134,7 +134,7 @@ void KnightEngine::ImguiLayer::OnEvent(Event& event)
 	dispatcher.Dispatch<KeyPressedEvent>(KNIGHT_BIND_FN(KnightEngine::ImguiLayer::OnKeyPressedEvent));
 	dispatcher.Dispatch<KeyReleasedEvent>(KNIGHT_BIND_FN(KnightEngine::ImguiLayer::OnKeyReleasedEvent));
 	dispatcher.Dispatch<WindowResizeEvent>(KNIGHT_BIND_FN(KnightEngine::ImguiLayer::OnWindowResizeEvent));
-
+	dispatcher.Dispatch<KeyTypedEvent>(KNIGHT_BIND_FN(KnightEngine::ImguiLayer::OnKeyTypedEvent));
 	
 
 }
@@ -190,7 +190,12 @@ bool KnightEngine::ImguiLayer::OnKeyPressedEvent(KeyPressedEvent& event)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	io.AddKeyEvent(SDL_TO_ImGuiKey(event.GetKeyCode(), event.GetScanCode()), true); // Add key pressed event
-	KE_TAG_LOG_DEBUG("ImguiLayer", "Key Pressed: {} (ScanCode: {})", event.GetKeyCode(), event.GetScanCode());
+	io.KeyCtrl = io.KeyCtrl || event.GetMod(); // Update Ctrl state
+	io.KeyShift = io.KeyShift || event.GetMod(); // Update Shift state
+	io.KeyAlt = io.KeyAlt || event.GetMod(); // Update Alt state
+	io.KeySuper = io.KeySuper || event.GetMod(); // Update Super state
+
+    KE_TAG_LOG_DEBUG("ImguiLayer", "Key Pressed: {} (ScanCode: {})", event.GetKeyCode(), event.GetScanCode());
    
     
     return false;
@@ -214,6 +219,19 @@ bool KnightEngine::ImguiLayer::OnWindowResizeEvent(WindowResizeEvent& event)
 	KE_TAG_LOG_INFO("ImguiLayer", "Window Resized: {}x{}", event.GetWidth(), event.GetHeight());
 	return false;
 }
+
+bool KnightEngine::ImguiLayer::OnKeyTypedEvent(KeyTypedEvent& event)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	int k = event.GetCharacterCode();
+    if(k>0&&k<0x10000)
+    io.AddInputCharacter((unsigned int)event.GetCharacterCode());// Add character input event
+	
+    KE_TAG_LOG_DEBUG("ImguiLayer", "Key Typed: {} ", event.GetCharacterCode());
+    return false;
+}
+
+
 
 int KnightEngine::ImguiLayer::SDL_MOUSE_TO_IMGUI(int sdlButton)
 {

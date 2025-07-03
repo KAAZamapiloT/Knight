@@ -69,3 +69,26 @@ private:
 	int m_Mod = 0;
 	int m_ScanCode = 0;///< Modifier keys (like Shift, Ctrl) that were pressed along with the key.
 };
+class KNIGHT_ENGINE_API KeyTypedEvent : public Event
+{
+public:
+	KeyTypedEvent(int keyCode)
+		: m_Character(keyCode) {
+	}
+
+	std::string ToString() const override {
+		return "KeyTypedEvent: " + std::to_string(m_Character);
+	}
+	EVENT_CLASS_TYPE(KeyTyped)
+		EVENT_CLASS_CATEGORY((int)EventCategory::EventCategoryKeyboard | (int)EventCategory::EventCategoryInput)
+		void Handle() override {
+		// Custom logic for handling key typed event
+	};
+	inline unsigned int GetCharacterCode() const { return m_Character; } ///< Returns the character code of the typed key, useful for text input.
+private:
+	unsigned int m_Character = 0;
+};
+
+
+
+

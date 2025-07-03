@@ -130,7 +130,23 @@ void KnightEngine::WindowsWindow::OnUpdate()
 			m_CursorPosCallback(m_Window, E.motion.x, E.motion.y);
 			break;
 		}
+		case SDL_EVENT_TEXT_INPUT:
+		{
+			const char* text = E.text.text;
 
+			if (m_KeyTypedCallback)
+			{
+				// Pass each character from text buffer
+				while (*text)
+				{
+					// Send UTF-8 character (cast to unsigned int for ImGui::AddInputCharacter)
+					m_KeyTypedCallback(m_Window, static_cast<unsigned int>(*text));
+					++text;
+				}
+			}
+
+			break;
+		}
 		default:
 			break;
 		}
@@ -151,40 +167,7 @@ bool KnightEngine::WindowsWindow::IsVSync() const
 {
 	return m_Data.VSync;
 }
-/*
-void SetWindowSizeCallback(SDL_Window* m_Window, std::function<void(SDL_Window*, int, int)> callback)
-{
-	// Store or call the callback later
-	// Example call:
-	//callback(m_Window, 800, 600);
-}
-void SetWindowCloseCallback(SDL_Window* m_Window, std::function<void(SDL_Window*)> callback)
-{
-	// Implement the logic to set a window close callback
-	// This could involve SDL event handling or other mechanisms
-}
 
-void SetKeyCallback(SDL_Window* m_Window, std::function<void(SDL_Window*,const SDL_Event&e,int Key, int ScanCode,int Action,int Mods)> callback)
-{
-	// Implement the logic to set a key callback
-	// This could involve SDL event handling or other mechanisms
-}
-
-void SetMouseButtonCallback(SDL_Window* m_Window, std::function<void(SDL_Window*, const SDL_Event& e, int Button, int Action, int Mods)> callback)
-{
-	// Implement the logic to set a mouse button callback
-	// This could involve SDL event handling or other mechanisms
-}
-void SetMouseScrolledCallback(SDL_Window* m_Window, std::function<void(SDL_Window*, const SDL_Event& e, double xOffset, double yOffset)> callback)
-{
-	// Implement the logic to set a mouse scrolled event callback
-	// This could involve SDL event handling or other mechanisms
-}
-void SetCursorPosCallback(SDL_Window* m_Window, std::function<void(SDL_Window*, double x, double y)> callback)
-{
-	// Implement the logic to set a cursor position callback
-	// This could involve SDL event handling or other mechanisms
-}*/
 void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 {
 	m_Data.Title = props.Title;
@@ -333,6 +316,13 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		MouseMovedEvent mouseMovedEvent((float)x, (float)y);
 		KE_TAG_LOG_INFO("WindowsWindow", "Mouse moved to ({}, {}) in window {}", x, y, data.Title);
 		data.EventCallback(mouseMovedEvent);
+		});
+	SetKeyTypedCallback(m_Window, [](SDL_Window* window,unsigned int CharacterCode) {
+		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));
+		WindowData& data = win->m_Data;
+		KeyTypedEvent keyTypedEvent(CharacterCode);
+		data.EventCallback(keyTypedEvent);
+		KE_TAG_LOG_DEBUG("WindowsWindow", "Key typed event in window {}", data.Title);
 		});
 
 }

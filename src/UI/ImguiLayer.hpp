@@ -33,7 +33,7 @@ namespace KnightEngine
 		bool OnKeyPressedEvent(KeyPressedEvent& event);
 		bool OnKeyReleasedEvent(KeyReleasedEvent& event);
 		bool OnWindowResizeEvent(WindowResizeEvent& event);
-		//void OnKeyTypedEvent(KeyTypedEvent& event);
+		bool OnKeyTypedEvent(KeyTypedEvent& event);
 		
 
 	private:
