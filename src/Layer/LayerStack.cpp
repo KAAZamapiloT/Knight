@@ -2,7 +2,7 @@
 
 KnightEngine::LayerStack::LayerStack()
 {
-	m_LayerInsert = m_Layers.begin();
+	
 }
 
 KnightEngine::LayerStack::~LayerStack()
@@ -12,12 +12,12 @@ KnightEngine::LayerStack::~LayerStack()
 		delete layer; // Clean up the layers
 	}
 	m_Layers.clear();
-	m_LayerInsert = m_Layers.begin(); // Reset the insert iterator
+
 }
 
 void KnightEngine::LayerStack::PushLayer(Layer* layer)
 {
-	m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+	m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
 }
 
 void KnightEngine::LayerStack::PushOverlay(Layer* overlay)
@@ -30,7 +30,7 @@ void KnightEngine::LayerStack::PopLayer(Layer* layer)
 	auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
 	if (it != m_Layers.end()) {
 		m_Layers.erase(it);
-		--m_LayerInsert; // Adjust the insert iterator if necessary
+		--m_LayerInsertIndex; // Adjust the insert iterator if necessary
 	}
 }
 

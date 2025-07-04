@@ -3,8 +3,7 @@
 #include "KnightEnginepch.h"
 #include "Core/Logger.hpp"
 #include"imgui.h"
-#include "imgui_impl_opengl3.h"
-#include"imgui_impl_sdl3.h"
+
 
 #include "Layer/Layer.hpp"
 #include"KnightEnginepch.h"
@@ -21,7 +20,9 @@ namespace KnightEngine
 		~ImguiLayer();
 		void OnAttach() override;
 		void OnDetach() override;
-		void OnUpdate() override;
+		virtual void OnImGuiRender() override; ///< Render ImGui interface
+		void Begin();
+		void End();
 		void OnEvent(Event& event) override;
 		ImGuiKey SDL_TO_ImGuiKey(int KeyCode, int ScanCode);
 		int SDL_MOUSE_TO_IMGUI(int sdlButton);
@@ -37,7 +38,7 @@ namespace KnightEngine
 		
 
 	private:
-		
+		bool showDemo = true;
 		float m_time = 0.0f;
 	};
 }

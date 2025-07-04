@@ -12,6 +12,7 @@
 #include"Event/EventDispatcher.hpp"
 #include"Layer/LayerStack.hpp"
 #include"input/InputManager.h"
+#include"UI/ImguiLayer.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -39,8 +40,9 @@ namespace KnightEngine {
 		Knight::Renderer* m_Renderer = nullptr;
 		std::unique_ptr<Window> M_Window = nullptr;
 		LayerStack m_LayerStack; ///< The stack of layers in the application.
-
-		static Application* sInstance; ///< Singleton instance of the application.
+		ImguiLayer* m_ImGuiLayer; ///< The ImGui layer for rendering the UI.
+		
+        static Application* sInstance; ///< Singleton instance of the application.
     };
 
     // To be defined in client

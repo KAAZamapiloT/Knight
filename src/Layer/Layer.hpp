@@ -24,6 +24,8 @@ namespace KnightEngine {
 		virtual void OnEvent(Event&event) {
 
 		}
+		virtual void OnImGuiRender() {
+		} ///< Called to render the ImGui interface for this layer.
 		inline const std::string& GetName() const {
 			return m_DebugName;
 		} ///< Returns the name of the layer.

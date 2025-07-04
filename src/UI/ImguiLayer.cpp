@@ -1,9 +1,10 @@
 #include "ImguiLayer.hpp"
 #include"imgui.h"
-#include"OpenGl/imgui_OpenGL_Renderer.h"
+
 #include"SDL3/SDL.h"
 #include"Core/Application.hpp"
-
+#include "imgui_impl_opengl3.h"
+#include"imgui_impl_sdl3.h"
 #include"Event/WindowEvent.hpp"
 #include"Event/EventDispatcher.hpp"
 #include"Event/KeyEvent.hpp"
@@ -18,36 +19,37 @@ KnightEngine::ImguiLayer::~ImguiLayer()
 
 void KnightEngine::ImguiLayer::OnAttach()
 {
-	KE_TAG_LOG_INFO("ImguiLayer", "Attaching Imgui Layer");
+    KE_TAG_LOG_INFO("ImguiLayer", "Attaching Imgui Layer");
 
-	// Create context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
+    // Create context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
 
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls (optional)
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls (optional)
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+    // Backend flags
+    io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+    io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+
+    // IMPORTANT: Initialize SDL3 backend FIRST, then OpenGL
+    bool sdl_init_success = ImGui_ImplSDL3_InitForOpenGL(
+        Application::GetInstance()->GetWindow().GetNativeWindow(),
+        Application::GetInstance()->GetWindow().GetSDLGLContext()
+    );
+
+    bool opengl_init_success = ImGui_ImplOpenGL3_Init("#version 410");
+
+    if (!sdl_init_success || !opengl_init_success) {
+        KE_TAG_LOG_CRITICAL("ImguiLayer", "Failed to initialize ImGui backends");
+    }
+
+    KE_TAG_LOG_INFO("ImguiLayer", "ImGui Layer attached successfully");
 	
-	// Backend flags
-	io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-	io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-    
-	// IMPORTANT: Initialize SDL3 backend FIRST, then OpenGL
-	bool sdl_init_success = ImGui_ImplSDL3_InitForOpenGL(
-		Application::GetInstance()->GetWindow().GetNativeWindow(),
-		Application::GetInstance()->GetWindow().GetSDLGLContext()
-	);
-
-	bool opengl_init_success = ImGui_ImplOpenGL3_Init("#version 410");
-
-	if (!sdl_init_success || !opengl_init_success) {
-		KE_TAG_LOG_CRITICAL("ImguiLayer", "Failed to initialize ImGui backends");
-	}
-
-	KE_TAG_LOG_INFO("ImguiLayer", "ImGui Layer attached successfully"); 
-	
-	
+   
 }
 
 void KnightEngine::ImguiLayer::OnDetach()
@@ -57,65 +59,51 @@ void KnightEngine::ImguiLayer::OnDetach()
 	ImGui::DestroyContext();        // Destroy ImGui context
 }
 
-void KnightEngine::ImguiLayer::OnUpdate()
+
+
+void KnightEngine::ImguiLayer::OnImGuiRender()
 {
-	// Start the Dear ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL3_NewFrame();
-
-	ImGuiIO& io = ImGui::GetIO();
-	Application* app = Application::GetInstance();
-
-	// Set display size
-	int w = app->GetWindow().GetWidth();
-	int h = app->GetWindow().GetHeight();
-	io.DisplaySize = ImVec2((float)w, (float)h);
-
-	// Fix delta time calculation
-	float currentTime = SDL_GetTicks() / 1000.0f;  // Convert milliseconds to seconds
-
-	if (m_time <= 0.0f) {
-		// First frame - initialize with a reasonable delta time
-		io.DeltaTime = 1.0f / 60.0f;  // Assume 60 FPS for first frame
-	}
-	else {
-		float deltaTime = currentTime - m_time;
-		// Clamp delta time to reasonable values
-		if (deltaTime <= 0.0f) {
-			deltaTime = 1.0f / 60.0f;  // Fallback to 60 FPS
-		}
-		else if (deltaTime > 1.0f) {
-			deltaTime = 1.0f / 60.0f;  // Cap at 60 FPS if too large (paused debugger, etc.)
-		}
-		io.DeltaTime = deltaTime;
-	}
-
-	m_time = currentTime;
-
-	// Start ImGui frame
-	ImGui::NewFrame();
-	
-	// Your UI code
-	static bool show_demo_window = true;
-    if (show_demo_window) 
-        ImGui::ShowDemoWindow(&show_demo_window);
-    ImGui::Begin("Mouse Debug");
-
-    
-    ImGui::Text("Mouse Pos: (%.1f, %.1f)", io.MousePos.x, io.MousePos.y);
-    ImGui::Text("Mouse Left: %s", io.MouseDown[0] ? "Pressed" : "Released");
-    ImGui::Text("Hovered Window: %s", ImGui::IsWindowHovered() ? "Yes" : "No");
-
-    ImGui::End();
-
-    
-		
-	
+    static bool p = true;
+    ImGui::ShowDemoWindow(&p);
  
- 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 }
+
+void KnightEngine::ImguiLayer::Begin()
+{
+    
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+	ImGui::NewFrame(); // Start a new ImGui frame
+}
+
+void KnightEngine::ImguiLayer::End()
+{
+    ImGuiIO& io = ImGui::GetIO();
+    Application* app = Application::GetInstance();
+
+    int w = app->GetWindow().GetWidth();
+    int h = app->GetWindow().GetHeight();
+    io.DisplaySize = ImVec2((float)w, (float)h);
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+ 
+    // 2. Handle viewports
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        SDL_Window* backup_current_window =app->GetWindow().GetNativeWindow() ;
+        SDL_GLContext backup_context = app->GetWindow().GetSDLGLContext();
+      
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+       
+        SDL_GL_MakeCurrent(backup_current_window, backup_context);
+       
+    }
+  
+}
+
 
 void KnightEngine::ImguiLayer::OnEvent(Event& event)
 {
@@ -142,7 +130,7 @@ void KnightEngine::ImguiLayer::OnEvent(Event& event)
 bool KnightEngine::ImguiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& event)
 {
 	ImGuiIO& io = ImGui::GetIO();
-    ImGui::GetIO().MouseDrawCursor = true;
+   // ImGui::GetIO().MouseDrawCursor = true;
 	//io.MouseDown[event.GetButton()] = true; // Set the mouse button state to pressed
 	io.AddMouseButtonEvent(SDL_MOUSE_TO_IMGUI(event.GetButton()), true); // Add mouse button event
 	KE_TAG_LOG_DEBUG("ImguiLayer", "Mouse Button Pressed: {}", event.GetButton());
@@ -153,7 +141,7 @@ bool KnightEngine::ImguiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent
 bool KnightEngine::ImguiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& event)
 {
 	ImGuiIO& io = ImGui::GetIO();
-    ImGui::GetIO().MouseDrawCursor = true;
+   // ImGui::GetIO().MouseDrawCursor = true;
 	//io.MouseDown[event.GetButton()] = false; // Set the mouse button state to released
     io.AddMouseButtonEvent(SDL_MOUSE_TO_IMGUI(event.GetButton()), false);; // Add mouse button event
 	KE_TAG_LOG_DEBUG("ImguiLayer", "Mouse Button Released: {}", event.GetButton());
@@ -163,7 +151,7 @@ bool KnightEngine::ImguiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEve
 bool KnightEngine::ImguiLayer::OnMouseMovedEvent(MouseMovedEvent& event)
 {
 	ImGuiIO& io = ImGui::GetIO();
-    ImGui::GetIO().MouseDrawCursor = true;
+  //  ImGui::GetIO().MouseDrawCursor = true;
 	io.MousePos = ImVec2((float)event.GetX(), (float)event.GetY());
 	//io.AddMousePosEvent(event.GetX(), event.GetY());
 	io.AddMousePosEvent(io.MousePos.x, io.MousePos.y); // Add mouse position event
@@ -175,7 +163,7 @@ bool KnightEngine::ImguiLayer::OnMouseMovedEvent(MouseMovedEvent& event)
 bool KnightEngine::ImguiLayer::OnMouseScrolledEvent(MouseScrolledEvent& event)
 {
 	ImGuiIO& io = ImGui::GetIO();
-	ImGui::GetIO().MouseDrawCursor = true;
+	//ImGui::GetIO().MouseDrawCursor = true;
 	//io.MouseWheel += event.GetYOffset(); // Accumulate vertical scroll
 	//io.MouseWheelH += event.GetXOffset(); // Accumulate horizontal scroll
 	io.AddMouseWheelEvent(event.GetXOffset(), event.GetYOffset());

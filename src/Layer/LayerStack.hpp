@@ -17,7 +17,7 @@ namespace KnightEngine
 		inline std::vector<Layer*>::iterator end() { return m_Layers.end(); } ///< Returns an iterator to the end of the layer stack.
 	private:
 		std::vector<Layer*> m_Layers; ///< The vector containing all layers in the stack.
-		std::vector<Layer*>::iterator m_LayerInsert; ///< Iterator to the beginning of the overlay layers in the stack.
+		unsigned int m_LayerInsertIndex=0; ///< Iterator to the beginning of the overlay layers in the stack.
 		
 	};
 }

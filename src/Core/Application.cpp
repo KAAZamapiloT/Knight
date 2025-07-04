@@ -5,12 +5,59 @@
 #include "Core/Logger.hpp"
 #include"Graphics/Renderer.hpp"
 #include"utils/Math.hpp"
+
 //#include"Engine.hpp"
 #include"KeyCodes.h"
 KnightEngine::Application* KnightEngine::Application::sInstance = nullptr;
 
 namespace KnightEngine {
 #define BIND_EVENT_FN(X) std::bind(&X, this, std::placeholders::_1)
+
+    class ExampleLayer :public Layer {
+    public:
+        ExampleLayer() = default;
+        void OnImGuiRender() override {
+            static char inputBuf[2048] = "";
+            static std::vector<std::string> terminalLog;
+            static bool scrollToBottom = false;
+           
+
+          
+            ImGui::Begin("Terminal");
+
+            // --- Output region
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), false, ImGuiWindowFlags_HorizontalScrollbar);
+            for (const std::string& line : terminalLog)
+                ImGui::TextUnformatted(line.c_str());
+
+            if (scrollToBottom)
+                ImGui::SetScrollHereY(1.0f); // Scroll to bottom
+            scrollToBottom = false;
+            ImGui::EndChild();
+
+            // --- Input line
+            ImGui::Separator();
+            if (ImGui::InputText("Command", inputBuf, IM_ARRAYSIZE(inputBuf), ImGuiInputTextFlags_EnterReturnsTrue)) {
+                // On Enter key pressed
+                std::string inputStr = inputBuf;
+                terminalLog.push_back("> " + inputStr); // Echo command
+                inputBuf[0] = '\0'; // Clear input buffer
+
+                // Simulate some output
+                terminalLog.push_back("You typed: " + inputStr);
+                scrollToBottom = true;
+            }
+            ImGui::End();
+            
+        }
+        
+
+    private:
+        char buf[1024];
+        float Vol = 0;
+        float fontScale = 1.0;
+    };
+
     void InitLogger()
     {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -39,11 +86,20 @@ Application::Application()
 	KE_LOG_INFO("Application is starting");
 	M_Window = std::unique_ptr<Window>(Window::Create(WindowProps("KnightEngine", 1240, 720)));
     M_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+    m_ImGuiLayer = new ImguiLayer();
 	if (!sInstance)
 		sInstance = this;
 	else
 		KE_LOG_CRITICAL("Application instance already exists, this should not happen!");
-	
+    if (!M_Window) {
+        KE_TAG_LOG_CRITICAL("Application", "window is not created ");
+    }
+   
+    if (!m_ImGuiLayer) {
+		KE_TAG_LOG_CRITICAL("Application", "ImGui Layer is not created ");
+    }
+    PushOverlay(m_ImGuiLayer);
+    PushOverlay(new  ExampleLayer());
 }
 
 Application::~Application()
@@ -53,17 +109,7 @@ Application::~Application()
 
 void Application::Run()
 {
-   /* if (!Init_OpenGL()) {
-      //  std::cerr << "OPEN_GL Initialization failed!" << std::endl;
-		KE_LOG_CRITICAL("OPEN_GL Initialization failed!");
-        return;
-    }
-    if (!Init_Imgui()) {
-       // std::cerr << "IMGUI Initialization failed!" << std::endl;
-		KE_LOG_CRITICAL("IMGUI Initialization failed!");
-        return;
-    }
-    */
+  
     Triangle tri;
     Shapes sh;
 	Knight::Renderer R;
@@ -79,6 +125,7 @@ void Application::Run()
     tri.Init();
     R.Init();
     rc.Init();
+	
     // Main game loop
     KE_LOG_INFO("Running Application");
     while (m_Running)
@@ -90,37 +137,27 @@ void Application::Run()
 		}
         // This polls SDL events, invokes your callbacks, then swaps buffers.
         M_Window->OnUpdate();
-       
-		
-        // === ImGui new frame ===
-       // ImGui_ImplOpenGL3_NewFrame();
-       // ImGui_ImplSDL3_NewFrame();
-       // ImGui::NewFrame();
-
-        // === Your ImGui UI ===
-       // OnInit_Imgui();
-
-        // === Rendering ===
-      /*  glViewport(0, 0, M_Window->GetWidth(), M_Window->GetHeight());
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        */
         blue = (glm::sin(f * freq) + 1.0f) * 0.5f;
 
         R.BeginFrame();
         // R.SubmitCommandBuffer();
         R.EndFrame();
 
-        rc.ClearColor(0.1f, blue, 0.1f, 1.0f);
+        rc.ClearColor(0.1f, blue, glm::sin(blue), 1.0f);
 
         tri.Render();
         sh.render();
 
-        // === ImGui render ===
-        //ImGui::Render();
-        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         f += 0.01f;
+
+        m_ImGuiLayer->Begin();
+        for (Layer* layer : m_LayerStack)
+        {
+            layer->OnImGuiRender();
+        }
+        m_ImGuiLayer->End();
+       
     }
 	KE_LOG_CRITICAL("Application is shutting down");
 	OnShutdown();
@@ -174,23 +211,14 @@ bool Application::OnWindowClose(WindowCloseEvent& E)
 void Application::OnShutdown()
 {
      M_Window.reset();
-    
+	 
 }
 
 
 
 void Application::Shutdown()
 {
-   /* ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL3_Shutdown();
-    ImGui::DestroyContext();
-
-
-    SDL_GL_DestroyContext(m_Context);
-    SDL_DestroyWindow(m_Window);
-    SDL_Quit();
-    */
-    
+   
     WindowCloseEvent();
 	
 }
