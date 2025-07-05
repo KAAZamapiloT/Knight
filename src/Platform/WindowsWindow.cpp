@@ -8,6 +8,7 @@
 #include"Event/KeyEvent.hpp"
 #include"Event/MouseEvent.hpp"
 #include"Event/ApplicationEvents.hpp"
+#include"OpenGL/OpenGLContext.hpp"
 namespace KnightEngine
 {
 	static void CheckSDLError(const std::string& context) {
@@ -17,9 +18,9 @@ namespace KnightEngine
 			SDL_ClearError();
 		}
 	}
-    static bool s_SDLInitialized = false;
+	static bool s_SDLInitialized = false;
 	static std::unordered_map<std::string, WindowsWindow*> s_TitleMap;
-	
+
 	WindowsWindow* GetWindowByTitle(const std::string& title)
 	{
 		auto it = s_TitleMap.find(title);
@@ -36,7 +37,7 @@ namespace KnightEngine
 	{
 		s_TitleMap.erase(title);
 	}
-	
+
 }
 
 KnightEngine::Window* KnightEngine::Window::Create(const WindowProps& props)
@@ -60,12 +61,12 @@ KnightEngine::WindowsWindow::~WindowsWindow()
 ///helper function to clean event callback
 
 
-	
+
 
 void KnightEngine::WindowsWindow::OnUpdate()
 {
 	SDL_Event E;
-	
+
 	while (SDL_PollEvent(&E)) {
 		if (E.type == SDL_EVENT_QUIT) {
 			KE_TAG_LOG_DEBUG("WindowsWindow", "Quit event received for window: {}", m_Data.Title);
@@ -83,7 +84,7 @@ void KnightEngine::WindowsWindow::OnUpdate()
 				int height = E.window.data2;
 				// Call your bound resize callback
 				// (You will need to store this callback somewhere!)
-				
+
 				m_WindowSizeCallback(m_Window, width, height);
 			}
 			break;
@@ -93,7 +94,7 @@ void KnightEngine::WindowsWindow::OnUpdate()
 		{
 			if (m_KeyCallback)
 				m_KeyCallback(m_Window, E, E.key.key, E.key.scancode, SDL_EVENT_KEY_DOWN, E.key.mod);
-			
+
 			break;
 		}
 		case SDL_EVENT_KEY_UP:
@@ -120,7 +121,7 @@ void KnightEngine::WindowsWindow::OnUpdate()
 		case SDL_EVENT_MOUSE_WHEEL:
 		{
 			// Dispatch scroll callback
-			m_MouseScrollCallback(m_Window,E, E.wheel.x, E.wheel.y);
+			m_MouseScrollCallback(m_Window, E, E.wheel.x, E.wheel.y);
 			break;
 		}
 
@@ -150,7 +151,7 @@ void KnightEngine::WindowsWindow::OnUpdate()
 		default:
 			break;
 		}
-		
+
 	}
 
 	SDL_GL_SwapWindow(m_Window);
@@ -182,7 +183,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		}
 		s_SDLInitialized = true;
 	}
-	
+
 	// Must be before window/context creation
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
@@ -205,7 +206,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 	}
 	CheckSDLError("SDL_CreateWindow");
 	// You can attach user data here if needed
-	
+
 
 	m_GLContext = SDL_GL_CreateContext(m_Window);
 	if (!m_GLContext) {
@@ -218,7 +219,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 	SDL_GL_MakeCurrent(m_Window, m_GLContext);
 	SDL_GL_SetSwapInterval(m_Data.VSync ? 1 : 0);
 	SDL_SetWindowTitle(m_Window, m_Data.Title.c_str());
-	
+
 	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
 		KE_TAG_LOG_CRITICAL("WindowsWindow", "Failed to initialize GLAD.");
 		return;
@@ -237,7 +238,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		// Your resize logic here
 		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));
 		WindowData& data = win->m_Data;
-		KE_TAG_LOG_DEBUG("WindowsWindow", "Pulled Window With Title {}", data.Title);
+	
 		data.Width = width;
 		data.Height = height;
 		WindowResizeEvent resizeEvent(width, height);
@@ -245,21 +246,20 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		});
 
 	SetWindowCloseCallback(m_Window, [](SDL_Window* window) {
-	
+
 		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));
 		if (win) {
 			WindowCloseEvent closeEvent;
 			win->m_Data.EventCallback(closeEvent);
 			KE_TAG_LOG_DEBUG("WindowsWindow", "Window close event triggered for {}", win->m_Data.Title);
 		}
-		
+
 		});
 
-	SetKeyCallback(m_Window, [](SDL_Window* window, const SDL_Event& e, int KeyCode,int	ScanCode,int Action,int Mods) {
+	SetKeyCallback(m_Window, [](SDL_Window* window, const SDL_Event& e, int KeyCode, int	ScanCode, int Action, int Mods) {
 		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));
 		WindowData& data = win->m_Data;
-	
-		KE_TAG_LOG_DEBUG("WindowsWindow", "Key event in window {}", data.Title);
+
 		switch (Action) {
 		case SDL_EVENT_KEY_DOWN:
 		{
@@ -270,7 +270,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		}
 		case SDL_EVENT_KEY_UP:
 		{
-			KeyReleasedEvent keyReleasedEvent(KeyCode,ScanCode,Mods);
+			KeyReleasedEvent keyReleasedEvent(KeyCode, ScanCode, Mods);
 			data.EventCallback(keyReleasedEvent);
 			break;
 		}
@@ -279,11 +279,11 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		}
 		});
 
-	SetMouseButtonCallback(m_Window, [](SDL_Window*Window, const SDL_Event& e, int Button, int Action, int Mods) {
+	SetMouseButtonCallback(m_Window, [](SDL_Window* Window, const SDL_Event& e, int Button, int Action, int Mods) {
 
 		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(Window));
 		WindowData& data = win->m_Data;
-		KE_TAG_LOG_DEBUG("WindowsWindow", "Mouse button event in window {}", data.Title);
+		
 		switch (Action) {
 
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
@@ -303,26 +303,26 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		}
 		});
 	SetMouseScrolledCallback(m_Window, [](SDL_Window* window, const SDL_Event& e, double xOffset, double yOffset) {
-		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));	
+		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));
 		WindowData& data = win->m_Data;
 		MouseScrolledEvent Event((float)xOffset, (float)yOffset);
 		data.EventCallback(Event);
-		KE_TAG_LOG_INFO("WindowsWindow", "Mouse scrolled by ({}, {}) in window {}", xOffset, yOffset, data.Title);
+	
 		});
 
 	SetCursorPosCallback(m_Window, [](SDL_Window* window, double x, double y) {
 		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));
 		WindowData& data = win->m_Data;
 		MouseMovedEvent mouseMovedEvent((float)x, (float)y);
-		KE_TAG_LOG_INFO("WindowsWindow", "Mouse moved to ({}, {}) in window {}", x, y, data.Title);
+		
 		data.EventCallback(mouseMovedEvent);
 		});
-	SetKeyTypedCallback(m_Window, [](SDL_Window* window,unsigned int CharacterCode) {
+	SetKeyTypedCallback(m_Window, [](SDL_Window* window, unsigned int CharacterCode) {
 		WindowsWindow* win = GetWindowByTitle(SDL_GetWindowTitle(window));
 		WindowData& data = win->m_Data;
 		KeyTypedEvent keyTypedEvent(CharacterCode);
 		data.EventCallback(keyTypedEvent);
-		KE_TAG_LOG_DEBUG("WindowsWindow", "Key typed event in window {}", data.Title);
+		
 		});
 
 }
@@ -340,5 +340,3 @@ void KnightEngine::WindowsWindow::Shutdown()
 	s_SDLInitialized = false;
 	KE_TAG_LOG_INFO("WindowsWindow", "Window {} destroyed", m_Data.Title);
 }
-
-

@@ -133,7 +133,7 @@ bool KnightEngine::ImguiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent
    // ImGui::GetIO().MouseDrawCursor = true;
 	//io.MouseDown[event.GetButton()] = true; // Set the mouse button state to pressed
 	io.AddMouseButtonEvent(SDL_MOUSE_TO_IMGUI(event.GetButton()), true); // Add mouse button event
-	KE_TAG_LOG_DEBUG("ImguiLayer", "Mouse Button Pressed: {}", event.GetButton());
+
     
 	return false;
 }
@@ -144,7 +144,7 @@ bool KnightEngine::ImguiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEve
    // ImGui::GetIO().MouseDrawCursor = true;
 	//io.MouseDown[event.GetButton()] = false; // Set the mouse button state to released
     io.AddMouseButtonEvent(SDL_MOUSE_TO_IMGUI(event.GetButton()), false);; // Add mouse button event
-	KE_TAG_LOG_DEBUG("ImguiLayer", "Mouse Button Released: {}", event.GetButton());
+	
 	return false;
 }
 
@@ -155,7 +155,7 @@ bool KnightEngine::ImguiLayer::OnMouseMovedEvent(MouseMovedEvent& event)
 	io.MousePos = ImVec2((float)event.GetX(), (float)event.GetY());
 	//io.AddMousePosEvent(event.GetX(), event.GetY());
 	io.AddMousePosEvent(io.MousePos.x, io.MousePos.y); // Add mouse position event
-	KE_TAG_LOG_DEBUG("ImguiLayer", "Mouse Moved: ({}, {})", event.GetX(), event.GetY());
+	
 
 	return false;
 }
@@ -168,9 +168,6 @@ bool KnightEngine::ImguiLayer::OnMouseScrolledEvent(MouseScrolledEvent& event)
 	//io.MouseWheelH += event.GetXOffset(); // Accumulate horizontal scroll
 	io.AddMouseWheelEvent(event.GetXOffset(), event.GetYOffset());
 	
-
-	KE_TAG_LOG_DEBUG("ImguiLayer", "Mouse Scrolled: ({}, {})", event.GetXOffset(), event.GetYOffset());
-
 	return false;
 }
 
@@ -183,7 +180,6 @@ bool KnightEngine::ImguiLayer::OnKeyPressedEvent(KeyPressedEvent& event)
 	io.KeyAlt = io.KeyAlt || event.GetMod(); // Update Alt state
 	io.KeySuper = io.KeySuper || event.GetMod(); // Update Super state
 
-    KE_TAG_LOG_DEBUG("ImguiLayer", "Key Pressed: {} (ScanCode: {})", event.GetKeyCode(), event.GetScanCode());
    
     
     return false;
@@ -193,8 +189,7 @@ bool KnightEngine::ImguiLayer::OnKeyReleasedEvent(KeyReleasedEvent& event)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.AddKeyEvent(SDL_TO_ImGuiKey(event.GetKeyCode(), event.GetScanCode()), false); // Add key pressed event
-    KE_TAG_LOG_DEBUG("ImguiLayer", "Key Released: {} (ScanCode: {})", event.GetKeyCode(), event.GetScanCode());
-   
+ 
    
     
     return false;
@@ -215,7 +210,6 @@ bool KnightEngine::ImguiLayer::OnKeyTypedEvent(KeyTypedEvent& event)
     if(k>0&&k<0x10000)
     io.AddInputCharacter((unsigned int)event.GetCharacterCode());// Add character input event
 	
-    KE_TAG_LOG_DEBUG("ImguiLayer", "Key Typed: {} ", event.GetCharacterCode());
     return false;
 }
 

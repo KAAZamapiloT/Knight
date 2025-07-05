@@ -13,6 +13,7 @@
 #include"Layer/LayerStack.hpp"
 #include"input/InputManager.h"
 #include"UI/ImguiLayer.hpp"
+#include"shaderComp.h"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -33,7 +34,8 @@ namespace KnightEngine {
     private:
         int m_width = 1240;
         int m_height = 720;
-        
+		unsigned int m_VertexBuffer, m_VertexArray, m_IndexBuffer;
+		std::unique_ptr<ShaderComp> m_Shader; ///< The shader used for rendering.
         void Shutdown();
         bool m_Running = true;
         const char* t = "TestWindow";
@@ -41,7 +43,6 @@ namespace KnightEngine {
 		std::unique_ptr<Window> M_Window = nullptr;
 		LayerStack m_LayerStack; ///< The stack of layers in the application.
 		ImguiLayer* m_ImGuiLayer; ///< The ImGui layer for rendering the UI.
-		
         static Application* sInstance; ///< Singleton instance of the application.
     };
 

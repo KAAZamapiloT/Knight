@@ -3,6 +3,7 @@
 #include"glad/glad.h"
 #include"SDL3/SDL.h"
 #include"KnightEnginepch.h"
+#include"Rendering/GraphicsContext.h"
 namespace KnightEngine
 {
 	class KNIGHT_ENGINE_API WindowsWindow :public Window
@@ -16,7 +17,7 @@ namespace KnightEngine
 			EventCallbackFn EventCallback;
 		};
 	public:
-	//	using EventCallbackFn = std::function<void(Event&)>;
+		//	using EventCallbackFn = std::function<void(Event&)>;
 		WindowsWindow(const WindowProps& props);
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeight() const override { return m_Data.Height; }
@@ -35,9 +36,9 @@ namespace KnightEngine
 		SDL_GLContext m_GLContext = nullptr;
 		void Init(const WindowProps& props);
 		void Shutdown();
-		
+		GraphicsContext* m_Context;
 		WindowData m_Data;
-	
+
 
 
 	public:
@@ -55,15 +56,13 @@ namespace KnightEngine
 		SDLMouseScrollCallback     m_MouseScrollCallback;
 		SDLCursorPosCallback       m_CursorPosCallback;
 		KeyTypedCallback           m_KeyTypedCallback;
-		void SetWindowSizeCallback(SDL_Window* window,SDLWindowSizeCallback cb) { m_WindowSizeCallback = cb; }
-		void SetWindowCloseCallback(SDL_Window* window,SDLWindowCloseCallback cb) { m_WindowCloseCallback = cb; }
-		void SetKeyCallback(SDL_Window* window,SDLKeyCallback cb) { m_KeyCallback = cb; }
-		void SetMouseButtonCallback(SDL_Window* window,SDLMouseButtonCallback cb) { m_MouseButtonCallback = cb; }
-		void SetMouseScrolledCallback(SDL_Window* window,SDLMouseScrollCallback cb) { m_MouseScrollCallback = cb; }
-		void SetCursorPosCallback(SDL_Window* window,SDLCursorPosCallback cb) { m_CursorPosCallback = cb; }
+		void SetWindowSizeCallback(SDL_Window* window, SDLWindowSizeCallback cb) { m_WindowSizeCallback = cb; }
+		void SetWindowCloseCallback(SDL_Window* window, SDLWindowCloseCallback cb) { m_WindowCloseCallback = cb; }
+		void SetKeyCallback(SDL_Window* window, SDLKeyCallback cb) { m_KeyCallback = cb; }
+		void SetMouseButtonCallback(SDL_Window* window, SDLMouseButtonCallback cb) { m_MouseButtonCallback = cb; }
+		void SetMouseScrolledCallback(SDL_Window* window, SDLMouseScrollCallback cb) { m_MouseScrollCallback = cb; }
+		void SetCursorPosCallback(SDL_Window* window, SDLCursorPosCallback cb) { m_CursorPosCallback = cb; }
 		void SetKeyTypedCallback(SDL_Window* window, KeyTypedCallback cb) { m_KeyTypedCallback = cb; }
 	};
 
-	}
-
-
+}

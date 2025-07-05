@@ -10,7 +10,7 @@ namespace Knight
 	class KNIGHT_ENGINE_API RenderQueue
 	{
 	public:
-	
+
 		void AddCommand(const RenderCommand& command);
 		void ClearCommands();
 
@@ -20,4 +20,3 @@ namespace Knight
 
 	};
 }
-
