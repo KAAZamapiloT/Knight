@@ -16,7 +16,8 @@ namespace Knight{
 		void EndFrame();
 
 		void ClearCommand();
-		
+		static inline GraphicsAPI* GetAPI() { return s_API.get(); }
+		static inline RenderQueue* GetRenderQueue() { return s_RenderQueue.get(); }
 	private:
 		
 	static  std::unique_ptr<GraphicsAPI> s_API;

@@ -7,8 +7,9 @@ class OpenGLIndexBuffer : public IndexBuffer
 {
 public:
 	OpenGLIndexBuffer(uint32_t* indices,uint32_t size):m_size(size) {
-		glGenBuffers(1, &m_RendererID);
+		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+		
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(int), indices, GL_STATIC_DRAW);
 	}
 
@@ -16,8 +17,8 @@ public:
 	void Unbind() const override;
 
 	uint32_t GetSize() const;
-	static std::shared_ptr<IndexBuffer>  Create(uint32_t*indices,uint32_t size) {
-		return std::make_shared<OpenGLIndexBuffer>(indices,size);
+	static IndexBuffer*  Create(uint32_t*indices,uint32_t size) {
+		return new OpenGLIndexBuffer(indices,size);
 	}
 private:
 	uint32_t m_RendererID;

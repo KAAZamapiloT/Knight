@@ -14,6 +14,7 @@
 #include"input/InputManager.h"
 #include"UI/ImguiLayer.hpp"
 #include"shaderComp.h"
+#include"Graphics/VertexBuffer.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -34,13 +35,16 @@ namespace KnightEngine {
     private:
         int m_width = 1240;
         int m_height = 720;
-		unsigned int m_VertexBuffer, m_VertexArray, m_IndexBuffer;
+		unsigned int  m_VertexArray;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer; ///< Index buffer for rendering.
+		std::unique_ptr<VertexBuffer> m_VertexBuffer; ///< Vertex buffer for rendering.
 		std::unique_ptr<ShaderComp> m_Shader; ///< The shader used for rendering.
         void Shutdown();
         bool m_Running = true;
         const char* t = "TestWindow";
 		Knight::Renderer* m_Renderer = nullptr;
 		std::unique_ptr<Window> M_Window = nullptr;
+
 		LayerStack m_LayerStack; ///< The stack of layers in the application.
 		ImguiLayer* m_ImGuiLayer; ///< The ImGui layer for rendering the UI.
         static Application* sInstance; ///< Singleton instance of the application.

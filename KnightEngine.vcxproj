@@ -107,10 +107,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CONSOLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)KnightEngine\external\glm;$(ProjectDir)\src;$(ProjectDir)\external\imgui-1.91.9b\backends;$(ProjectDir)\external\include;$(ProjectDir)\external\imgui-1.91.9b;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\external\imgui\backends;$(ProjectDir)\external\imgui;$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)KnightEngine\external\glm;$(ProjectDir)\src;$(ProjectDir)\external\include;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8
  %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeaderFile>stdafx.h ,KnightEnginepch</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +141,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="external\imgui\backends\imgui_impl_sdl3.cpp" />
+    <ClCompile Include="external\imgui\imgui.cpp" />
+    <ClCompile Include="external\imgui\imgui_demo.cpp" />
+    <ClCompile Include="external\imgui\imgui_draw.cpp" />
+    <ClCompile Include="external\imgui\imgui_tables.cpp" />
+    <ClCompile Include="external\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="shaders\shaderComp.cpp" />
+    <ClCompile Include="src\OpenGl\OpenGLContext.cpp" />
+    <ClCompile Include="src\Rendering\GraphicsContext.cpp" />
     <ClCompile Include="src\Layer\LayerStack.cpp" />
     <ClCompile Include="src\Layer\Layer.cpp" />
     <ClCompile Include="src\Event\MouseEvent.cpp" />
@@ -149,7 +160,6 @@
     <ClCompile Include="src\KnightEnginepch.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
-    <ClCompile Include="src\OpenGl\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLIndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLVertexBuffer.cpp" />
@@ -158,13 +168,6 @@
     <ClCompile Include="src\Graphics\GraphicsFactory.cpp" />
     <ClCompile Include="src\OpenGl\OpenGlTexture.cpp" />
     <ClCompile Include="src\Graphics\Camera.cpp" />
-    <ClCompile Include="external\imgui-1.91.9b\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="external\imgui-1.91.9b\backends\imgui_impl_sdl3.cpp" />
-    <ClCompile Include="external\imgui-1.91.9b\imgui.cpp" />
-    <ClCompile Include="external\imgui-1.91.9b\imgui_demo.cpp" />
-    <ClCompile Include="external\imgui-1.91.9b\imgui_draw.cpp" />
-    <ClCompile Include="external\imgui-1.91.9b\imgui_tables.cpp" />
-    <ClCompile Include="external\imgui-1.91.9b\imgui_widgets.cpp" />
     <ClCompile Include="external\src\glad.c" />
     <ClCompile Include="src\Graphics\Material.cpp" />
     <ClCompile Include="src\Graphics\Mesh.cpp" />
@@ -186,6 +189,15 @@
     <ClCompile Include="src\Platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="external\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="external\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="external\imgui\backends\imgui_impl_sdl3.h" />
+    <ClInclude Include="external\imgui\imconfig.h" />
+    <ClInclude Include="external\imgui\imgui.h" />
+    <ClInclude Include="external\imgui\imgui_internal.h" />
+    <ClInclude Include="shaders\shaderComp.h" />
+    <ClInclude Include="src\OpenGl\OpenGLContext.hpp" />
+    <ClInclude Include="src\Rendering\GraphicsContext.h" />
     <ClInclude Include="src\Layer\LayerStack.hpp" />
     <ClInclude Include="src\Layer\Layer.hpp" />
     <ClInclude Include="src\Event\MouseEvent.hpp" />
@@ -194,7 +206,6 @@
     <ClInclude Include="src\Event\ApplicationEvents.hpp" />
     <ClInclude Include="src\Event\Event.hpp" />
     <ClInclude Include="src\KnightEnginepch.h" />
-    <ClInclude Include="src\OpenGl\imgui_OpenGL_Renderer.h" />
     <ClInclude Include="src\OpenGl\OpenGLIndexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexArray.hpp" />
@@ -237,10 +248,6 @@
     <ClInclude Include="external\glm-1.0.1\glm\vec3.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\vec4.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\vector_relational.hpp" />
-    <ClInclude Include="external\imgui-1.91.9b\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="external\imgui-1.91.9b\backends\imgui_impl_sdl3.h" />
-    <ClInclude Include="external\imgui-1.91.9b\imconfig.h" />
-    <ClInclude Include="external\imgui-1.91.9b\imgui.h" />
     <ClInclude Include="external\include\glad\glad.h" />
     <ClInclude Include="external\include\KHR\khrplatform.h" />
     <ClInclude Include="external\SDL3-3.2.14\include\SDL3\SDL.h" />

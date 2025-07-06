@@ -5,7 +5,8 @@
 #include "Core/Logger.hpp"
 #include"Graphics/Renderer.hpp"
 #include"utils/Math.hpp"
-
+#include"OpenGl/OpenGLVertexBuffer.hpp"
+#include"OpenGl/OpenGLIndexBuffer.hpp"
 //#include"Engine.hpp"
 #include"KeyCodes.h"
 KnightEngine::Application* KnightEngine::Application::sInstance = nullptr;
@@ -100,24 +101,20 @@ namespace KnightEngine {
         glGenVertexArrays(1, &m_VertexArray);
         glBindVertexArray(m_VertexArray);
 
-        glGenBuffers(1, &m_VertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-
         float Vertices[] = {
             -0.5f, -0.5f, 0.0f,  // Bottom left
              0.5f, -0.5f, 0.0f,  // Bottom right
              0.0f,  0.5f, 0.0f   // Top center
         };
-
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+		m_VertexBuffer = std::make_unique<OpenGLVertexBuffer>(Vertices, sizeof(Vertices));
+		m_VertexBuffer->Bind();
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
-        glGenBuffers(1, &m_IndexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
-
+		
         uint32_t indices[] = { 0, 1, 2 };
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        m_IndexBuffer = std::make_unique<OpenGLIndexBuffer>(indices,sizeof(indices));
+		m_IndexBuffer->Bind();
+      
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
