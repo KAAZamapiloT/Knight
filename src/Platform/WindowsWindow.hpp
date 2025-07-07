@@ -3,7 +3,7 @@
 #include"glad/glad.h"
 #include"SDL3/SDL.h"
 #include"KnightEnginepch.h"
-#include"Rendering/GraphicsContext.h"
+#include"Graphics/GraphicsContext.hpp"
 namespace KnightEngine
 {
 	class KNIGHT_ENGINE_API WindowsWindow :public Window

@@ -18,11 +18,14 @@ public:
 	}
 	void Bind() const override;
 	void Unbind() const  override;
+	virtual void SetLayout(const BufferLayout& layout) override;
+
 	static VertexBuffer* Create(float* data, uint32_t size) {
 		return new OpenGLVertexBuffer(data, size);
 	}
 private:
 	uint32_t m_RendererID;
 	uint32_t m_Size = 0;
+	BufferLayout m_Layout; ///< The layout of the vertex buffer.
 };
 

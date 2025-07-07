@@ -1,8 +1,9 @@
 #pragma once
-#include "Rendering/GraphicsContext.h"
+
 #include "KnightEnginepch.h"
 #include "SDL3/SDL.h"
 #include"glad/glad.h"
+#include "Graphics/GraphicsContext.hpp"
 namespace KnightEngine
 {
 	class KNIGHT_ENGINE_API OpenGLContext :public GraphicsContext

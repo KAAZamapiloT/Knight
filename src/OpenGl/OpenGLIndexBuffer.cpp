@@ -2,6 +2,7 @@
 
 void OpenGLIndexBuffer::Bind() const 
 {
+	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 }
 

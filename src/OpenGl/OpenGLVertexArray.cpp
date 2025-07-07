@@ -6,7 +6,7 @@ OpenGLVertexArray::OpenGLVertexArray()
 	: m_RendererID(0)
 {
 	// Initialize OpenGL Vertex Array Object (VAO)
-	auto vao = Create();
+	
 	glGenVertexArrays(1, &m_RendererID);
 	
 }
@@ -53,7 +53,3 @@ const std::shared_ptr<IndexBuffer>& OpenGLVertexArray::GetIndexBuffer() const
 	return m_IndexBuffer;
 }
 
-std::shared_ptr<VertexArray> OpenGLVertexArray::Create()
-{
-	return std::make_shared<OpenGLVertexArray>();
-}

@@ -7,6 +7,7 @@
 #include"utils/Math.hpp"
 #include"OpenGl/OpenGLVertexBuffer.hpp"
 #include"OpenGl/OpenGLIndexBuffer.hpp"
+#include"Graphics/BufferLayout.hpp"
 //#include"Engine.hpp"
 #include"KeyCodes.h"
 KnightEngine::Application* KnightEngine::Application::sInstance = nullptr;
@@ -110,7 +111,14 @@ namespace KnightEngine {
 		m_VertexBuffer->Bind();
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		
+     BufferLayout layout = {
+    { EDataType::Float3, "a_Position" },
+    { EDataType::Float4, "a_Color" },
+    { EDataType::Float2, "a_TexCoord",true },
+         {EDataType::Float3,"a_Pos"}
+        };
+	 m_VertexBuffer->SetLayout(layout);
+      
         uint32_t indices[] = { 0, 1, 2 };
         m_IndexBuffer = std::make_unique<OpenGLIndexBuffer>(indices,sizeof(indices));
 		m_IndexBuffer->Bind();
@@ -134,7 +142,7 @@ vPosition = aPos; // Pass the vertex position to the fragment shader
 out vec4 FragColor;
 in vec3 vPosition; // Receive the vertex position from the vertex shader
 void main() {
-    FragColor = vec4(vPosition+0.25, 1.0);  // Solid red
+    FragColor = vec4(vPosition+0.5, 1.0);  
 }
 )";
 		m_Shader = std::make_unique<ShaderComp>(Vertex, Fragment);
@@ -169,7 +177,7 @@ void main() {
             
             glBindVertexArray(m_VertexArray);
             m_Shader->Bind();
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+            glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetSize(), GL_UNSIGNED_INT, nullptr);
 
             // polling for layer events
             for (Layer* layer : m_LayerStack)

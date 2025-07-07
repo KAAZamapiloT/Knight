@@ -10,13 +10,13 @@ public:
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 		
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(int), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
 	void Bind() const override;
 	void Unbind() const override;
 
-	uint32_t GetSize() const;
+	uint32_t GetSize() const override;
 	static IndexBuffer*  Create(uint32_t*indices,uint32_t size) {
 		return new OpenGLIndexBuffer(indices,size);
 	}

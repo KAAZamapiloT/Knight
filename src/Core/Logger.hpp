@@ -16,7 +16,8 @@ enum LogLevel
 	CRITICAL, ///< Critical errors that cause the application to crash or become unusable.
 	INFO,     ///< Informational messages that provide general information about the application's state.
 	WARN,     ///< Warnings that indicate potential issues but do not stop the application from running.
-	DEBUG
+	DEBUG,
+    TRACE
   
 
 };
@@ -53,6 +54,9 @@ public:
         case DEBUG:
             spdlog::debug(format, std::forward<Args>(args)...);
             break;
+		case TRACE:
+			spdlog::trace(format, std::forward<Args>(args)...);
+			break;
         default:
             spdlog::info(format, std::forward<Args>(args)...);
             break;
@@ -109,11 +113,12 @@ public:
 #define KE_LOG_WARN(...)     Logger::Log(WARN, __VA_ARGS__)
 #define KE_LOG_DEBUG(...)    Logger::Log(DEBUG, __VA_ARGS__)
 #define KE_LOG_CRITICAL(...) Logger::Log(CRITICAL, __VA_ARGS__)
-
+#define KE_LOG_TRACE(...)   Logger::Log(TRACE, __VA_ARGS__)
 #define KE_TAG_LOG_INFO(tag, ...)    Logger::C_LOG(tag, INFO, __VA_ARGS__)
 #define KE_TAG_LOG_WARN(tag, ...)    Logger::C_LOG(tag, WARN, __VA_ARGS__)
 #define KE_TAG_LOG_DEBUG(tag, ...)   Logger::C_LOG(tag, DEBUG, __VA_ARGS__)
 #define KE_TAG_LOG_CRITICAL(tag, ...) Logger::C_LOG(tag, CRITICAL, __VA_ARGS__)
+#define KE_TAG_LOG_TRACE(tag, ...)   Logger::C_LOG(tag, TRACE, __VA_ARGS__)
 #else
     // No-ops in ship build
 #define KE_LOG_INFO(...)     Logger::NLog(INFO, __VA_ARGS__)

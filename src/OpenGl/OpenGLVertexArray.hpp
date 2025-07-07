@@ -3,7 +3,7 @@
 #include "Graphics/VertexArray.hpp"
 #include "Graphics/VertexBuffer.hpp"       
 #include "Graphics/IndexBuffer.hpp"  
-#include "memory"
+#include "KnightEnginepch.h"
 class KNIGHT_ENGINE_API OpenGLVertexArray :public VertexArray
 {
 public:
@@ -21,7 +21,10 @@ public:
 	const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const override;
 
 	const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const override;
-	static std::shared_ptr<VertexArray> Create() ;
+
+	static VertexArray* Create() {
+		return new OpenGLVertexArray();
+	}
 
 private:
 
