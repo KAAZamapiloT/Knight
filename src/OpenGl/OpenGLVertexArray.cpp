@@ -30,8 +30,13 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& ver
 	vertexBuffer->Bind();   // Correct: call through shared_ptr
 
 	// NOTE: you’ll want a real layout system.  For now:
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
+	for (auto& ele : vertexBuffer->GetLayout())
+	{
+		glEnableVertexAttribArray(ele.GetIndex());
+		glVertexAttribPointer(ele.GetIndex(), ele.GetComponentCount(), ShaderDataType(ele.Type),
+			(ele.Normalized) ? GL_TRUE : GL_FALSE, vertexBuffer->GetLayout().GetStride(), (const void*)ele.Offset);
+	}
+	
 
 	m_VertexBuffers.push_back(vertexBuffer);
 }

@@ -23,6 +23,7 @@ public:
 	static VertexBuffer* Create(float* data, uint32_t size) {
 		return new OpenGLVertexBuffer(data, size);
 	}
+	const BufferLayout& GetLayout() const override { return m_Layout; }
 private:
 	uint32_t m_RendererID;
 	uint32_t m_Size = 0;

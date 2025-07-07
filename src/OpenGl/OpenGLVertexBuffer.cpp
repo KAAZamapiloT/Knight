@@ -14,10 +14,4 @@ void OpenGLVertexBuffer::Unbind() const
 void OpenGLVertexBuffer::SetLayout(const BufferLayout& layout)
 {
 	m_Layout = layout;
-	uint32_t offset = 0;
-	for (const auto& element : m_Layout.GetElements())
-	{
-	
-		offset += element.Size;
-	}
 }

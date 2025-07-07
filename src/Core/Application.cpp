@@ -15,7 +15,36 @@ KnightEngine::Application* KnightEngine::Application::sInstance = nullptr;
 namespace KnightEngine {
 #define BIND_EVENT_FN(X) std::bind(&X, this, std::placeholders::_1)
 
-    
+    static GLenum ShaderDataType(EDataType E) {
+        switch (E) {
+        case EDataType::Float:
+        case EDataType::Float2:
+        case EDataType::Float3:
+        case EDataType::Float4:
+            return GL_FLOAT;
+        case EDataType::Int:
+        case EDataType::Int2:
+        case EDataType::Int3:
+        case EDataType::Int4:
+            return GL_INT;
+        case EDataType::UInt:
+            return GL_UNSIGNED_INT;
+        case EDataType::Bool:
+            return GL_BOOL;
+        case EDataType::Mat2:
+        case EDataType::Mat3:
+        case EDataType::Mat4:
+            return GL_FLOAT;
+        default:
+            return GL_FLOAT;
+        }
+    }
+    void CheckGLError(const std::string& operation) {
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            KE_TAG_LOG_CRITICAL("OpenGL", "Error after {}: {}", operation, error);
+        }
+    }
     class ExampleLayer :public  Layer {
     public:
         ExampleLayer() = default;
@@ -63,19 +92,20 @@ namespace KnightEngine {
     void InitLogger()
     {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        console_sink->set_level(spdlog::level::debug);
+        console_sink->set_level(spdlog::level::trace);
 
         auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("KnightEngine.log", true);
-        file_sink->set_level(spdlog::level::debug);
+        file_sink->set_level(spdlog::level::trace);
 
         std::vector<spdlog::sink_ptr> sinks{ console_sink, file_sink };
         auto logger = std::make_shared<spdlog::logger>("KnightLogger", sinks.begin(), sinks.end());
-        logger->set_level(spdlog::level::debug);
-        logger->flush_on(spdlog::level::debug);
+        logger->set_level(spdlog::level::trace);
+        logger->flush_on(spdlog::level::trace);
 
         spdlog::set_default_logger(logger);
-        spdlog::set_level(spdlog::level::debug);
+        spdlog::set_level(spdlog::level::trace);
         spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v");
+		KE_TAG_LOG_TRACE("LOGGER INIT", "Logger initialized successfully TO TRACE");
     }
 
     Application::Application()
@@ -99,39 +129,51 @@ namespace KnightEngine {
         }
         PushOverlay(m_ImGuiLayer);
         PushOverlay(new  ExampleLayer());
-        glGenVertexArrays(1, &m_VertexArray);
+
+       glGenVertexArrays(1, &m_VertexArray);
+        CheckGLError("Gen VAO");
         glBindVertexArray(m_VertexArray);
+        CheckGLError("Bind VAO");
 
         float Vertices[] = {
-            -0.5f, -0.5f, 0.0f,  // Bottom left
-             0.5f, -0.5f, 0.0f,  // Bottom right
-             0.0f,  0.5f, 0.0f   // Top center
+            -0.5f, -0.5f, 0.0f, 2.0,0.4,0.3,1.0 ,
+             0.5f, -0.5f, 0.0f, 0.0,6.0,0.3,1.0 ,
+             0.0f,  0.5f, 0.0f ,0.0,0.0,7.0,1.0 
         };
 		m_VertexBuffer = std::make_unique<OpenGLVertexBuffer>(Vertices, sizeof(Vertices));
 		m_VertexBuffer->Bind();
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-     BufferLayout layout = {
-    { EDataType::Float3, "a_Position" },
-    { EDataType::Float4, "a_Color" },
-    { EDataType::Float2, "a_TexCoord",true },
-         {EDataType::Float3,"a_Pos"}
-        };
-	 m_VertexBuffer->SetLayout(layout);
-      
+        {
+            BufferLayout layout = {
+                {EDataType::Float3, "aPos"},
+                {EDataType::Float4,"aColor", true} // Example of adding a color attribute
+            };
+
+            m_VertexBuffer->SetLayout(layout);
+        }
+     uint32_t index = 0;
+
+     for (const auto& ele : m_VertexBuffer->GetLayout()) {
+         glEnableVertexAttribArray(index);
+         glVertexAttribPointer(index, ele.GetComponentCount(),ShaderDataType(ele.Type),
+         (ele.Normalized)?GL_TRUE:GL_FALSE, m_VertexBuffer->GetLayout().GetStride(), (const void*)ele.Offset);
+         index++;
+     }
         uint32_t indices[] = { 0, 1, 2 };
-        m_IndexBuffer = std::make_unique<OpenGLIndexBuffer>(indices,sizeof(indices));
+        uint32_t indexCount = sizeof(indices) / sizeof(indices[0]);
+        m_IndexBuffer = std::make_unique<OpenGLIndexBuffer>(indices,indexCount);
 		m_IndexBuffer->Bind();
-      
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
         std::string Vertex = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec4 aColor;  // Add this line
 out vec3 vPosition;
+out vec4 vColor;  // Add this line
 void main() {
 vPosition = aPos; // Pass the vertex position to the fragment shader
+vColor = aColor; // Pass the color to the fragment shader
     gl_Position = vec4(aPos, 1.0);
 }
 )";
@@ -141,15 +183,17 @@ vPosition = aPos; // Pass the vertex position to the fragment shader
 #version 330 core
 out vec4 FragColor;
 in vec3 vPosition; // Receive the vertex position from the vertex shader
+in vec4 vColor; // Receive the color from the vertex shader
 void main() {
-    FragColor = vec4(vPosition+0.5, 1.0);  
+    FragColor = vColor; // Use the color passed from the vertex shader 
+     //FragColor = vec4(vPosition * 0.5 + 0.5, 1.0); // Normalize position to [0, 1] range
 }
 )";
 		m_Shader = std::make_unique<ShaderComp>(Vertex, Fragment);
         if (!m_Shader) {  // Assuming you have this method
             KE_TAG_LOG_CRITICAL("ShaderComp","Shader compilation failed!");
         }
-    }
+}
 
     Application::~Application()
     {
@@ -171,14 +215,17 @@ void main() {
         KE_TAG_LOG_INFO("APPLICATION", "Running Application");
         while (m_Running)
         {
-
+           
             rc.ClearColor(0.1f, 0.0, 0.1, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             
             glBindVertexArray(m_VertexArray);
+            CheckGLError("Bind VAO");
             m_Shader->Bind();
+            CheckGLError("Bind Shader");
+           // KE_TAG_LOG_INFO("DEBUG", "About to draw {} indices", m_IndexBuffer->GetSize());
             glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetSize(), GL_UNSIGNED_INT, nullptr);
-
+            CheckGLError("Draw Elements");
             // polling for layer events
             for (Layer* layer : m_LayerStack)
             {
@@ -221,7 +268,7 @@ void main() {
         //dispatcher.Dispatch<AppUpdateEvent>(BIND_EVENT_FN(Application::OnAppUpdate));
         //dispatcher.Dispatch<AppRenderEvent>(BIND_EVENT_FN(Application::OnAppRender));
         // Log the event
-        KE_TAG_LOG_INFO("ApplicationEvent", "Event received: {}", E.ToString());
+       // KE_TAG_LOG_INFO("ApplicationEvent:OnEvent", "Event received: {}", E.ToString());
 
         // unwinnding of stack 
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
@@ -263,5 +310,7 @@ void main() {
         WindowCloseEvent();
 
     }
+
+ 
 
 } // namespace KnightEngine

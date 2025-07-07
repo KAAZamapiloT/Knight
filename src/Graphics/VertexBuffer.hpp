@@ -10,5 +10,5 @@ virtual	void Unbind()const =0;
 virtual ~VertexBuffer() {}
 static VertexBuffer* Create(float* data, uint32_t size);
 virtual void SetLayout(const BufferLayout& layout) = 0;
-
+virtual const BufferLayout& GetLayout() const= 0; // Added to retrieve the layout
 };

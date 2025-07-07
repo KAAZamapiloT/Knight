@@ -48,6 +48,8 @@ namespace KnightEngine {
 		LayerStack m_LayerStack; ///< The stack of layers in the application.
 		ImguiLayer* m_ImGuiLayer; ///< The ImGui layer for rendering the UI.
         static Application* sInstance; ///< Singleton instance of the application.
+
+        
     };
 
     // To be defined in client

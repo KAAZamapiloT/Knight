@@ -2,6 +2,7 @@
 #include "EngineApi.hpp"
 #include"Graphics/IndexBuffer.hpp"
 #include"Graphics/VertexBuffer.hpp"
+#include"Graphics/BufferLayout.hpp"
 #include<vector>
 #include<memory>
 class KNIGHT_ENGINE_API VertexArray

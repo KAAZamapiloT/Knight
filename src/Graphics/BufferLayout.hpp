@@ -44,7 +44,9 @@ constexpr uint32_t GetComponentCount(EDataType type) {
     case EDataType::Int4:    return 4;
     case EDataType::UInt:    return 1;
     case EDataType::Bool:    return 1;
-    default: return 0;
+    default: { 
+      
+        return 0; }
     }
 }
 
@@ -77,7 +79,10 @@ public:
         m_Elements.push_back(element);
         CalculateOffsetsAndStride(); // Recalculate offsets and stride
     }
-
+    inline  std::vector<Element>::iterator begin() { return m_Elements.begin(); }
+    inline  std::vector<Element>::iterator end() { return m_Elements.end(); }
+    inline  std::vector<Element>::const_iterator begin() const{ return m_Elements.begin(); }
+    inline  std::vector<Element>::const_iterator end() const{ return m_Elements.end(); } 
     const std::vector<Element>& GetElements() const { return m_Elements; }
     uint32_t GetStride() const { return m_Stride; }
   
