@@ -6,10 +6,10 @@
 	VertexBuffer* VertexBuffer::Create(float* data, uint32_t size)
 	{
 		switch (Knight::Renderer::GetAPI()->GetAPI()) {
-		case Knight::GraphicsAPI::API::OpenGL: {
+		case Knight::GraphicsAPI::API::Vulkan: {
 			return nullptr;
 		}
-		case Knight::GraphicsAPI::API::Vulkan: {
+		case Knight::GraphicsAPI::API::OpenGL: {
 			KE_TAG_LOG_CRITICAL("VertexBuffer", "Vulkan API not implemented yet");
 			return new OpenGLVertexBuffer(data, size);
 

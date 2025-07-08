@@ -8,6 +8,7 @@
 #include"OpenGl/OpenGLVertexBuffer.hpp"
 #include"OpenGl/OpenGLIndexBuffer.hpp"
 #include"Graphics/BufferLayout.hpp"
+#include"OpenGl/OpenGLVertexArray.hpp"
 //#include"Engine.hpp"
 #include"KeyCodes.h"
 KnightEngine::Application* KnightEngine::Application::sInstance = nullptr;
@@ -48,6 +49,9 @@ namespace KnightEngine {
     class ExampleLayer :public  Layer {
     public:
         ExampleLayer() = default;
+        ~ExampleLayer() {
+            KE_TAG_LOG_WARN("ExampleLayer","DESTROyes");
+        }
         void OnImGuiRender() override {
             static char inputBuf[2048] = "";
             static std::vector<std::string> terminalLog;
@@ -128,19 +132,15 @@ namespace KnightEngine {
             KE_TAG_LOG_CRITICAL("Application", "ImGui Layer is not created ");
         }
         PushOverlay(m_ImGuiLayer);
-        PushOverlay(new  ExampleLayer());
+       PushOverlay(new  ExampleLayer());
 
-       glGenVertexArrays(1, &m_VertexArray);
-        CheckGLError("Gen VAO");
-        glBindVertexArray(m_VertexArray);
-        CheckGLError("Bind VAO");
-
+		m_VertexArray = std::make_shared<OpenGLVertexArray>();
         float Vertices[] = {
             -0.5f, -0.5f, 0.0f, 2.0,0.4,0.3,1.0 ,
              0.5f, -0.5f, 0.0f, 0.0,6.0,0.3,1.0 ,
              0.0f,  0.5f, 0.0f ,0.0,0.0,7.0,1.0 
         };
-		m_VertexBuffer = std::make_unique<OpenGLVertexBuffer>(Vertices, sizeof(Vertices));
+		m_VertexBuffer = std::make_shared<OpenGLVertexBuffer>(Vertices, sizeof(Vertices));
 		m_VertexBuffer->Bind();
         {
             BufferLayout layout = {
@@ -150,18 +150,14 @@ namespace KnightEngine {
 
             m_VertexBuffer->SetLayout(layout);
         }
-     uint32_t index = 0;
-
-     for (const auto& ele : m_VertexBuffer->GetLayout()) {
-         glEnableVertexAttribArray(index);
-         glVertexAttribPointer(index, ele.GetComponentCount(),ShaderDataType(ele.Type),
-         (ele.Normalized)?GL_TRUE:GL_FALSE, m_VertexBuffer->GetLayout().GetStride(), (const void*)ele.Offset);
-         index++;
-     }
+        m_VertexArray->AddVertexBuffer(m_VertexBuffer);
         uint32_t indices[] = { 0, 1, 2 };
         uint32_t indexCount = sizeof(indices) / sizeof(indices[0]);
-        m_IndexBuffer = std::make_unique<OpenGLIndexBuffer>(indices,indexCount);
-		m_IndexBuffer->Bind();
+        m_IndexBuffer = std::make_shared<OpenGLIndexBuffer>(indices,indexCount);
+		//m_IndexBuffer->Bind();
+        m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+     //   m_VertexArray->GetIndexBuffer()->Bind();
+        CheckGLError("bind Index");
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
@@ -207,7 +203,7 @@ void main() {
        // Knight::Renderer R;
         Knight::RenderCommand rc;
        rc.Init();
-	   rc.SetViewport(0, 0, m_width, m_height);
+	   
 	  
 	   // Initialize the renderer
        // R.Init();
@@ -215,16 +211,17 @@ void main() {
         KE_TAG_LOG_INFO("APPLICATION", "Running Application");
         while (m_Running)
         {
-           
+            rc.SetViewport(0, 0, m_width, m_height);
             rc.ClearColor(0.1f, 0.0, 0.1, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
             
-            glBindVertexArray(m_VertexArray);
+            
+            //glBindVertexArray(m_VertexArray);
             CheckGLError("Bind VAO");
             m_Shader->Bind();
             CheckGLError("Bind Shader");
            // KE_TAG_LOG_INFO("DEBUG", "About to draw {} indices", m_IndexBuffer->GetSize());
-            glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetSize(), GL_UNSIGNED_INT, nullptr);
+            m_VertexArray->Bind();
+            glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetSize(), GL_UNSIGNED_INT, nullptr);
             CheckGLError("Draw Elements");
             // polling for layer events
             for (Layer* layer : m_LayerStack)
@@ -263,6 +260,7 @@ void main() {
     {
         //Handleing events here
         EventDispatcher dispatcher(E);
+        dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnwindowResize));
         dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
         //dispatcher.Dispatch<AppTickEvent>(BIND_EVENT_FN(Application::OnAppTick));
         //dispatcher.Dispatch<AppUpdateEvent>(BIND_EVENT_FN(Application::OnAppUpdate));
@@ -292,6 +290,14 @@ void main() {
     bool Application::OnWindowClose(WindowCloseEvent& E)
     {
         m_Running = false;
+        return true;
+    }
+
+    bool Application::OnwindowResize(WindowResizeEvent& E)
+    {
+        m_width = M_Window->GetWidth();
+        m_height = M_Window->GetHeight();
+        
         return true;
     }
 

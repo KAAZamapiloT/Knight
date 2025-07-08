@@ -15,6 +15,7 @@
 #include"UI/ImguiLayer.hpp"
 #include"shaderComp.h"
 #include"Graphics/VertexBuffer.hpp"
+#include"Graphics/VertexArray.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -24,6 +25,7 @@ namespace KnightEngine {
         virtual ~Application();
         void Run();
         bool OnWindowClose(WindowCloseEvent& E);
+        bool OnwindowResize(WindowResizeEvent& E);
         void OnEvent(Event& E);
         void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
@@ -35,10 +37,10 @@ namespace KnightEngine {
     private:
         int m_width = 1240;
         int m_height = 720;
-		unsigned int  m_VertexArray;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer; ///< Index buffer for rendering.
-		std::unique_ptr<VertexBuffer> m_VertexBuffer; ///< Vertex buffer for rendering.
-		std::unique_ptr<ShaderComp> m_Shader; ///< The shader used for rendering.
+		std::shared_ptr<VertexArray> m_VertexArray; ///< Vertex array for rendering.
+		std::shared_ptr<IndexBuffer> m_IndexBuffer; ///< Index buffer for rendering.
+		std::shared_ptr<VertexBuffer> m_VertexBuffer; ///< Vertex buffer for rendering.
+		std::shared_ptr<ShaderComp> m_Shader; ///< The shader used for rendering.
         void Shutdown();
         bool m_Running = true;
         const char* t = "TestWindow";

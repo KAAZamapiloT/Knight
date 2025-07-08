@@ -57,6 +57,7 @@ void KnightEngine::ImguiLayer::OnDetach()
 	ImGui_ImplOpenGL3_Shutdown();   // Shutdown OpenGL backend
 	ImGui_ImplSDL3_Shutdown();      // Shutdown SDL3 backend
 	ImGui::DestroyContext();        // Destroy ImGui context
+    KE_TAG_LOG_CRITICAL("IMGUILAYER", "DETEACHING IMGUI LAYER");
 }
 
 
@@ -65,8 +66,6 @@ void KnightEngine::ImguiLayer::OnImGuiRender()
 {
     static bool p = true;
     ImGui::ShowDemoWindow(&p);
- 
-
 }
 
 void KnightEngine::ImguiLayer::Begin()
@@ -180,8 +179,8 @@ bool KnightEngine::ImguiLayer::OnKeyPressedEvent(KeyPressedEvent& event)
 	io.KeyAlt = io.KeyAlt || event.GetMod(); // Update Alt state
 	io.KeySuper = io.KeySuper || event.GetMod(); // Update Super state
 
-   
-    
+    KE_TAG_LOG_DEBUG("IMGUILAYER:KEYPRESSED", "REGESTRING KEY PRESSES")
+        ;
     return false;
 }
 
