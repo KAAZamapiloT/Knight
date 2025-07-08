@@ -40,8 +40,10 @@ void OpenGLGraphicsAPI::Draw()
 
 }
 
-void OpenGLGraphicsAPI::DrawIndexed(unsigned int indexCount)
+void OpenGLGraphicsAPI::DrawIndexed(std::shared_ptr<VertexArray>VAO)
 {
+	VAO->Bind();
+	glDrawElements(GL_TRIANGLES, VAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 void OpenGLGraphicsAPI::DrawLine()

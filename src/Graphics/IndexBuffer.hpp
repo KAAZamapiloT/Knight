@@ -8,4 +8,5 @@ public:
 	virtual void Unbind()const = 0;
 	static IndexBuffer* Create(uint32_t* indices, uint32_t count);
 	virtual uint32_t GetSize() const = 0;
+	virtual inline uint32_t GetCount() = 0;
 };

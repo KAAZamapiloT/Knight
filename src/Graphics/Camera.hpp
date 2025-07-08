@@ -1,10 +1,44 @@
 #pragma once
 #include "EngineApi.hpp"
-class KNIGHT_ENGINE_API Camera
-{
-public:
+#include"utils/Math.hpp"
+namespace Knight {
+	enum class ECameraType{Orthographic,Prespective };
+	class KNIGHT_ENGINE_API Camera
+	{
+	public:
+		using MAT4x4 = glm::mat4x4;
+		using FQuat = glm::quat;
+		using vec3 = glm::vec3;
+		
+		void SetPosition(const vec3 position);
+		void SetUpVector(const vec3 vektor);
+		void SetForwardVector(const vec3 vektor);
+		void SetType(ECameraType Type);
+		void SetScale(float scale);
+		void resize(float aspect);
 
-private:
 
-};
+		inline ECameraType GetType() { return m_Type; }
+		inline vec3 GetPosition() { return m_Position; }
+		inline vec3 GetForwardVector() { return m_ForwardVector; }
+		inline vec3 GetUpVector() { return m_UpVector; }
+		MAT4x4  GetProjectionMatrix() { return ProjectionMatrix; }
+		MAT4x4  GetViewMatrix() { return ViewMatrix; }
+	private:
+		void UpdateView();
+		void UpdateProjection();
+		vec3 m_Position;
+		vec3 m_UpVector;
+		vec3 m_ForwardVector;
+		MAT4x4 ViewMatrix;
+		MAT4x4 ProjectionMatrix;
+		float FOV;
+		float Aspect;
+		float NearView;
+		float FarView;
+		float OrthoScale;
+		ECameraType m_Type;
+	};
+}
 
+//make them better mathematically i dont think this impl can work properly for now i need som better way to represent it 

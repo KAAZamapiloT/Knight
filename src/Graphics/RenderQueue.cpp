@@ -5,11 +5,11 @@ namespace Knight {
 
     void RenderQueue::AddCommand(const RenderCommand& command)
     {
-    
+        m_RenderCommands.push_back(command);
     }
 
     void RenderQueue::ClearCommands()
     {
-		m_RenderCommands->clear();
+       
     }
 }

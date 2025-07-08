@@ -1,9 +1,4 @@
 #pragma once
-#include <SDL3/SDL.h>
-#include"glad/glad.h"
-#include "imgui.h"
-#include "imgui_impl_opengl3.h"
-#include"imgui_impl_sdl3.h"
 #include<iostream>
 #include "EngineApi.hpp"
 #include"Platform/Window.hpp"
@@ -16,6 +11,7 @@
 #include"shaderComp.h"
 #include"Graphics/VertexBuffer.hpp"
 #include"Graphics/VertexArray.hpp"
+#include"Graphics/Renderer.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -38,9 +34,12 @@ namespace KnightEngine {
         int m_width = 1240;
         int m_height = 720;
 		std::shared_ptr<VertexArray> m_VertexArray; ///< Vertex array for rendering.
-		std::shared_ptr<IndexBuffer> m_IndexBuffer; ///< Index buffer for rendering.
-		std::shared_ptr<VertexBuffer> m_VertexBuffer; ///< Vertex buffer for rendering.
 		std::shared_ptr<ShaderComp> m_Shader; ///< The shader used for rendering.
+        std::shared_ptr<VertexArray> m_SquareVA;
+        std::shared_ptr<ShaderComp> m_Shader2;
+
+
+     
         void Shutdown();
         bool m_Running = true;
         const char* t = "TestWindow";

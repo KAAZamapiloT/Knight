@@ -8,4 +8,9 @@ namespace Knight {
 		s_API = CreateGraphicsAPI();
 	}
 
+	void RenderCommand::DrawIndexed(std::shared_ptr<VertexArray> VAO)
+	{
+		s_API->DrawIndexed(VAO);
+	}
+
 }

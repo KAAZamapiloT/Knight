@@ -1,5 +1,5 @@
 #include "Renderer.hpp"
-
+#include"RenderCommand.hpp"
 #include "Core/Logger.hpp"
 
 namespace Knight {
@@ -24,19 +24,24 @@ namespace Knight {
         s_API->Clear(0.1f, 0.1f, 0.1f, 1.0f);
     }
 
-    void Renderer::SubmitCommand(RenderCommand& q)
-    {
-        // CAN I ADD A CHECK HERE SO THAT USELESS COMMANDS DONT GET SUBMITTED
-        s_RenderQueue.get()->AddCommand(q);
-    }
+    
 
 
 
 
 
     void Renderer::EndFrame() {
-        // Placeholder – for post-processing, etc.
-        // HERE EVERY COMMAND IN RENDER QUEUE SHOULD END
+        for (auto& it : s_RenderQueue->GetCommands()) {
+            
+     }
+
+    }
+
+    void Renderer::SubmitCommand(const std::shared_ptr<VertexArray> VAO)
+    {
+        //TEMPRORY IMPL
+        std::unique_ptr<RenderCommand> r;
+       r->DrawIndexed(VAO);
 
     }
 

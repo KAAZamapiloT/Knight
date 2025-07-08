@@ -141,7 +141,7 @@ namespace KnightEngine {
              0.5f, -0.5f, 0.0f, 0.0,6.0,0.3,1.0 ,
              0.0f,  0.5f, 0.0f ,0.0,0.0,7.0,1.0 
         };
-        m_VertexBuffer = std::shared_ptr<VertexBuffer>(VertexBuffer::Create(Vertices,sizeof(Vertices)));
+        std::shared_ptr<VertexBuffer>m_VertexBuffer = std::shared_ptr<VertexBuffer>(VertexBuffer::Create(Vertices,sizeof(Vertices)));
         {
             BufferLayout layout = {
                 {EDataType::Float3, "aPos"},
@@ -153,12 +153,37 @@ namespace KnightEngine {
         m_VertexArray->AddVertexBuffer(m_VertexBuffer);
         uint32_t indices[] = { 0, 1, 2 };
         uint32_t indexCount = sizeof(indices) / sizeof(indices[0]);
-        m_IndexBuffer = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indices,indexCount));
+        std::shared_ptr<IndexBuffer>m_IndexBuffer = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indices,indexCount));
         m_VertexArray->SetIndexBuffer(m_IndexBuffer);
         CheckGLError("bind Index");
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
+        
+        //////////////////////////////////////////////
+        m_SquareVA.reset(VertexArray::Create());
+    
+    m_SquareVA->Bind();
+    float squareVert[] = {
+       -0.75f, -0.75f, 0.0f, 
+             0.75f, -0.75f, 0.0f, 
+             0.75f,  0.75f, 0.0f ,
+              -0.75f,  0.75f, 0.0f 
+    };
+    std::shared_ptr<VertexBuffer> squareVB = std::shared_ptr<VertexBuffer>(VertexBuffer::Create(squareVert,sizeof(squareVert)));
+   squareVB->SetLayout( {
+        {EDataType::Float3,"aPosition"},
+   
+    });
+    
+    m_SquareVA->AddVertexBuffer(squareVB);
 
+    uint32_t indexes[] = { 0,1,2,2,3,0 };
+    uint32_t indexSize = sizeof(indexes) / sizeof(indexes[0]);
+    std::shared_ptr<IndexBuffer> squareIB = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indexes,indexSize));
+    m_SquareVA->SetIndexBuffer(squareIB);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         std::string Vertex = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
@@ -168,7 +193,7 @@ out vec4 vColor;  // Add this line
 void main() {
 vPosition = aPos; // Pass the vertex position to the fragment shader
 vColor = aColor; // Pass the color to the fragment shader
-    gl_Position = vec4(aPos, 1.0);
+    gl_Position = vec4(aPos+0.1, 1.0);
 }
 )";
 
@@ -183,8 +208,29 @@ void main() {
      //FragColor = vec4(vPosition * 0.5 + 0.5, 1.0); // Normalize position to [0, 1] range
 }
 )";
-		m_Shader = std::make_unique<ShaderComp>(Vertex, Fragment);
-        if (!m_Shader) {  // Assuming you have this method
+
+        std::string Vertex2 = R"(
+#version 330 core
+layout(location = 0) in vec3 aPos;
+
+void main() {
+    gl_Position = vec4(aPos, 1.0);
+}
+)";
+
+        // Fragment Shader  
+        std::string Fragment2 = R"(
+#version 330 core
+out vec4 FragColor;
+
+void main() {
+  
+   FragColor = vec4(0.1,0.1,8.1, 0.2); // Normalize position to [0, 1] range
+}
+)";
+        m_Shader2 = std::make_shared<ShaderComp>(Vertex2, Fragment2);
+		m_Shader = std::make_shared<ShaderComp>(Vertex, Fragment);
+        if (!m_Shader||!m_Shader2) {  // Assuming you have this method
             KE_TAG_LOG_CRITICAL("ShaderComp","Shader compilation failed!");
         }
 }
@@ -201,7 +247,8 @@ void main() {
        // Knight::Renderer R;
         Knight::RenderCommand rc;
        rc.Init();
-	   
+       Knight::Renderer m_Renderer;
+       m_Renderer.Init();
 	  
 	   // Initialize the renderer
        // R.Init();
@@ -210,17 +257,17 @@ void main() {
         while (m_Running)
         {
             rc.ClearColor(0.1f, 0.0, 0.1, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            
-            //glBindVertexArray(m_VertexArray);
-            CheckGLError("Bind VAO");
             m_Shader->Bind();
-            CheckGLError("Bind Shader");
-           // KE_TAG_LOG_INFO("DEBUG", "About to draw {} indices", m_IndexBuffer->GetSize());
-            m_VertexArray->Bind();
-            glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetSize(), GL_UNSIGNED_INT, nullptr);
-            CheckGLError("Draw Elements");
+            m_Renderer.SubmitCommand(m_VertexArray);
+           // m_VertexArray->Bind();
+         //   glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+         
+            m_Shader2->Bind();
+            m_Renderer.SubmitCommand(m_SquareVA);
+         //   m_SquareVA->Bind();
+         //   glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+           
+         
             // polling for layer events
             for (Layer* layer : m_LayerStack)
             {

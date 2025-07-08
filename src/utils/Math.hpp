@@ -12,5 +12,9 @@
 // Quaternions for rotations
 #include <glm/gtc/quaternion.hpp>
 
-
+struct Transform {
+	glm::vec3 Location;
+	glm::vec3 Roataion;
+	glm::vec3 Scale;
+};
 

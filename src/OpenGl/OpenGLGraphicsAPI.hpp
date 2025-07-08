@@ -17,7 +17,7 @@ public:
 	// Set the viewport dimensions and position
 	void Draw() ;
 		
-	void DrawIndexed(unsigned int indexCount) override;
+	void DrawIndexed(std::shared_ptr<VertexArray>VAO) override;
 		
 	void DrawLine() override;
 	

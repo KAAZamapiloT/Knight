@@ -13,10 +13,10 @@ namespace Knight
 
 		void AddCommand(const RenderCommand& command);
 		void ClearCommands();
-
+		std::vector<RenderCommand> GetCommands() { return m_RenderCommands; }
 	private:
 		// A queue to hold render commands
-		std::unique_ptr<std::vector<RenderCommand*>> m_RenderCommands;
+		std::vector<RenderCommand> m_RenderCommands;
 
 	};
 }

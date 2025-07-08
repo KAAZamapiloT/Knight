@@ -10,10 +10,10 @@ namespace Knight{
 	{
 	public:
 		void Init();
-		void BeginFrame();
-		void SubmitCommand(RenderCommand& q);
-		
-		void EndFrame();
+		static void BeginFrame();
+		static void EndFrame();
+
+		static void SubmitCommand(const std::shared_ptr<VertexArray> VAO);
 
 		void ClearCommand();
 		static inline GraphicsAPI* GetAPI() { return s_API.get(); }

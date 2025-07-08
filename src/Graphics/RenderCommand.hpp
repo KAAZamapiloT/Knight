@@ -21,6 +21,7 @@ namespace Knight {
 		void ClearColor(float r, float g, float b, float a) {
 			s_API->Clear(r, g, b, a);
 		}
+		void DrawIndexed(std::shared_ptr<VertexArray>VAO);
 		void SetViewport(int x, int y, int width, int height)
 		{
 			s_API->SetViewport(x, y, width, height);

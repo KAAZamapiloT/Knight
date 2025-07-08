@@ -1,5 +1,6 @@
 #pragma once
 #include "EngineApi.hpp"
+#include"Graphics/VertexArray.hpp"
 namespace Knight {
 
     class KNIGHT_ENGINE_API GraphicsAPI {
@@ -7,10 +8,10 @@ namespace Knight {
         virtual void Init() = 0;
         virtual void SetViewport(int x, int y, int width, int height) = 0;
         virtual void Clear(float r, float g, float b, float a) = 0;
-        virtual void DrawIndexed(unsigned int indexCount) = 0;
+        virtual void DrawIndexed(const std::shared_ptr<VertexArray> VAO) = 0;
 		virtual void Present() = 0;
 		virtual void DrawLine() = 0;
-        //virtual void VertexDraw() = 0;
+       
 
         virtual ~GraphicsAPI() = default;
 
