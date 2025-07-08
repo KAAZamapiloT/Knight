@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\BufferLayout.cpp" />
     <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="external\imgui\backends\imgui_impl_sdl3.cpp" />
     <ClCompile Include="external\imgui\imgui.cpp" />
@@ -150,7 +151,7 @@
     <ClCompile Include="external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="shaders\shaderComp.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLContext.cpp" />
-    <ClCompile Include="src\Rendering\GraphicsContext.cpp" />
+    <ClCompile Include="src\Graphics\GraphicsContext.cpp" />
     <ClCompile Include="src\Layer\LayerStack.cpp" />
     <ClCompile Include="src\Layer\Layer.cpp" />
     <ClCompile Include="src\Event\MouseEvent.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="src\Platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\BufferLayout.hpp" />
     <ClInclude Include="external\imgui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="external\imgui\backends\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="external\imgui\backends\imgui_impl_sdl3.h" />
@@ -197,7 +199,7 @@
     <ClInclude Include="external\imgui\imgui_internal.h" />
     <ClInclude Include="shaders\shaderComp.h" />
     <ClInclude Include="src\OpenGl\OpenGLContext.hpp" />
-    <ClInclude Include="src\Rendering\GraphicsContext.h" />
+    <ClInclude Include="src\Graphics\GraphicsContext.hpp" />
     <ClInclude Include="src\Layer\LayerStack.hpp" />
     <ClInclude Include="src\Layer\Layer.hpp" />
     <ClInclude Include="src\Event\MouseEvent.hpp" />

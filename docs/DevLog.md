@@ -179,3 +179,109 @@ This phase is critical to establishing a solid rendering foundation while prepar
 ---
 
 _“Every event is a signal; the clearer the path it travels, the smarter the engine becomes.”_
+
+#  DevLog Entry – OpenGL Abstraction Layer & Rendering Pipeline
+**Date:** 2025-07-08  
+**Module:** Graphics/Rendering System  
+**Author:** mikazama
+---
+##  Summary
+- Completed **OpenGL abstraction layer** implementation following **The Cherno's architectural patterns** for cross-platform graphics API support.
+- Successfully abstracted core OpenGL objects: **Vertex Arrays**, **Vertex Buffers**, **Index Buffers**, and **Buffer Layout** system.
+- Established foundation for **platform-agnostic rendering** with clean, type-safe buffer management.
+- **RESOLVED**: ImGui rendering issues through proper buffer swapping order in main render loop.
+---
+##  Key Highlights
+- Implemented **`VertexArray`** class with automatic VAO binding/unbinding and buffer attachment.
+- Created **`VertexBuffer`** and **`IndexBuffer`** abstractions with RAII-style resource management.
+- Developed **`BufferLayout`** system for declarative vertex attribute specification:
+  - Supports common data types (Float, Int, Bool) with automatic stride calculation.
+  - Seamless integration with shader attribute locations.
+- Built **`InputManager`** singleton for centralized input polling across all engine systems.
+- Successfully integrated **ImGui** into the rendering pipeline with custom OpenGL backend.
+- **Fixed critical rendering pipeline order** - moved window buffer swap to end of render loop.
+---
+##  Buffer Layout System
+- Declarative vertex attribute definition using `BufferElement` specifications.
+- Automatic stride and offset calculation for interleaved vertex data.
+- Type-safe attribute binding with compile-time validation.
+- Example usage:
+  ```cpp
+  BufferLayout layout = {
+      { ShaderDataType::Float3, "a_Position" },
+      { ShaderDataType::Float4, "a_Color" },
+      { ShaderDataType::Float2, "a_TexCoord" }
+  };
+  ```
+---
+##  Current Architecture
+- **Platform Layer**: OpenGL context management and window integration.
+- **Abstraction Layer**: API-agnostic buffer objects and layout system.
+- **Input System**: Singleton-based key/mouse state polling accessible engine-wide.
+- **UI Layer**: ImGui integration with custom rendering backend.
+---
+##  Critical Bug Fix - ImGui Rendering
+**Problem**: ImGui UI elements were not appearing or rendering incorrectly after abstraction layer implementation.
+
+**Root Cause**: Buffer swapping (`M_Window->OnUpdate()`) was occurring before ImGui rendering completed, causing UI to be lost during the swap.
+
+**Solution**: Reorganized main render loop to ensure proper rendering order:
+```cpp
+// WORKING ORDER:
+while (m_Running) {
+    // 1. Clear buffers
+    rc.ClearColor(0.1f, 0.0, 0.1, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // 2. Render scene
+    m_Shader->Bind();
+    m_VertexArray->Bind();
+    glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetSize(), GL_UNSIGNED_INT, nullptr);
+    
+    // 3. Update game logic
+    for (Layer* layer : m_LayerStack) {
+        layer->OnUpdate();
+    }
+    
+    // 4. Render ImGui UI
+    m_ImGuiLayer->Begin();
+    for (Layer* layer : m_LayerStack) {
+        layer->OnImGuiRender();
+    }
+    m_ImGuiLayer->End();
+    
+    // 5. Present frame (buffer swap) - MUST BE LAST
+    M_Window->OnUpdate();
+}
+```
+
+**Key Insight**: In double-buffered rendering, all rendering operations must complete before buffer swap. The window's `OnUpdate()` method handles `glfwSwapBuffers()`, which must be the final operation.
+---
+##  Next Steps
+1. **Implement Renderer abstraction** with command queue system for batched draw calls.
+2. **Create RenderCommand interface** to abstract OpenGL-specific drawing operations.
+3. **Add Shader abstraction** with uniform management and program linking.
+4. **Implement basic Material system** for texture and shader binding coordination.
+5. **Create debug overlay** for real-time buffer and render state inspection.
+6. **Add render state validation** to prevent similar timing issues in future.
+---
+##  Technical Debt
+- InputManager singleton creates tight coupling - consider event-driven input system integration.
+- Buffer abstractions need explicit OpenGL error checking and validation.
+- Missing automated resource cleanup on context loss/recreation.
+- **Need render loop documentation** to prevent buffer swap timing regressions.
+---
+##  Impact
+- **Clean separation** between engine code and graphics API specifics.
+- **Simplified vertex data management** with declarative buffer layouts.
+- **Foundation for multi-API support** (Vulkan, DirectX) in future iterations.
+- **Improved debugging capability** through abstracted resource tracking.
+- **Stable UI rendering** with proper frame presentation timing.
+---
+##  Lessons Learned
+- **OpenGL state management** requires careful attention to operation ordering, especially with buffer swaps.
+- **Double-buffering timing** is critical - all rendering must complete before presentation.
+- **Debugging graphics issues** often requires understanding the underlying API's frame lifecycle.
+- **Abstraction layers** must respect the constraints of the underlying graphics API.
+---
+*"Abstraction is not about hiding complexity, but about organizing it into manageable, reusable patterns. And sometimes, the devil is in the timing."*

@@ -26,9 +26,9 @@ public:
 	
 	void SetLayout(BufferLayout&Layout) override;
 
-	static VertexArray* Create() {
-		return new OpenGLVertexArray();
-	}
+//	static VertexArray* Create() {
+//		return new OpenGLVertexArray();
+//	}
 
 private:
 

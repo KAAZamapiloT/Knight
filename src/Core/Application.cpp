@@ -131,17 +131,17 @@ namespace KnightEngine {
         if (!m_ImGuiLayer) {
             KE_TAG_LOG_CRITICAL("Application", "ImGui Layer is not created ");
         }
-        PushOverlay(m_ImGuiLayer);
-       PushOverlay(new  ExampleLayer());
+    PushOverlay(m_ImGuiLayer);
+    //    PushOverlay(new  ExampleLayer());
 
-		m_VertexArray = std::make_shared<OpenGLVertexArray>();
+		m_VertexArray = std::shared_ptr<VertexArray>(VertexArray::Create());
+        m_VertexArray->Bind();
         float Vertices[] = {
             -0.5f, -0.5f, 0.0f, 2.0,0.4,0.3,1.0 ,
              0.5f, -0.5f, 0.0f, 0.0,6.0,0.3,1.0 ,
              0.0f,  0.5f, 0.0f ,0.0,0.0,7.0,1.0 
         };
-		m_VertexBuffer = std::make_shared<OpenGLVertexBuffer>(Vertices, sizeof(Vertices));
-		m_VertexBuffer->Bind();
+        m_VertexBuffer = std::shared_ptr<VertexBuffer>(VertexBuffer::Create(Vertices,sizeof(Vertices)));
         {
             BufferLayout layout = {
                 {EDataType::Float3, "aPos"},
@@ -153,10 +153,8 @@ namespace KnightEngine {
         m_VertexArray->AddVertexBuffer(m_VertexBuffer);
         uint32_t indices[] = { 0, 1, 2 };
         uint32_t indexCount = sizeof(indices) / sizeof(indices[0]);
-        m_IndexBuffer = std::make_shared<OpenGLIndexBuffer>(indices,indexCount);
-		//m_IndexBuffer->Bind();
+        m_IndexBuffer = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indices,indexCount));
         m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-     //   m_VertexArray->GetIndexBuffer()->Bind();
         CheckGLError("bind Index");
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
@@ -211,9 +209,9 @@ void main() {
         KE_TAG_LOG_INFO("APPLICATION", "Running Application");
         while (m_Running)
         {
-            rc.SetViewport(0, 0, m_width, m_height);
             rc.ClearColor(0.1f, 0.0, 0.1, 1.0f);
-            
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             
             //glBindVertexArray(m_VertexArray);
             CheckGLError("Bind VAO");
@@ -228,11 +226,6 @@ void main() {
             {
                 layer->OnUpdate();
             }
-            // This polls SDL events, invokes your callbacks, then swaps buffers.
-            M_Window->OnUpdate();
-           // R.BeginFrame();
-            // R.SubmitCommandBuffer();
-          //  R.EndFrame();
            
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)
@@ -240,7 +233,10 @@ void main() {
                 layer->OnImGuiRender();
             }
             m_ImGuiLayer->End();
+            M_Window->OnUpdate();
             
+           
+          
            
         }
 		
@@ -297,6 +293,8 @@ void main() {
     {
         m_width = M_Window->GetWidth();
         m_height = M_Window->GetHeight();
+        Knight::RenderCommand rw;
+        rw.SetViewport(0, 0, m_height-200, m_height-200);
         
         return true;
     }
@@ -312,7 +310,7 @@ void main() {
 
     void Application::Shutdown()
     {
-
+     
         WindowCloseEvent();
 
     }

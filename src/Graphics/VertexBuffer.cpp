@@ -11,7 +11,7 @@
 		}
 		case Knight::GraphicsAPI::API::OpenGL: {
 			KE_TAG_LOG_CRITICAL("VertexBuffer", "Vulkan API not implemented yet");
-			return new OpenGLVertexBuffer(data, size);
+			return new OpenGLVertexBuffer(data,size);
 
 		};
 		case Knight::GraphicsAPI::API::None: {
