@@ -7,7 +7,7 @@ namespace Knight {
 	{
 	public:
 		using MAT4x4 = glm::mat4x4;
-		using FQuat = glm::quat;
+		using Quat = glm::quat;
 		using vec3 = glm::vec3;
 		
 		void SetPosition(const vec3 position);
@@ -16,7 +16,8 @@ namespace Knight {
 		void SetType(ECameraType Type);
 		void SetScale(float scale);
 		void resize(float aspect);
-
+		void RotateFirstPerson(float DeltaYaw,float DeltaPitch);
+		void RotateAroundTarget(float DelataYaw, float DeltaPitch);
 
 		inline ECameraType GetType() { return m_Type; }
 		inline vec3 GetPosition() { return m_Position; }
@@ -24,6 +25,8 @@ namespace Knight {
 		inline vec3 GetUpVector() { return m_UpVector; }
 		MAT4x4  GetProjectionMatrix() { return ProjectionMatrix; }
 		MAT4x4  GetViewMatrix() { return ViewMatrix; }
+		MAT4x4  GetViewxProjection() { return ViewMatrix * ProjectionMatrix; }
+		Quat GetRoationQuaternion() { return Rotation; }
 	private:
 		void UpdateView();
 		void UpdateProjection();
@@ -38,6 +41,7 @@ namespace Knight {
 		float FarView;
 		float OrthoScale;
 		ECameraType m_Type;
+		Quat Rotation;
 	};
 }
 

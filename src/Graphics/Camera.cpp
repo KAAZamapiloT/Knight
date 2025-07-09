@@ -38,6 +38,39 @@ void Knight::Camera::resize(float aspect)
 	UpdateProjection();
 }
 
+void Knight::Camera::RotateFirstPerson(float DeltaYaw, float DeltaPitch)
+{
+	// Create quaternions for yaw (around Y) and pitch (around X)
+	glm::quat yawQuat = glm::angleAxis(glm::radians(DeltaYaw), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::quat pitchQuat = glm::angleAxis(glm::radians(DeltaPitch), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	// Combine rotations (order matters: yaw then pitch)
+	Rotation = glm::normalize(yawQuat * Rotation * pitchQuat);
+
+	// Update target based on forward direction
+	glm::vec3 forward =Rotation * glm::vec3(0.0f, 0.0f, -1.0f);
+	m_ForwardVector= m_Position+ glm::normalize(forward);
+
+	UpdateView();
+}
+
+void Knight::Camera::RotateAroundTarget(float DeltaYaw, float DeltaPitch)
+{
+	// Create quaternions for yaw (around Y) and pitch (around X)
+	glm::quat yawQuat = glm::angleAxis(glm::radians(DeltaYaw), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::quat pitchQuat = glm::angleAxis(glm::radians(DeltaPitch), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	// Combine rotations (order matters: yaw then pitch)
+	Rotation = glm::normalize(yawQuat * Rotation * pitchQuat);
+
+	// Calculate new position by rotating the vector from target to position
+	glm::vec3 offset = m_Position - m_ForwardVector;
+	offset = Rotation* offset;
+	m_Position = m_ForwardVector + offset;
+
+	UpdateView();
+}
+
 void Knight::Camera::UpdateView()
 {
 	ViewMatrix = glm::lookAt(m_Position, m_ForwardVector, m_UpVector);
