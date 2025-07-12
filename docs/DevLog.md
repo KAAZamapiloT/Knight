@@ -285,3 +285,122 @@ while (m_Running) {
 - **Abstraction layers** must respect the constraints of the underlying graphics API.
 ---
 *"Abstraction is not about hiding complexity, but about organizing it into manageable, reusable patterns. And sometimes, the devil is in the timing."*
+
+
+#  DevLog Entry – Academic Break & Camera System Priority
+**Date:** 2025-07-12  
+**Module:** Engine Development Status  
+**Author:** mikazama
+---
+##  Summary
+- **Academic commitments** will likely interrupt engine development for an extended period.
+- **Prioritizing Camera System implementation** as final major feature before potential hiatus.
+- Current rendering pipeline is **stable and functional** - good stopping point if needed.
+- **Documentation efforts** to preserve current architecture knowledge for future resumption.
+---
+##  Current Status
+- **OpenGL abstraction layer** is complete and battle-tested.
+- **Buffer management system** is robust with proper RAII patterns.
+- **ImGui integration** is stable with resolved rendering pipeline issues.
+- **Input system** is functional for basic camera controls.
+- **Foundation is solid** for camera implementation - all prerequisite systems are in place.
+---
+##  Priority: Camera System Implementation
+**Target Goal**: Complete a functional camera system before academic break.
+
+**Core Requirements**:
+- **Perspective/Orthographic projection** matrix management
+- **View matrix calculation** from camera position, target, and up vectors
+- **Input-driven camera controls** (WASD movement, mouse look)
+- **Camera abstraction class** with clean interface for renderer integration
+- **Basic camera types**: FPS-style and orbit cameras
+
+**Technical Approach**:
+```cpp
+class Camera {
+    glm::mat4 m_ViewMatrix;
+    glm::mat4 m_ProjectionMatrix;
+    glm::vec3 m_Position, m_Front, m_Up, m_Right;
+    float m_Yaw, m_Pitch, m_FOV;
+    
+    void UpdateCameraVectors();
+    void UpdateViewMatrix();
+};
+```
+
+**Integration Points**:
+- Shader uniform management for view/projection matrices
+- Input system connection for real-time camera controls
+- Renderer abstraction for matrix passing
+---
+##  Academic Reality Check
+**Situation**: University coursework demands will likely consume available development time for the foreseeable future.
+
+**Impact on Engine Development**:
+- **Reduced development velocity** - from daily commits to potentially weeks between sessions
+- **Context switching overhead** - will need robust documentation to resume work effectively
+- **Feature scope reduction** - focus on completing essential systems rather than expanding
+
+**Contingency Planning**:
+- **Comprehensive documentation** of current architecture decisions
+- **Code comments** explaining complex rendering pipeline logic
+- **Clear TODO markers** for future development priorities
+- **Modular design** allows for easy re-entry at any system level
+---
+##  Documentation Priority
+**Critical Knowledge to Preserve**:
+- **Rendering loop timing** - especially buffer swap ordering (learned the hard way)
+- **OpenGL abstraction patterns** - how buffer objects integrate with VAOs
+- **ImGui integration details** - custom backend implementation notes
+- **Input system architecture** - singleton pattern rationale and alternatives considered
+
+**Action Items**:
+- Document camera system design decisions even if implementation is incomplete
+- Create architectural overview diagrams for visual reference
+- Maintain commit message quality for future archeology
+- Consider recording brief video explanations of complex systems
+---
+##  Lessons Learned
+- **Academic-hobby balance** is challenging but manageable with proper prioritization
+- **Incremental progress** is more sustainable than marathon coding sessions
+- **Good documentation** is an investment in future productivity
+- **Completing core systems** provides satisfaction and clear restart points
+- **Engine development** is a marathon, not a sprint - breaks are normal and healthy
+
+**Philosophy**: *"Better to build a solid foundation slowly than to rush toward an unstable tower. The camera system will be my capstone before this academic chapter."*
+---
+##  Future Resumption Strategy
+**When Academic Load Decreases**:
+1. **Review current documentation** and architecture decisions
+2. **Test existing systems** to ensure no regressions
+3. **Complete camera system** if not finished
+4. **Proceed with original roadmap**: Renderer abstraction, Materials, Textures
+5. **Consider academic learnings** for potential engine improvements (graphics courses, mathematics, etc.)
+
+**Long-term Vision**: This engine will be a multi-year project. Academic breaks are features, not bugs - they provide perspective and prevent burnout.
+---
+##  Commitment
+- **Complete camera system** within current development capacity
+- **Document thoroughly** before extended break
+- **Maintain git hygiene** for clean project archaeology
+- **Return stronger** with fresh perspective and academic insights
+
+*"The best time to plant a tree was 20 years ago. The second best time is now. The third best time is after you finish your studies with a deeper understanding of the mathematics behind the magic."*
+---
+##  Technical Debt Acknowledgment
+- **Input system** still needs event-driven architecture consideration
+- **Error handling** in OpenGL abstractions needs improvement
+- **Resource cleanup** on context loss not yet implemented
+- **Render state validation** still pending
+- **These can wait** - camera system takes priority for completion satisfaction
+
+**Note**: Academic work in computer graphics, linear algebra, or software engineering may actually inform better solutions to current technical debt items.
+---
+##  Impact
+- **Sustainable development approach** prioritizes long-term project health
+- **Clear milestone completion** provides psychological closure for break period
+- **Knowledge preservation** ensures smooth development resumption
+- **Realistic expectations** prevent guilt and maintain motivation
+- **Camera system completion** will provide significant functionality boost for future work
+
+*"Every great engine was built one commit at a time, across many seasons of life."*
