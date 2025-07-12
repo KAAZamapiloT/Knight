@@ -11,6 +11,7 @@
 #include"OpenGl/OpenGLVertexArray.hpp"
 //#include"Engine.hpp"
 #include"KeyCodes.h"
+
 KnightEngine::Application* KnightEngine::Application::sInstance = nullptr;
 
 namespace KnightEngine {
@@ -112,11 +113,14 @@ namespace KnightEngine {
 		KE_TAG_LOG_TRACE("LOGGER INIT", "Logger initialized successfully TO TRACE");
     }
 
-    Application::Application()
+    Application::Application(): M_Camera(-1.f, 1.f, -1.f, 1.f, -2.0f, 2.0f)
     {
         InitLogger();
         // Initialize core systems here
         KE_LOG_INFO("Application is starting");
+
+       
+
         M_Window = std::unique_ptr<Window>(Window::Create(WindowProps("KnightEngine", 1240, 720)));
         M_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
        m_ImGuiLayer = new ImguiLayer();
@@ -137,9 +141,9 @@ namespace KnightEngine {
 		m_VertexArray = std::shared_ptr<VertexArray>(VertexArray::Create());
         m_VertexArray->Bind();
         float Vertices[] = {
-            -0.5f, -0.5f, 0.0f, 2.0,0.4,0.3,1.0 ,
-             0.5f, -0.5f, 0.0f, 0.0,6.0,0.3,1.0 ,
-             0.0f,  0.5f, 0.0f ,0.0,0.0,7.0,1.0 
+            -0.5f, -0.5f, 0.0f, 1.0,0.4,0.3,1.0 ,
+             0.5f, -0.5f, 0.0f, 0.0,1.0,0.3,1.0 ,
+             0.0f,  0.5f, 0.0f ,0.0,0.0,1.0,1.0 
         };
         std::shared_ptr<VertexBuffer>m_VertexBuffer = std::shared_ptr<VertexBuffer>(VertexBuffer::Create(Vertices,sizeof(Vertices)));
         {
@@ -188,18 +192,21 @@ namespace KnightEngine {
 #version 330 core
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec4 aColor;  // Add this line
+uniform mat4 u_ViewProjectionMatrix;
 out vec3 vPosition;
 out vec4 vColor;  // Add this line
 void main() {
 vPosition = aPos; // Pass the vertex position to the fragment shader
 vColor = aColor; // Pass the color to the fragment shader
-    gl_Position = vec4(aPos+0.1, 1.0);
+  gl_Position = u_ViewProjectionMatrix*vec4(aPos+0.25, 1.0);
+ //gl_Position = vec4(aPos, 1.0);
 }
 )";
 
         // Fragment Shader  
         std::string Fragment = R"(
 #version 330 core
+
 out vec4 FragColor;
 in vec3 vPosition; // Receive the vertex position from the vertex shader
 in vec4 vColor; // Receive the color from the vertex shader
@@ -213,8 +220,9 @@ void main() {
 #version 330 core
 layout(location = 0) in vec3 aPos;
 
+uniform mat4 u_ViewProjectionMatrix; 
 void main() {
-    gl_Position = vec4(aPos, 1.0);
+    gl_Position = u_ViewProjectionMatrix*vec4(aPos, 1.0);
 }
 )";
 
@@ -225,7 +233,7 @@ out vec4 FragColor;
 
 void main() {
   
-   FragColor = vec4(0.1,0.1,8.1, 0.2); // Normalize position to [0, 1] range
+   FragColor = vec4(0.1,0.1,0.8, 0.2); // Normalize position to [0, 1] range
 }
 )";
         m_Shader2 = std::make_shared<ShaderComp>(Vertex2, Fragment2);
@@ -242,30 +250,23 @@ void main() {
 
     void Application::Run()
     {
-
-        
-       // Knight::Renderer R;
         Knight::RenderCommand rc;
        rc.Init();
        Knight::Renderer m_Renderer;
        m_Renderer.Init();
 	  
-	   // Initialize the renderer
-       // R.Init();
         // Main game loop
         KE_TAG_LOG_INFO("APPLICATION", "Running Application");
         while (m_Running)
         {
-            rc.ClearColor(0.1f, 0.0, 0.1, 1.0f);
-            m_Shader->Bind();
-            m_Renderer.SubmitCommand(m_VertexArray);
-           // m_VertexArray->Bind();
-         //   glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-         
-            m_Shader2->Bind();
-            m_Renderer.SubmitCommand(m_SquareVA);
-         //   m_SquareVA->Bind();
-         //   glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+           
+            glm::quat rotation = glm::angleAxis(glm::radians(45.0f), glm::vec3(1,1, 1));
+            M_Camera.SetRotation(rotation);
+
+            m_Renderer.BeginFrame(M_Camera);
+            m_Renderer.SubmitCommand(m_VertexArray,m_Shader);
+            m_Renderer.SubmitCommand(m_SquareVA,m_Shader2);
+       
            
          
             // polling for layer events

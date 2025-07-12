@@ -53,7 +53,7 @@ namespace Knight {
 
         const MAT4x4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
         const MAT4x4& GetViewMatrix() const { return m_ViewMatrix; }
-        MAT4x4 GetViewProjectionMatrix() const { return m_ProjectionMatrix * m_ViewMatrix; }
+        MAT4x4 GetViewProjectionMatrix() const { return ViewProjectionMatrix; }
 
         float GetFOV() const { return m_FOV; }
         float GetAspectRatio() const { return m_AspectRatio; }
@@ -89,6 +89,7 @@ namespace Knight {
         // Matrices
         mutable MAT4x4 m_ViewMatrix = MAT4x4(1.0f);
         mutable MAT4x4 m_ProjectionMatrix = MAT4x4(1.0f);
+        mutable MAT4x4 ViewProjectionMatrix;
         mutable bool m_ViewDirty = true;
         mutable bool m_ProjectionDirty = true;
 

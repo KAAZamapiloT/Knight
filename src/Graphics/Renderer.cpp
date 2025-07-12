@@ -5,6 +5,8 @@
 namespace Knight {
     std::unique_ptr<GraphicsAPI> Renderer::s_API = nullptr;
     std::unique_ptr<RenderQueue> Renderer::s_RenderQueue = std::make_unique<RenderQueue>();
+    Renderer::SceneData* Renderer::m_SceneData=new Renderer::SceneData;
+
     void Renderer::Init() {
         s_API = CreateGraphicsAPI();
         if (!s_RenderQueue) {
@@ -20,8 +22,9 @@ namespace Knight {
         KE_TAG_LOG_INFO("Renderer", "Renderer initialized successfully");
     }
 
-    void Renderer::BeginFrame() {
+    void Renderer::BeginFrame(Camera& camera) {
         s_API->Clear(0.1f, 0.1f, 0.1f, 1.0f);
+        m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
     }
 
     
@@ -37,9 +40,11 @@ namespace Knight {
 
     }
 
-    void Renderer::SubmitCommand(const std::shared_ptr<VertexArray> VAO)
+    void Renderer::SubmitCommand(const std::shared_ptr<VertexArray> VAO, const std::shared_ptr<KnightEngine::ShaderComp> S)
     {
         //TEMPRORY IMPL
+        S->Bind();
+        S->UploadUniformMat4("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
         std::unique_ptr<RenderCommand> r;
        r->DrawIndexed(VAO);
 

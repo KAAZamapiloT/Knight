@@ -118,3 +118,9 @@ void KnightEngine::ShaderComp::Unbind() const
 {
 	glDeleteProgram(m_RendererID);
 }
+
+void KnightEngine::ShaderComp::UploadUniformMat4(const std::string&name,const glm::mat4 Matrix)
+{
+	GLint Location= glGetUniformLocation(m_RendererID,name.c_str());
+	glUniformMatrix4fv(Location, 1, GL_FALSE, glm::value_ptr(Matrix));
+}

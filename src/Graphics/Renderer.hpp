@@ -4,16 +4,17 @@
 #include<Graphics/RenderQueue.hpp>
 #include"Graphics/Mesh.hpp"
 #include"Core/Logger.hpp"
-
+#include"Graphics/Camera.hpp"
+#include"shaderComp.h"
 namespace Knight{
 	class KNIGHT_ENGINE_API Renderer
 	{
 	public:
 		void Init();
-		static void BeginFrame();
+		static void BeginFrame(Camera&camera);
 		static void EndFrame();
 
-		static void SubmitCommand(const std::shared_ptr<VertexArray> VAO);
+		static void SubmitCommand(const std::shared_ptr<VertexArray> VAO,const std::shared_ptr<KnightEngine::ShaderComp> S);
 
 		void ClearCommand();
 		static inline GraphicsAPI* GetAPI() { return s_API.get(); }
@@ -22,6 +23,12 @@ namespace Knight{
 		
 	static  std::unique_ptr<GraphicsAPI> s_API;
 	static  std::unique_ptr<RenderQueue> s_RenderQueue;
-	
+
+	struct SceneData {
+		glm::mat4x4 ViewProjectionMatrix;
+	};
+
+
+	static SceneData* m_SceneData;
 	};
 }

@@ -1,18 +1,17 @@
 #include "Camera.hpp"
 #include <algorithm>
+#include "KnightEnginepch.h"
 
 namespace Knight {
 
     // Perspective constructor
     Camera::Camera(float fov, float aspect, float nearPlane, float farPlane)
         : m_Type(ECameraType::Perspective)
-        , m_FOV(fov)
+        , m_FOV(glm::clamp(fov, 1.0f, 179.0f))  // Clamp directly in initializer
         , m_AspectRatio(aspect)
         , m_NearPlane(nearPlane)
         , m_FarPlane(farPlane)
     {
-        SetFOV(fov); // clamping it in case it went wrong 
-
         UpdateMatrices();
     }
 
@@ -30,119 +29,164 @@ namespace Knight {
     }
 
     void Camera::SetPosition(const vec3& position) {
-        m_Position = position;
-        m_ViewDirty = true;
+        if (m_Position != position) {  // Avoid unnecessary updates
+            m_Position = position;
+            m_ViewDirty = true;
+            UpdateMatrices();
+        }
     }
 
     void Camera::SetRotation(const Quat& rotation) {
-        m_Rotation = glm::normalize(rotation);
-        m_ViewDirty = true;
+        Quat normalizedRotation = glm::normalize(rotation);
+        if (m_Rotation != normalizedRotation) {  // Avoid unnecessary updates
+            m_Rotation = normalizedRotation;
+            m_ViewDirty = true;
+            UpdateMatrices();
+        }
     }
 
     void Camera::SetTarget(const vec3& target) {
-        m_Target = target;
+        if (m_Target != target) {  // Avoid unnecessary updates
+            m_Target = target;
+            // Note: This doesn't mark view as dirty since target is only used for orbit camera
+        }
     }
 
     void Camera::LookAt(const vec3& target, const vec3& up) {
         m_Target = target;
+
         vec3 forward = glm::normalize(target - m_Position);
-        vec3 right = glm::normalize(glm::cross(forward, up));
-        vec3 newUp = glm::cross(right, forward);
 
-        // Create rotation matrix and convert to quaternion
-        MAT4x4 rotMatrix = MAT4x4(1.0f);
-        rotMatrix[0] = vec4(right, 0);
-        rotMatrix[1] = vec4(newUp, 0);
-        rotMatrix[2] = vec4(-forward, 0); // Negative because we're looking down -Z
+        // Check if forward and up are parallel (avoid singularity)
+        if (abs(glm::dot(forward, up)) > 0.999f) {
+            // Use a different up vector if they're nearly parallel
+            vec3 alternateUp = (abs(up.y) < 0.9f) ? vec3(0, 1, 0) : vec3(1, 0, 0);
+            m_Rotation = glm::quatLookAt(forward, alternateUp);
+        }
+        else {
+            m_Rotation = glm::quatLookAt(forward, up);
+        }
 
-        m_Rotation = glm::quat_cast(rotMatrix);
         m_ViewDirty = true;
     }
 
     void Camera::SetFOV(float fov) {
-        m_FOV = glm::clamp(fov, 1.0f, 179.0f);
-        m_ProjectionDirty = true;
+        float clampedFov = glm::clamp(fov, 1.0f, 179.0f);
+        if (m_FOV != clampedFov) {
+            m_FOV = clampedFov;
+            m_ProjectionDirty = true;
+        }
     }
 
     void Camera::SetAspectRatio(float aspect) {
-        m_AspectRatio = aspect;
-        m_ProjectionDirty = true;
+        if (m_AspectRatio != aspect) {
+            m_AspectRatio = aspect;
+            m_ProjectionDirty = true;
+        }
     }
 
     void Camera::SetNearFar(float nearPlane, float farPlane) {
-        m_NearPlane = nearPlane;
-        m_FarPlane = farPlane;
-        m_ProjectionDirty = true;
+        if (m_NearPlane != nearPlane || m_FarPlane != farPlane) {
+            m_NearPlane = nearPlane;
+            m_FarPlane = farPlane;
+            m_ProjectionDirty = true;
+        }
     }
 
     void Camera::SetOrthoBounds(float left, float right, float bottom, float top) {
-        m_OrthoLeft = left;
-        m_OrthoRight = right;
-        m_OrthoBottom = bottom;
-        m_OrthoTop = top;
-        m_ProjectionDirty = true;
+        if (m_OrthoLeft != left || m_OrthoRight != right ||
+            m_OrthoBottom != bottom || m_OrthoTop != top) {
+            m_OrthoLeft = left;
+            m_OrthoRight = right;
+            m_OrthoBottom = bottom;
+            m_OrthoTop = top;
+            m_ProjectionDirty = true;
+        }
     }
 
     void Camera::SetType(ECameraType type) {
-        m_Type = type;
-        m_ProjectionDirty = true;
+        if (m_Type != type) {
+            m_Type = type;
+            m_ProjectionDirty = true;
+        }
     }
 
     void Camera::MoveForward(float distance) {
-        m_Position += GetForwardVector() * distance;
-        m_ViewDirty = true;
+        if (distance != 0.0f) {
+            m_Position += GetForwardVector() * distance;
+            m_ViewDirty = true;
+        }
     }
 
     void Camera::MoveRight(float distance) {
-        m_Position += GetRightVector() * distance;
-        m_ViewDirty = true;
+        if (distance != 0.0f) {
+            m_Position += GetRightVector() * distance;
+            m_ViewDirty = true;
+        }
     }
 
     void Camera::MoveUp(float distance) {
-        m_Position += GetUpVector() * distance;
-        m_ViewDirty = true;
+        if (distance != 0.0f) {
+            m_Position += GetUpVector() * distance;
+            m_ViewDirty = true;
+        }
     }
 
     void Camera::RotateYaw(float angle) {
-        m_Yaw += angle;
-        Quat yawRotation = glm::angleAxis(angle, vec3(0, 1, 0));
-        m_Rotation = yawRotation * m_Rotation;
-        m_ViewDirty = true;
+        if (angle != 0.0f) {
+            m_Yaw += angle;
+            // Apply rotation in world space for yaw
+            Quat yawRotation = glm::angleAxis(angle, vec3(0, 1, 0));
+            m_Rotation = yawRotation * m_Rotation;
+            m_ViewDirty = true;
+        }
     }
 
     void Camera::RotatePitch(float angle) {
-        m_Pitch += angle;
-        ClampPitch();
+        if (angle != 0.0f) {
+            float oldPitch = m_Pitch;
+            m_Pitch += angle;
+            ClampPitch();
 
-        vec3 right = GetRightVector();
-        Quat pitchRotation = glm::angleAxis(angle, right);
-        m_Rotation = pitchRotation * m_Rotation;
-        m_ViewDirty = true;
+            // Only apply rotation if pitch actually changed after clamping
+            if (m_Pitch != oldPitch) {
+                vec3 right = GetRightVector();
+                Quat pitchRotation = glm::angleAxis(m_Pitch - oldPitch, right);
+                m_Rotation = pitchRotation * m_Rotation;
+                m_ViewDirty = true;
+            }
+        }
     }
 
     void Camera::RotateRoll(float angle) {
-        m_Roll += angle;
-        vec3 forward = GetForwardVector();
-        Quat rollRotation = glm::angleAxis(angle, forward);
-        m_Rotation = rollRotation * m_Rotation;
-        m_ViewDirty = true;
+        if (angle != 0.0f) {
+            m_Roll += angle;
+            vec3 forward = GetForwardVector();
+            Quat rollRotation = glm::angleAxis(angle, forward);
+            m_Rotation = rollRotation * m_Rotation;
+            m_ViewDirty = true;
+        }
     }
 
     void Camera::RotateFirstPerson(float deltaYaw, float deltaPitch) {
-        m_Yaw += deltaYaw;
-        m_Pitch += deltaPitch;
-        ClampPitch();
+        if (deltaYaw != 0.0f || deltaPitch != 0.0f) {
+            m_Yaw += deltaYaw;
+            m_Pitch += deltaPitch;
+            ClampPitch();
 
-        // Build rotation from scratch to avoid accumulating errors
-        Quat yawRotation = glm::angleAxis(m_Yaw, vec3(0, 1, 0));
-        Quat pitchRotation = glm::angleAxis(m_Pitch, vec3(1, 0, 0));
-        Quat rollRotation = glm::angleAxis(m_Roll, vec3(0, 0, 1));
+            // Order: Yaw (Y) * Pitch (X) * Roll (Z) - this is the standard order
+            Quat yawRotation = glm::angleAxis(m_Yaw, vec3(0, 1, 0));
+            Quat pitchRotation = glm::angleAxis(m_Pitch, vec3(1, 0, 0));
+            Quat rollRotation = glm::angleAxis(m_Roll, vec3(0, 0, 1));
 
-        m_Rotation = yawRotation * pitchRotation * rollRotation;
-        m_ViewDirty = true;
+            m_Rotation = yawRotation * pitchRotation * rollRotation;
+            m_ViewDirty = true;
+        }
     }
 
     void Camera::RotateAroundTarget(float deltaYaw, float deltaPitch) {
+        if (deltaYaw == 0.0f && deltaPitch == 0.0f) return;
+
         vec3 direction = m_Position - m_Target;
         float distance = glm::length(direction);
 
@@ -150,10 +194,12 @@ namespace Knight {
 
         // Convert to spherical coordinates
         float phi = atan2(direction.z, direction.x) + deltaYaw;
-        float theta = acos(direction.y / distance) + deltaPitch;
+        float theta = acos(glm::clamp(direction.y / distance, -1.0f, 1.0f)) + deltaPitch;
 
         // Clamp theta to avoid flipping
-        theta = glm::clamp(theta, 0.01f, 3.14159f - 0.01f);
+        constexpr float epsilon = 0.01f;
+        constexpr float pi = 3.14159265359f;
+        theta = glm::clamp(theta, epsilon, pi - epsilon);
 
         // Convert back to Cartesian
         vec3 newDirection = vec3(
@@ -166,8 +212,6 @@ namespace Knight {
         LookAt(m_Target);
     }
 
- 
-
     void Camera::UpdateMatrices() {
         if (m_ViewDirty) {
             UpdateViewMatrix();
@@ -178,11 +222,13 @@ namespace Knight {
             UpdateProjectionMatrix();
             m_ProjectionDirty = false;
         }
+        ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
     }
 
     void Camera::UpdateViewMatrix() {
-        MAT4x4 rotationMatrix = glm::mat4_cast(glm::conjugate(m_Rotation));
+        // More efficient view matrix calculation
         MAT4x4 translationMatrix = glm::translate(MAT4x4(1.0f), -m_Position);
+        MAT4x4 rotationMatrix = glm::mat4_cast(glm::conjugate(m_Rotation));
         m_ViewMatrix = rotationMatrix * translationMatrix;
     }
 
@@ -205,9 +251,7 @@ namespace Knight {
     }
 
     void Camera::ClampPitch() {
-        const float maxPitch = 89.0f * 3.14159f / 180.0f; // 89 degrees in radians
+        constexpr float maxPitch = 89.0f * 3.14159265359f / 180.0f; // Use constexpr for compile-time constant
         m_Pitch = glm::clamp(m_Pitch, -maxPitch, maxPitch);
-        
     }
-    
 }
