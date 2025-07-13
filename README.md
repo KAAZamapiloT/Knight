@@ -157,7 +157,63 @@ Right-click on `Sandbox` → **Properties**:
   ```
 
 ---
+---
 
+### 🐟 Cross-Platform (Linux/macOS) – CMake Setup
+
+If you're on **Linux** or **macOS**, you will need to:
+
+#### 1. 📆 Clone KnightEngine
+
+```bash
+git clone https://github.com/yourusername/KnightEngine.git
+```
+
+#### 2. 🛠️ Create Your Project Structure
+
+```
+/MyGame
+  /KnightEngine     <-- Cloned repo
+  /Sandbox          <-- Your game project
+  /CMakeLists.txt   <-- Your top-level CMake file
+```
+
+#### 3. ⚙️ Write CMakeLists.txt
+
+```cmake
+cmake_minimum_required(VERSION 3.16)
+project(MyGame)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Add KnightEngine
+add_subdirectory(KnightEngine)
+
+# Add your own application
+add_executable(Sandbox Sandbox/src/main.cpp)
+
+# Include directories
+target_include_directories(Sandbox PRIVATE
+    KnightEngine/src
+    KnightEngine/external
+)
+
+# Link the engine statically
+target_link_libraries(Sandbox PRIVATE KnightEngine)
+```
+
+Then build with:
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+> ✅ Ensure the KnightEngine directory contains a valid `CMakeLists.txt` to build as a static library.
+
+---
 ### ⚠️ Important Notes
 
 * 🔧 **Both projects must match configurations**:
