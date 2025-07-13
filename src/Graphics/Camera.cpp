@@ -1,7 +1,8 @@
 #include "Camera.hpp"
 #include <algorithm>
 #include "KnightEnginepch.h"
-
+#include"input/InputManager.h"
+#include"KeyCodes.h"
 namespace Knight {
 
     // Perspective constructor
@@ -225,6 +226,8 @@ namespace Knight {
         ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
     }
 
+   
+
     void Camera::UpdateViewMatrix() {
         // More efficient view matrix calculation
         MAT4x4 translationMatrix = glm::translate(MAT4x4(1.0f), -m_Position);
@@ -253,5 +256,87 @@ namespace Knight {
     void Camera::ClampPitch() {
         constexpr float maxPitch = 89.0f * 3.14159265359f / 180.0f; // Use constexpr for compile-time constant
         m_Pitch = glm::clamp(m_Pitch, -maxPitch, maxPitch);
+    }
+
+    void Camera::OnEvent(Event& E)
+    {
+        EventDispatcher dispatcher(E);
+
+        if (E.IsHandled()) {
+            KE_TAG_LOG_CRITICAL("Camera", "Event already handled, skipping ImguiLayer processing");
+            return;
+        }
+
+
+    
+        dispatcher.Dispatch<MouseMovedEvent>(KNIGHT_BIND_FN(Camera::OnMouseMovedEvent));
+      
+        dispatcher.Dispatch<KeyPressedEvent>(KNIGHT_BIND_FN(Camera::OnKeyPressedEvent));
+        dispatcher.Dispatch<KeyReleasedEvent>(KNIGHT_BIND_FN(Camera::OnKeyReleasedEvent));
+        
+
+
+    }
+    bool Camera::OnKeyPressedEvent(KeyPressedEvent& K)
+    {
+        vec3 p = GetPosition();
+        switch (K.GetKeyCode()) {
+        case(KnightK_W) :{
+                SetPosition({ p.x,p.y,p.z + 0.01 });
+                break;
+            }
+        case(KnightK_S): {
+            SetPosition({ p.x,p.y,p.z - 0.01 });
+            break;
+        }
+        case(KnightK_A): {
+            SetPosition({ p.x+0.01,p.y,p.z});
+            break;
+        }
+        case(KnightK_D): {
+            SetPosition({ p.x-0.01,p.y,p.z  });
+            break;
+        }
+               
+       }
+
+        
+        switch (K.GetKeyCode()) {
+        case(KnightK_UP): {
+            Quat q = glm::quat(glm::radians(0.001), vec3(1.0, 0.0, 0.0));
+            SetRotation(m_Rotation+q);
+            break;
+        }
+        case(KnightK_DOWN): {
+            Quat q = glm::quat(glm::radians(0.001), vec3(-1.0, 0.0, 0.0));
+            SetRotation(m_Rotation + q);
+            break;
+        }
+        case(KnightK_LEFT): {
+            Quat q = glm::quat(glm::radians(0.001), vec3(0.0, 0.0, 1.0));
+            SetRotation(m_Rotation + q);
+            break;
+        }
+        case(KnightK_RIGHT): {
+            Quat q = glm::quat(glm::radians(0.001), vec3(0.0, 0.0, -1.0));
+            SetRotation(m_Rotation + q);
+            break;
+            break;
+        }
+
+        }
+        KE_TAG_LOG_DEBUG("Camera_OnKeyPressed", "MOVEMENT TRIGGRED");
+        return false;
+    }
+    bool Camera::OnKeyReleasedEvent(KeyReleasedEvent& K)
+    {
+        return false;
+    }
+    bool Camera::OnMouseMovedEvent(MouseMovedEvent& M)
+    {
+        KE_TAG_LOG_DEBUG("Camera_OnMOuseMoved", "MOVEMENT TRIGGRED");
+       
+        
+        return false;
     }
 }

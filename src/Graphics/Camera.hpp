@@ -1,7 +1,11 @@
 #pragma once
 #include "EngineApi.hpp"
 #include "utils/Math.hpp"
-
+#include"Event/Event.hpp"
+#include"Event/EventDispatcher.hpp"
+#include"Event/WindowEvent.hpp"
+#include"Event/KeyEvent.hpp"
+#include"Event/MouseEvent.hpp"
 namespace Knight {
     enum class ECameraType { Orthographic, Perspective };
 
@@ -62,6 +66,15 @@ namespace Knight {
 
         // Utility
         void UpdateMatrices();
+
+        //Event
+        void OnEvent(Event& E);
+
+        bool OnKeyPressedEvent(KeyPressedEvent& K);
+        bool OnKeyReleasedEvent(KeyReleasedEvent& K);
+
+        bool OnMouseMovedEvent(MouseMovedEvent& M);
+       
 
     private:
         void UpdateViewMatrix();

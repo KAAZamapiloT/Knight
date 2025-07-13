@@ -260,8 +260,8 @@ void main() {
         while (m_Running)
         {
            
-            glm::quat rotation = glm::angleAxis(glm::radians(45.0f), glm::vec3(1,1, 1));
-            M_Camera.SetRotation(rotation);
+            
+          
 
             m_Renderer.BeginFrame(M_Camera);
             m_Renderer.SubmitCommand(m_VertexArray,m_Shader);
@@ -313,6 +313,7 @@ void main() {
        // KE_TAG_LOG_INFO("ApplicationEvent:OnEvent", "Event received: {}", E.ToString());
 
         // unwinnding of stack 
+        M_Camera.OnEvent(E);
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
         {
             (*--it)->OnEvent(E);
