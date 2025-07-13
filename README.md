@@ -145,12 +145,15 @@ Right-click on `Sandbox` → **Properties**:
 * In `Sandbox`, write your `main()` that uses the engine:
 
   ```cpp
- #include "Core/Application.hpp"
-int main()
-{
+ 
+  
+   #include "Core/Application.hpp"
+   int main()
+  {
 	KnightEngine::Application* app = new KnightEngine::Application();
 	app->Run();
-}
+   }
+
   ```
 
 ---
