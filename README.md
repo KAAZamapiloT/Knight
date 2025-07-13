@@ -69,9 +69,102 @@ Key areas:
 
 ---
 
-## 💡 How to Use (Planned)
+## ✨ How to Use KnightEngine (Static `.lib` Version)
+
+KnightEngine is structured as a **static library**, designed to be used as a reusable engine module. You build your game (e.g., `Sandbox`) as a separate project and link it to the engine.
+
+---
+
+### ✅ Step-by-Step Setup
+
+#### 1. 📆 Clone KnightEngine
 
 ```bash
 git clone https://github.com/yourusername/KnightEngine.git
-cd KnightEngine
+```
+
+---
+
+#### 2. 📂 Set Up Folder Structure
+
+Create a new Visual Studio **Solution** with the following structure:
+
+```
+/YourSolution
+  /KnightEngine        <-- Cloned repo
+    /src
+    /external
+  /Sandbox             <-- Your game or test project
+```
+
+---
+
+#### 3. 🧱 Add Projects to Solution
+
+* Open Visual Studio
+* Create a new solution or open an existing one
+* **Add Existing Project** → `KnightEngine/KnightEngine.vcxproj`
+* **Create New Console Application** → Name it `Sandbox`
+* **Set `Sandbox` as the Startup Project**
+
+---
+
+#### 4. 🔗 Configure Sandbox to Use KnightEngine
+
+Right-click on `Sandbox` → **Properties**:
+
+* **C/C++ → General → Additional Include Directories**:
+
+  ```plaintext
+  ../KnightEngine/src
+  ../KnightEngine/external
+  ```
+
+* **Linker → General → Additional Library Directories**:
+
+  ```plaintext
+  ../KnightEngine/x64/$(Configuration)/
+  ```
+
+* **Linker → Input → Additional Dependencies**:
+
+  ```plaintext
+  KnightEngine.lib
+  ```
+
+* **Project Dependencies**:
+
+  * Right-click the solution → **Project Dependencies**
+  * Make sure `Sandbox` depends on `KnightEngine`
+
+---
+
+#### 5. 🛠️ Build and Run
+
+* Build the solution (KnightEngine builds first, then Sandbox)
+* In `Sandbox`, write your `main()` that uses the engine:
+
+  ```cpp
+ #include "Core/Application.hpp"
+int main()
+{
+	KnightEngine::Application* app = new KnightEngine::Application();
+	app->Run();
+}
+  ```
+
+---
+
+### ⚠️ Important Notes
+
+* 🔧 **Both projects must match configurations**:
+
+  * Runtime Library: `/MD` or `/MDd` (Release/Debug)
+  * Platform Toolset and C++ Standard
+* 🧠 You need to **include both the `.lib` file and the engine headers** to use the engine
+* ❌ No need to ship `.dll` — the engine is statically linked into the final executable
+
+---
+
+
 
