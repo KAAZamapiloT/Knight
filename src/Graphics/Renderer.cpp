@@ -40,11 +40,12 @@ namespace Knight {
 
     }
 
-    void Renderer::SubmitCommand(const std::shared_ptr<VertexArray> VAO, const std::shared_ptr<KnightEngine::ShaderComp> S)
+    void Renderer::SubmitCommand(const std::shared_ptr<VertexArray> VAO, const std::shared_ptr<KnightEngine::ShaderComp> S, MAT4x4 Transformation)
     {
         //TEMPRORY IMPL
         S->Bind();
         S->UploadUniformMat4("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
+        S->UploadUniformMat4("u_Transform", Transformation);
         std::unique_ptr<RenderCommand> r;
        r->DrawIndexed(VAO);
 

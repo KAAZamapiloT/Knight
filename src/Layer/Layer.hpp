@@ -3,6 +3,7 @@
 #include"Core/Logger.hpp"
 #include"KnightEnginepch.h"
 #include"Event/Event.hpp"
+#include"Core/Time.hpp"
 namespace KnightEngine {
 	class KNIGHT_ENGINE_API Layer
 	{
@@ -19,8 +20,10 @@ namespace KnightEngine {
 
 		virtual void OnDetach() {
 		} ///< Called when the layer is detached from the application.
-		virtual void OnUpdate() {
-		} ///< Called every frame to update the layer.
+		virtual void OnUpdate(TimeStamp ts) {
+
+		}
+		 ///< Called every frame to update the layer.
 		virtual void OnEvent(Event&event) {
 
 		}

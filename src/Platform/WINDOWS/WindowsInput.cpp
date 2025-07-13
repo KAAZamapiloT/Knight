@@ -2,13 +2,8 @@
 #include "SDL3/SDL.h"
 #include "Core/Application.hpp"
 
-namespace KnightEngine
-{
-	// Static instance initializationsda
-	InputManager* InputManager::s_Instance = new WindowsInput();
-    
-}
 
+//KnightEngine::InputManager* KnightEngine::InputManager::s_Instance = new KnightEngine::WindowsInput();
 
 bool KnightEngine::WindowsInput::IsKeyPressedImpl(int button,int mod)
 {

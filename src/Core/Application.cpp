@@ -47,53 +47,7 @@ namespace KnightEngine {
             KE_TAG_LOG_CRITICAL("OpenGL", "Error after {}: {}", operation, error);
         }
     }
-    class ExampleLayer :public  Layer {
-    public:
-        ExampleLayer() = default;
-        ~ExampleLayer() {
-            KE_TAG_LOG_WARN("ExampleLayer","DESTROyes");
-        }
-        void OnImGuiRender() override {
-            static char inputBuf[2048] = "";
-            static std::vector<std::string> terminalLog;
-            static bool scrollToBottom = false;
-
-
-
-            ImGui::Begin("Terminal");
-
-            // --- Output region
-            ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), false, ImGuiWindowFlags_HorizontalScrollbar);
-            for (const std::string& line : terminalLog)
-                ImGui::TextUnformatted(line.c_str());
-
-            if (scrollToBottom)
-                ImGui::SetScrollHereY(1.0f); // Scroll to bottom
-            scrollToBottom = false;
-            ImGui::EndChild();
-
-            // --- Input line
-            ImGui::Separator();
-            if (ImGui::InputText("Command", inputBuf, IM_ARRAYSIZE(inputBuf), ImGuiInputTextFlags_EnterReturnsTrue)) {
-                // On Enter key pressed
-                std::string inputStr = inputBuf;
-                terminalLog.push_back("> " + inputStr); // Echo command
-                inputBuf[0] = '\0'; // Clear input buffer
-
-                // Simulate some output
-                terminalLog.push_back("You typed: " + inputStr);
-                scrollToBottom = true;
-            }
-            ImGui::End();
-
-        }
-
-
-    private:
-        char buf[1024];
-        float Vol = 0;
-        float fontScale = 1.0;
-    };
+    
     void InitLogger()
     {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -113,14 +67,11 @@ namespace KnightEngine {
 		KE_TAG_LOG_TRACE("LOGGER INIT", "Logger initialized successfully TO TRACE");
     }
 
-    Application::Application(): M_Camera(-1.f, 1.f, -1.f, 1.f, -2.0f, 2.0f)
+    Application::Application()
     {
         InitLogger();
         // Initialize core systems here
         KE_LOG_INFO("Application is starting");
-
-       
-
         M_Window = std::unique_ptr<Window>(Window::Create(WindowProps("KnightEngine", 1240, 720)));
         M_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
        m_ImGuiLayer = new ImguiLayer();
@@ -136,111 +87,7 @@ namespace KnightEngine {
             KE_TAG_LOG_CRITICAL("Application", "ImGui Layer is not created ");
         }
     PushOverlay(m_ImGuiLayer);
-    //    PushOverlay(new  ExampleLayer());
 
-		m_VertexArray = std::shared_ptr<VertexArray>(VertexArray::Create());
-        m_VertexArray->Bind();
-        float Vertices[] = {
-            -0.5f, -0.5f, 0.0f, 1.0,0.4,0.3,1.0 ,
-             0.5f, -0.5f, 0.0f, 0.0,1.0,0.3,1.0 ,
-             0.0f,  0.5f, 0.0f ,0.0,0.0,1.0,1.0 
-        };
-        std::shared_ptr<VertexBuffer>m_VertexBuffer = std::shared_ptr<VertexBuffer>(VertexBuffer::Create(Vertices,sizeof(Vertices)));
-        {
-            BufferLayout layout = {
-                {EDataType::Float3, "aPos"},
-                {EDataType::Float4,"aColor", true} // Example of adding a color attribute
-            };
-
-            m_VertexBuffer->SetLayout(layout);
-        }
-        m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-        uint32_t indices[] = { 0, 1, 2 };
-        uint32_t indexCount = sizeof(indices) / sizeof(indices[0]);
-        std::shared_ptr<IndexBuffer>m_IndexBuffer = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indices,indexCount));
-        m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-        CheckGLError("bind Index");
-        
-        //////////////////////////////////////////////
-        m_SquareVA.reset(VertexArray::Create());
-    
-    m_SquareVA->Bind();
-    float squareVert[] = {
-       -0.75f, -0.75f, 0.0f, 
-             0.75f, -0.75f, 0.0f, 
-             0.75f,  0.75f, 0.0f ,
-              -0.75f,  0.75f, 0.0f 
-    };
-    std::shared_ptr<VertexBuffer> squareVB = std::shared_ptr<VertexBuffer>(VertexBuffer::Create(squareVert,sizeof(squareVert)));
-   squareVB->SetLayout( {
-        {EDataType::Float3,"aPosition"},
-   
-    });
-    
-    m_SquareVA->AddVertexBuffer(squareVB);
-
-    uint32_t indexes[] = { 0,1,2,2,3,0 };
-    uint32_t indexSize = sizeof(indexes) / sizeof(indexes[0]);
-    std::shared_ptr<IndexBuffer> squareIB = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indexes,indexSize));
-    m_SquareVA->SetIndexBuffer(squareIB);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        std::string Vertex = R"(
-#version 330 core
-layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec4 aColor;  // Add this line
-uniform mat4 u_ViewProjectionMatrix;
-out vec3 vPosition;
-out vec4 vColor;  // Add this line
-void main() {
-vPosition = aPos; // Pass the vertex position to the fragment shader
-vColor = aColor; // Pass the color to the fragment shader
-  gl_Position = u_ViewProjectionMatrix*vec4(aPos+0.25, 1.0);
- //gl_Position = vec4(aPos, 1.0);
-}
-)";
-
-        // Fragment Shader  
-        std::string Fragment = R"(
-#version 330 core
-
-out vec4 FragColor;
-in vec3 vPosition; // Receive the vertex position from the vertex shader
-in vec4 vColor; // Receive the color from the vertex shader
-void main() {
-    FragColor = vColor; // Use the color passed from the vertex shader 
-     //FragColor = vec4(vPosition * 0.5 + 0.5, 1.0); // Normalize position to [0, 1] range
-}
-)";
-
-        std::string Vertex2 = R"(
-#version 330 core
-layout(location = 0) in vec3 aPos;
-
-uniform mat4 u_ViewProjectionMatrix; 
-void main() {
-    gl_Position = u_ViewProjectionMatrix*vec4(aPos, 1.0);
-}
-)";
-
-        // Fragment Shader  
-        std::string Fragment2 = R"(
-#version 330 core
-out vec4 FragColor;
-
-void main() {
-  
-   FragColor = vec4(0.1,0.1,0.8, 0.2); // Normalize position to [0, 1] range
-}
-)";
-        m_Shader2 = std::make_shared<ShaderComp>(Vertex2, Fragment2);
-		m_Shader = std::make_shared<ShaderComp>(Vertex, Fragment);
-        if (!m_Shader||!m_Shader2) {  // Assuming you have this method
-            KE_TAG_LOG_CRITICAL("ShaderComp","Shader compilation failed!");
-        }
 }
 
     Application::~Application()
@@ -254,25 +101,18 @@ void main() {
        rc.Init();
        Knight::Renderer m_Renderer;
        m_Renderer.Init();
-	  
+       M_Window->SetVSync(false);
         // Main game loop
         KE_TAG_LOG_INFO("APPLICATION", "Running Application");
         while (m_Running)
         {
-           
-            
-          
-
-            m_Renderer.BeginFrame(M_Camera);
-            m_Renderer.SubmitCommand(m_VertexArray,m_Shader);
-            m_Renderer.SubmitCommand(m_SquareVA,m_Shader2);
-       
-           
-         
+            float time = (float)SDL_GetTicks();
+            TimeStamp timestamp=time-m_LastTime;
+            m_LastTime = time;
             // polling for layer events
             for (Layer* layer : m_LayerStack)
             {
-                layer->OnUpdate();
+                layer->OnUpdate(timestamp);
             }
            
             m_ImGuiLayer->Begin();
@@ -283,9 +123,6 @@ void main() {
             m_ImGuiLayer->End();
             M_Window->OnUpdate();
             
-           
-          
-           
         }
 		
 	
@@ -313,7 +150,6 @@ void main() {
        // KE_TAG_LOG_INFO("ApplicationEvent:OnEvent", "Event received: {}", E.ToString());
 
         // unwinnding of stack 
-        M_Camera.OnEvent(E);
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
         {
             (*--it)->OnEvent(E);
@@ -340,10 +176,10 @@ void main() {
 
     bool Application::OnwindowResize(WindowResizeEvent& E)
     {
-        m_width = M_Window->GetWidth();
-        m_height = M_Window->GetHeight();
-        Knight::RenderCommand rw;
-        rw.SetViewport(0, 0, m_height-200, m_height-200);
+        Knight::RenderCommand R;
+        m_width = E.GetWidth();
+        m_height = E.GetHeight();
+        R.SetViewport(0, 0, E.GetWidth(), E.GetHeight());
         
         return true;
     }

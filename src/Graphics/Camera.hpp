@@ -67,13 +67,7 @@ namespace Knight {
         // Utility
         void UpdateMatrices();
 
-        //Event
-        void OnEvent(Event& E);
-
-        bool OnKeyPressedEvent(KeyPressedEvent& K);
-        bool OnKeyReleasedEvent(KeyReleasedEvent& K);
-
-        bool OnMouseMovedEvent(MouseMovedEvent& M);
+        
        
 
     private:

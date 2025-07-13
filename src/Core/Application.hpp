@@ -13,6 +13,7 @@
 #include"Graphics/VertexArray.hpp"
 #include"Graphics/Renderer.hpp"
 #include"Graphics/Camera.hpp"
+#include"Core/Time.hpp"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -34,10 +35,7 @@ namespace KnightEngine {
     private:
         int m_width = 1240;
         int m_height = 720;
-		std::shared_ptr<VertexArray> m_VertexArray; ///< Vertex array for rendering.
-		std::shared_ptr<ShaderComp> m_Shader; ///< The shader used for rendering.
-        std::shared_ptr<VertexArray> m_SquareVA;
-        std::shared_ptr<ShaderComp> m_Shader2;
+	
 
 
      
@@ -46,11 +44,11 @@ namespace KnightEngine {
         const char* t = "TestWindow";
 		Knight::Renderer* m_Renderer = nullptr;
 		std::unique_ptr<Window> M_Window = nullptr;
-        Knight::Camera M_Camera;
 		LayerStack m_LayerStack; ///< The stack of layers in the application.
 		ImguiLayer* m_ImGuiLayer; ///< The ImGui layer for rendering the UI.
         static Application* sInstance; ///< Singleton instance of the application.
 
+        float m_LastTime=0.0f;
         
     };
 
