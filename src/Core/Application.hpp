@@ -14,6 +14,7 @@
 #include"Graphics/Renderer.hpp"
 #include"Graphics/Camera.hpp"
 #include"Core/Time.hpp"
+#include"Core/Core.h"
 namespace KnightEngine {
 
     class KNIGHT_ENGINE_API Application
@@ -43,7 +44,7 @@ namespace KnightEngine {
         bool m_Running = true;
         const char* t = "TestWindow";
 		Knight::Renderer* m_Renderer = nullptr;
-		std::unique_ptr<Window> M_Window = nullptr;
+		Knight::Scope<Window> M_Window = nullptr;
 		LayerStack m_LayerStack; ///< The stack of layers in the application.
 		ImguiLayer* m_ImGuiLayer; ///< The ImGui layer for rendering the UI.
         static Application* sInstance; ///< Singleton instance of the application.

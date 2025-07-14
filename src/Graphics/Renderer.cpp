@@ -1,7 +1,7 @@
 #include "Renderer.hpp"
 #include"RenderCommand.hpp"
 #include "Core/Logger.hpp"
-
+#include"OpenGl/OpenGLShaderComp.hpp"
 namespace Knight {
     std::unique_ptr<GraphicsAPI> Renderer::s_API = nullptr;
     std::unique_ptr<RenderQueue> Renderer::s_RenderQueue = std::make_unique<RenderQueue>();
@@ -43,9 +43,9 @@ namespace Knight {
     void Renderer::SubmitCommand(const std::shared_ptr<VertexArray> VAO, const std::shared_ptr<KnightEngine::ShaderComp> S, MAT4x4 Transformation)
     {
         //TEMPRORY IMPL
-        S->Bind();
-        S->UploadUniformMat4("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
-        S->UploadUniformMat4("u_Transform", Transformation);
+        std::dynamic_pointer_cast<OpenGLShaderComp>(S)->Bind();
+        std::dynamic_pointer_cast<OpenGLShaderComp>(S)->UploadUniformMat4("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
+        std::dynamic_pointer_cast<OpenGLShaderComp>(S)->UploadUniformMat4("u_Transform", Transformation);
         std::unique_ptr<RenderCommand> r;
        r->DrawIndexed(VAO);
 

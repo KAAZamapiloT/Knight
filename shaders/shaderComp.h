@@ -7,15 +7,14 @@ namespace KnightEngine {
 
 	class KNIGHT_ENGINE_API ShaderComp {
 	public:
-		ShaderComp(const std::string& vertexPath, const std::string& fragmentPath);
-		~ShaderComp();
-		void Bind() const;
-		void Unbind() const;
-		void UploadUniformMat4(const std::string& name,const glm::mat4 Matrix);
-		void UploadUniformfloat4(const std::string& name, const glm::vec4 col);
+	
+		virtual ~ShaderComp(){}
+		virtual void Bind() const = 0;
+			virtual void Unbind() const = 0;
+		//void UploadUniformMat4(const std::string& name,const glm::mat4 Matrix);
+		//void UploadUniformfloat4(const std::string& name, const glm::vec4 col);
 
-	private:
-		uint32_t m_RendererID;
+		static ShaderComp* Create(const std::string VertexSource,const std::string FragmentSource);
 
 	};
 
