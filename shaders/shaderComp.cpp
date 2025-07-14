@@ -124,3 +124,10 @@ void KnightEngine::ShaderComp::UploadUniformMat4(const std::string&name,const gl
 	GLint Location= glGetUniformLocation(m_RendererID,name.c_str());
 	glUniformMatrix4fv(Location, 1, GL_FALSE, glm::value_ptr(Matrix));
 }
+
+void KnightEngine::ShaderComp::UploadUniformfloat4(const std::string& name, const glm::vec4 col)
+{
+	GLint Location = glGetUniformLocation(m_RendererID, name.c_str());
+	glUniform4f(Location, col.x,col.y,col.z,col.w);
+	
+}

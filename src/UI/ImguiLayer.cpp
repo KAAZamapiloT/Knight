@@ -179,8 +179,7 @@ bool KnightEngine::ImguiLayer::OnKeyPressedEvent(KeyPressedEvent& event)
 	io.KeyAlt = io.KeyAlt || event.GetMod(); // Update Alt state
 	io.KeySuper = io.KeySuper || event.GetMod(); // Update Super state
 
-    KE_TAG_LOG_DEBUG("IMGUILAYER:KEYPRESSED", "REGESTRING KEY PRESSES")
-        ;
+    
     return false;
 }
 

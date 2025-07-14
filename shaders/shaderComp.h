@@ -12,6 +12,7 @@ namespace KnightEngine {
 		void Bind() const;
 		void Unbind() const;
 		void UploadUniformMat4(const std::string& name,const glm::mat4 Matrix);
+		void UploadUniformfloat4(const std::string& name, const glm::vec4 col);
 
 	private:
 		uint32_t m_RendererID;

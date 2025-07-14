@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PublicIncludeDirectories>$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)\external\SDL3-3.2.14\include;$(ProjectDir)\external\glm;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -177,6 +178,7 @@
     <ClCompile Include="src\Graphics\RenderQueue.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLGraphicsAPI.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Platform\WINDOWS\WindowsInput.cpp" />
     <ClCompile Include="src\UI\ImguiLayer.cpp" />
     <ClCompile Include="src\input\InputManager.cpp" />
     <ClCompile Include="src\Graphics\Renderer.cpp" />
@@ -198,6 +200,9 @@
     <ClInclude Include="external\imgui\imgui.h" />
     <ClInclude Include="external\imgui\imgui_internal.h" />
     <ClInclude Include="shaders\shaderComp.h" />
+    <ClInclude Include="src\KeyCodes.h" />
+    <ClInclude Include="src\Knight.hpp" />
+    <ClInclude Include="src\MouseButtonCodes.h" />
     <ClInclude Include="src\OpenGl\OpenGLContext.hpp" />
     <ClInclude Include="src\Graphics\GraphicsContext.hpp" />
     <ClInclude Include="src\Layer\LayerStack.hpp" />
@@ -349,6 +354,7 @@
     <ClInclude Include="src\Core\Application.hpp" />
     <ClInclude Include="src\Engine.hpp" />
     <ClInclude Include="src\Graphics\GraphicsApi.hpp" />
+    <ClInclude Include="src\Platform\WINDOWS\WindowsInput.hpp" />
     <ClInclude Include="src\UI\ImguiLayer.hpp" />
     <ClInclude Include="src\ECS\Component.hpp" />
     <ClInclude Include="src\ECS\Entity.hpp" />
