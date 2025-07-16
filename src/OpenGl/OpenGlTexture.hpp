@@ -1,22 +1,26 @@
 #pragma once
-#include "EngineApi.hpp"
-#include"Core/Logger.hpp"
+#include"Graphics/Texture.hpp"
+namespace Knight {
+	
+	class KNIGHT_ENGINE_API OpenGLTexture2D : public Texture2D
+	{
+		OpenGLTexture2D(std::string& path);
+		~OpenGLTexture2D();
 
-#include "Graphics/Texture.hpp"
-class KNIGHT_ENGINE_API OpenGlTexture : public Texture
-{
-public:
-	OpenGlTexture(const char* path);
-	virtual ~OpenGlTexture();
-	virtual void Bind(unsigned int slot = 0) const override;
-	virtual void Unbind() const override;
-	virtual unsigned int GetWidth() const override;
-	virtual unsigned int GetHeight() const override;
-	virtual unsigned int GetID() const override;
+		
+		virtual void Bind(unsigned int slot = 0) const ;
+		virtual void Bind() ;
+		virtual void Unbind() const ;
+		virtual uint32_t GetWidth() const ;
+		virtual uint32_t GetHeight() const ;
+		virtual unsigned int  GetID() const ;
+	private:
+		uint32_t m_Width, m_Height;
+		std::string Path;
+		unsigned int TexID;
+		uint32_t m_RendererID;
+	};
+	
+}
 
-private:
-	unsigned int m_height;
-	unsigned int m_width;
-	unsigned int m_textureID;
-};
 

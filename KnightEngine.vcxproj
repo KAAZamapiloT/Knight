@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\OpenGl\OpenGLShaderComp.cpp" />
     <ClCompile Include="src\Graphics\BufferLayout.cpp" />
     <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="external\imgui\backends\imgui_impl_sdl3.cpp" />
@@ -192,6 +193,8 @@
     <ClCompile Include="src\Platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\OpenGl\OpenGLShaderComp.hpp" />
     <ClInclude Include="src\Graphics\BufferLayout.hpp" />
     <ClInclude Include="external\imgui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="external\imgui\backends\imgui_impl_opengl3_loader.h" />
@@ -220,7 +223,6 @@
     <ClInclude Include="src\Graphics\IndexBuffer.hpp" />
     <ClInclude Include="src\Graphics\VertexArray.hpp" />
     <ClInclude Include="src\Graphics\VertexBuffer.hpp" />
-    <ClInclude Include="src\OpenGl\OpenGlTexture.hpp" />
     <ClInclude Include="src\Graphics\Camera.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\common.hpp" />
     <ClInclude Include="external\glm-1.0.1\glm\exponential.hpp" />

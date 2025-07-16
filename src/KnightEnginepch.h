@@ -21,7 +21,7 @@
 #include<utility>
 #include<stack>
 #include<memory>
-
+#include"Core/Core.h"
 #define BIT(X) (1 << X)
 #define KNIGHT_BIND_FN(x) std::bind(&x, this, std::placeholders::_1)
 

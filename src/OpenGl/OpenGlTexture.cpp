@@ -1,34 +1,45 @@
 #include "OpenGlTexture.hpp"
+namespace Knight {
 
-OpenGlTexture::OpenGlTexture(const char* path)
-{
-   
-}
 
-OpenGlTexture::~OpenGlTexture()
-{
 
-}
+	
 
-void OpenGlTexture::Bind(unsigned int slot) const
-{
-}
+	
 
-void OpenGlTexture::Unbind() const
-{
-}
+	OpenGLTexture2D::OpenGLTexture2D(std::string& path)
+	{
+	}
 
-unsigned int OpenGlTexture::GetWidth() const
-{
-	return m_width;
-}
+	OpenGLTexture2D::~OpenGLTexture2D()
+	{
+	}
 
-unsigned int OpenGlTexture::GetHeight() const
-{
-	return m_height;
-}
+	void OpenGLTexture2D::Bind(unsigned int slot) const
+	{
+	}
 
-unsigned int OpenGlTexture::GetID() const
-{
-	return m_textureID;
+	void OpenGLTexture2D::Bind()
+	{
+	}
+
+	void OpenGLTexture2D::Unbind() const
+	{
+	}
+
+	uint32_t OpenGLTexture2D::GetWidth() const
+	{
+		return 0;
+	}
+
+	uint32_t OpenGLTexture2D::GetHeight() const
+	{
+		return 0;
+	}
+
+	unsigned int OpenGLTexture2D::GetID() const
+	{
+		return 0;
+	}
+
 }
