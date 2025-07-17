@@ -75,6 +75,7 @@ namespace KnightEngine {
         M_Window = std::unique_ptr<Window>(Window::Create(WindowProps("KnightEngine", 1240, 720)));
         M_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
        m_ImGuiLayer = new ImguiLayer();
+       m_Renderer->Init();
         if (!sInstance)
             sInstance = this;
         else

@@ -18,7 +18,7 @@ namespace Knight {
             return;
         }
         s_API->Init();
-
+       
         KE_TAG_LOG_INFO("Renderer", "Renderer initialized successfully");
     }
 

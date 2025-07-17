@@ -11,7 +11,7 @@ namespace Knight{
 	{
 		using MAT4x4 = glm::mat4x4;
 	public:
-		void Init();
+		static void Init();
 		static void BeginFrame(Camera&camera);
 		static void EndFrame();
 
