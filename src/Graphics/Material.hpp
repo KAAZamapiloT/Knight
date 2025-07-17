@@ -6,8 +6,8 @@ class KNIGHT_ENGINE_API Material
 public:
 	virtual void bind() const=0;
 private:
-	Texture* m_DiffuseTexture;
-	Texture* m_SpecularTexture;
+	//Texture* m_DiffuseTexture;
+	//Texture* m_SpecularTexture;
 	int m_Shininess;
 	int m_Opacity;
 	int m_Emissive;

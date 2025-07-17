@@ -1,15 +1,17 @@
 #pragma once
 #include"Graphics/Texture.hpp"
+#include"KnightEnginepch.h"
 namespace Knight {
 	
 	class KNIGHT_ENGINE_API OpenGLTexture2D : public Texture2D
 	{
-		OpenGLTexture2D(std::string& path);
-		~OpenGLTexture2D();
+	public:
+		OpenGLTexture2D(const std::string& path);
+		virtual ~OpenGLTexture2D();
 
 		
 		virtual void Bind(unsigned int slot = 0) const ;
-		virtual void Bind() ;
+		
 		virtual void Unbind() const ;
 		virtual uint32_t GetWidth() const ;
 		virtual uint32_t GetHeight() const ;
