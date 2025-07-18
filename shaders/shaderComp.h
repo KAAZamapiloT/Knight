@@ -14,8 +14,8 @@ namespace KnightEngine {
 		//void UploadUniformMat4(const std::string& name,const glm::mat4 Matrix);
 		//void UploadUniformfloat4(const std::string& name, const glm::vec4 col);
 
-		static ShaderComp* Create(const std::string VertexSource,const std::string FragmentSource);
-
+		static ShaderComp* Create(const std::string& VertexSource,const std::string& FragmentSource);
+		static ShaderComp* Create(const std::string& filepath);
 	};
 
 }
