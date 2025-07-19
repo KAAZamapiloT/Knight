@@ -1,13 +1,5 @@
 #include "OpenGlTexture.hpp"
 #include "glad/glad.h"
-
-// STB Image configuration for large 4K images
-#define STB_IMAGE_IMPLEMENTATION
-#define STBI_MAX_DIMENSIONS 16384
-#define STBI_MALLOC(sz)     malloc(sz)
-#define STBI_REALLOC(p,sz)  realloc(p,sz)
-#define STBI_FREE(p)        free(p)
-
 #include "stb_image.h"
 #include <filesystem>
 

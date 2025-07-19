@@ -11,10 +11,10 @@ namespace KnightEngine {
 		
 	}
 }
-OpenGLShaderComp::OpenGLShaderComp(const std::string& vertexSource, const std::string& fragmentSource)
+OpenGLShaderComp::OpenGLShaderComp(const std::string& name,const std::string& vertexSource, const std::string& fragmentSource)
 {
-
-	 std::unordered_map<GLenum, std::string> ShaderSources;
+	m_Name = name;
+	std::unordered_map<GLenum, std::string> ShaderSources;
 	ShaderSources[GL_VERTEX_SHADER] = vertexSource;
 	ShaderSources[GL_FRAGMENT_SHADER] = fragmentSource;
 	Compile(ShaderSources);
@@ -25,11 +25,17 @@ OpenGLShaderComp::OpenGLShaderComp(const std::string& filepath)
 	std::string ShaderSource=ReadFile(filepath);
 	auto ShaderSources = Preprocess(ShaderSource);
 	Compile(ShaderSources);
-	
+	auto lastslash = filepath.find_last_of("/\\");
+	lastslash=lastslash == std::string::npos ? 0 : lastslash + 1;
+
+	auto lastdot = filepath.rfind(".");
+	auto count = lastdot == std::string::npos ? filepath.size() - lastslash : lastdot - lastslash;
+	m_Name=filepath.substr(lastslash, count);
 }
 
 OpenGLShaderComp::~OpenGLShaderComp()
 {
+	glDeleteProgram(m_RendererID);
 }
 
 void OpenGLShaderComp::Bind() const
@@ -50,6 +56,8 @@ void OpenGLShaderComp::UploadUniformMat4(const std::string& name, const glm::mat
 
 void OpenGLShaderComp::UploadUniformMat3(const std::string& name, const glm::mat3 Matrix)
 {
+	GLint Location = glGetUniformLocation(m_RendererID, name.c_str());
+	glUniformMatrix3fv(Location, 1, GL_FALSE, glm::value_ptr(Matrix));
 }
 
 void OpenGLShaderComp::UploadUniformfloat4(const std::string& name, const glm::vec4 col)
@@ -83,7 +91,7 @@ void OpenGLShaderComp::Compile(const std::unordered_map<GLenum, std::string>& Sh
 {
 	GLuint program = glCreateProgram();
 	std::vector<GLuint> shaderIDs; // Changed from GLenum to GLuint and better naming
-	shaderIDs.reserve(ShaderSources.size()); // Reserve space instead of sizing
+	shaderIDs.reserve(ShaderSources.size()); 
 
 	// Compile all shaders
 	for (const auto& [shaderType, source] : ShaderSources) { // Structured binding for cleaner code

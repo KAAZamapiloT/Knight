@@ -13,9 +13,19 @@ namespace KnightEngine {
 			virtual void Unbind() const = 0;
 		//void UploadUniformMat4(const std::string& name,const glm::mat4 Matrix);
 		//void UploadUniformfloat4(const std::string& name, const glm::vec4 col);
-
-		static ShaderComp* Create(const std::string& VertexSource,const std::string& FragmentSource);
-		static ShaderComp* Create(const std::string& filepath);
+		virtual	const std::string& GetName()const = 0 ;
+		static Knight::Ref<KnightEngine::ShaderComp> Create(const std::string&name,const std::string& VertexSource,const std::string& FragmentSource);
+		static Knight::Ref<KnightEngine::ShaderComp> Create(const std::string& filepath);
 	};
-
+	class KNIGHT_ENGINE_API ShaderLibray {
+	public:
+		void Add(const std::string& name, Knight::Ref<ShaderComp>& S);
+		void Add(const Knight::Ref<ShaderComp>& S);
+		Knight::Ref<ShaderComp> Load(const std::string filepath);
+		Knight::Ref<ShaderComp> Load(const std::string name,const std::string filepath);
+		Knight::Ref<ShaderComp> Get(const std::string&name);
+		bool Exists(const std::string& name) { return m_ShaderMap.find(name) != m_ShaderMap.end(); }
+	private:
+		std::unordered_map<std::string, Knight::Ref<ShaderComp>> m_ShaderMap;
+	};
 }

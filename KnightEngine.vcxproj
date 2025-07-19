@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CONSOLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\external\imgui\backends;$(ProjectDir)\external\imgui;$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)KnightEngine\external\glm;$(ProjectDir)\src;$(ProjectDir)\external\include;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\assets;$(ProjectDir)\external\stb_image;$(ProjectDir)\external\imgui\backends;$(ProjectDir)\external\imgui;$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)KnightEngine\external\glm;$(ProjectDir)\src;$(ProjectDir)\external\include;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8
  %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeaderFile>stdafx.h ,KnightEnginepch</PrecompiledHeaderFile>
@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="external\stb_image\stb_image.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLShaderComp.cpp" />
     <ClCompile Include="src\Graphics\BufferLayout.cpp" />
     <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="src\Platform\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="external\stb_image\stb_image.h" />
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\OpenGl\OpenGLShaderComp.hpp" />
     <ClInclude Include="src\Graphics\BufferLayout.hpp" />
@@ -217,6 +219,7 @@
     <ClInclude Include="src\Event\Event.hpp" />
     <ClInclude Include="src\KnightEnginepch.h" />
     <ClInclude Include="src\OpenGl\OpenGLIndexBuffer.hpp" />
+    <ClInclude Include="src\OpenGl\OpenGLTexture.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLVertexArray.hpp" />
     <ClInclude Include="src\Graphics\GraphicsFactory.hpp" />

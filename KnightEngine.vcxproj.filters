@@ -162,6 +162,9 @@
     <ClCompile Include="src\OpenGl\OpenGLShaderComp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="external\stb_image\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\include\glad\glad.h">
@@ -708,6 +711,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\OpenGl\OpenGLTexture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external\stb_image\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
