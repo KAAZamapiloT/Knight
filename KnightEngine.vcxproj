@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\input\CameraController.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLShaderComp.cpp" />
     <ClCompile Include="src\Graphics\BufferLayout.cpp" />
     <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -196,6 +197,7 @@
   <ItemGroup>
     <ClInclude Include="external\stb_image\stb_image.h" />
     <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\input\CameraController.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLShaderComp.hpp" />
     <ClInclude Include="src\Graphics\BufferLayout.hpp" />
     <ClInclude Include="external\imgui\backends\imgui_impl_opengl3.h" />

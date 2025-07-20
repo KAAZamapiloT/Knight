@@ -2,7 +2,7 @@
 
 #include "EngineApi.hpp"
 #include"KnightEnginepch.h"
-
+#include "utils/Math.hpp"
 namespace KnightEngine {
 
 	class KNIGHT_ENGINE_API InputManager
@@ -15,12 +15,16 @@ namespace KnightEngine {
 		static std::pair<float, float> GetMousePosition()  {
 			return { GetInstance()->GetMouseXImpl(), GetInstance()->GetMouseYImpl()};
 		}
+		static glm::vec2 GetMousePositionAsVec2() {
+			return { GetInstance()->GetMouseXImpl(), GetInstance()->GetMouseYImpl() };
+		}
 		virtual ~InputManager() = default;
 	protected:
 		virtual bool IsKeyPressedImpl(int button, int mod) = 0;
 		virtual bool IsMouseButtonPressedImpl(int button) = 0;
 		virtual float GetMouseXImpl() = 0;
 		virtual float GetMouseYImpl() = 0;
+		
 	private:
 		static InputManager* s_Instance;
 		static InputManager* GetInstance();
