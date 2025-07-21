@@ -6,52 +6,57 @@
 #include"Event/WindowEvent.hpp"
 #include"Event/EventDispatcher.hpp"
 #include"Layer/LayerStack.hpp"
-#include"input/InputManager.h"
 #include"UI/ImguiLayer.hpp"
-#include"shaderComp.h"
-#include"Graphics/VertexBuffer.hpp"
-#include"Graphics/VertexArray.hpp"
-#include"Graphics/Renderer.hpp"
-#include"Graphics/Camera.hpp"
 #include"Core/Time.hpp"
 #include"Core/Core.h"
+
+// Forward declarations
+namespace Knight {
+	class Renderer;
+}
+namespace KnightEngine {
+	class Layer;
+}
+
 namespace KnightEngine {
 
-    class KNIGHT_ENGINE_API Application
-    {
-    public:
-        Application();
-        virtual ~Application();
-        void Run();
-        bool OnWindowClose(WindowCloseEvent& E);
-        bool OnwindowResize(WindowResizeEvent& E);
-        void OnEvent(Event& E);
-        void PushLayer(Layer* layer);
+	class KNIGHT_ENGINE_API Application
+	{
+	public:
+		Application();
+		virtual ~Application();
+
+		void Run();
+		void OnEvent(Event& e);
+		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
+
 		inline Window& GetWindow() { return *M_Window; }
 		static inline Application* GetInstance() { return sInstance; }
-    protected:
-      
-        virtual  void OnShutdown();
-    private:
-        int m_width = 1240;
-        int m_height = 720;
-	
 
+		// Returns a reference to the single, static renderer instance.
+		static Knight::Renderer& GetRenderer() { return m_Renderer; }
 
-     
-        void Shutdown();
-        bool m_Running = true;
-        const char* t = "TestWindow";
-		Knight::Renderer* m_Renderer = nullptr;
-		Knight::Scope<Window> M_Window = nullptr;
-		LayerStack m_LayerStack; ///< The stack of layers in the application.
-		ImguiLayer* m_ImGuiLayer; ///< The ImGui layer for rendering the UI.
-        static Application* sInstance; ///< Singleton instance of the application.
+	protected:
+		virtual void OnShutdown();
 
-        float m_LastTime=0.0f;
-        
-    };
+	private:
+		bool OnWindowClose(WindowCloseEvent& E);
+		bool OnwindowResize(WindowResizeEvent& E);
+		void Shutdown();
 
-    // To be defined in client
-}// namespace KnightEngine
+		int m_width = 1240;
+		int m_height = 720;
+		bool m_Running = true;
+
+		Knight::Scope<Window> M_Window;
+		LayerStack m_LayerStack;
+		ImguiLayer* m_ImGuiLayer;
+		float m_LastTime = 0.0f;
+
+		static Application* sInstance;
+		// The Application class now owns the single, static instance of the Renderer.
+		static Knight::Renderer m_Renderer;
+	};
+
+}

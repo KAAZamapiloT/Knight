@@ -404,3 +404,53 @@ class Camera {
 - **Camera system completion** will provide significant functionality boost for future work
 
 *"Every great engine was built one commit at a time, across many seasons of life."*
+
+# DevLog Entry – Build System & Linker Error Resolution
+
+**Date:** 2025-07-21
+**Module:** Core Build System / Project Configuration
+**Author:** mikazama
+
+---
+
+## Summary
+- Battled a series of cascading build failures and linker errors after refactoring the Sandbox project and making architectural changes to the core engine.
+- The primary issues were `LNK2038` (Runtime Library Mismatch) and `LNK2005` (Multiply Defined Symbols).
+- The root cause was identified as inconsistent Visual Studio project settings between the `KnightEngine` static library and the `Sandbox` executable.
+
+---
+
+## Key Fixes & Discoveries
+- **Runtime Library Mismatch (`LNK2038`):** The most critical error. The `KnightEngine` library and the `Sandbox` executable were being compiled with different C++ runtime libraries (`/MDd` vs. `/MTd`).
+  - **Solution:** Synchronized both projects to use **Multi-threaded Debug (/MTd)** for Debug configurations, as required for static linking.
+- **Multiply Defined Symbols (`LNK2005`):** Caused by the linker finding the same function implementation in multiple places.
+  - **Solution:** Ensured that engine source files (`.cpp`) were only compiled as part of the `KnightEngine.lib` project and were **excluded** from the `Sandbox` project, which should only link the final library.
+- **Unresolved Externals (`LNK2001`):** Encountered when a static member was declared in a header but never defined.
+  - **Solution:** Provided the definition for static members (e.g., `Knight::Renderer Application::m_Renderer;`) in the corresponding `.cpp` file (`Application.cpp`).
+- **Build Cache Issues:** Realized that changes to project settings were not always being picked up immediately.
+  - **Solution:** Adopted a strict policy of using **Build -> Clean Solution** after any changes to `.vcxproj` properties to ensure a clean slate before rebuilding.
+
+---
+
+## Next Steps
+- With a stable and predictable build process, development can now proceed without fighting the toolchain.
+- Continue implementation of the buffered renderer's `EndFrame` logic.
+- Integrate more complex scenes and assets into the `ExampleLayer` to stress-test the now-stable architecture.
+
+---
+
+## Notes
+- The **Runtime Library** setting is the most common source of linker errors when mixing static libraries and executables. It must be identical across all projects in a given configuration.
+- Project dependencies and references in Visual Studio must be set correctly to ensure the proper build order and linking.
+- A "Clean Solution" is not just a suggestion; it's a mandatory step after modifying core project settings.
+
+---
+
+## Impact
+- The engine now has a robust and reliable build configuration, which is a critical piece of infrastructure.
+- This fix prevents a whole class of subtle runtime bugs that can arise from static initialization conflicts between mismatched libraries.
+- Development velocity can now increase, as time is no longer spent chasing linker and build cache issues.
+
+---
+
+_"The linker is the final boss of C++ compilation — defeating it makes the rest of the journey possible."_

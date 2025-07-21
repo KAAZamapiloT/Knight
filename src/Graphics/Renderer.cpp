@@ -5,7 +5,7 @@
 namespace Knight {
     std::unique_ptr<GraphicsAPI> Renderer::s_API = nullptr;
     std::unique_ptr<RenderQueue> Renderer::s_RenderQueue = std::make_unique<RenderQueue>();
-    Renderer::SceneData* Renderer::m_SceneData=new Renderer::SceneData;
+    Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
 
     void Renderer::Init() {
         s_API = CreateGraphicsAPI();
@@ -17,17 +17,17 @@ namespace Knight {
             KE_TAG_LOG_CRITICAL("Renderer", "Failed to create GraphicsAPI instance");
             return;
         }
-        s_API->Init();
-       
+   //     s_API->Init();
+        RenderCommand::Init();
         KE_TAG_LOG_INFO("Renderer", "Renderer initialized successfully");
     }
 
     void Renderer::BeginFrame(Camera& camera) {
-        s_API->Clear(0.1f, 0.1f, 0.1f, 1.0f);
+        RenderCommand::SetClearColor(glm::vec4(0.05, 0.05,0.05, 1.0));
         m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
     }
 
-    
+
 
 
 
@@ -35,8 +35,8 @@ namespace Knight {
 
     void Renderer::EndFrame() {
         for (auto& it : s_RenderQueue->GetCommands()) {
-            
-     }
+
+        }
 
     }
 
@@ -46,8 +46,8 @@ namespace Knight {
         std::dynamic_pointer_cast<OpenGLShaderComp>(S)->Bind();
         std::dynamic_pointer_cast<OpenGLShaderComp>(S)->UploadUniformMat4("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
         std::dynamic_pointer_cast<OpenGLShaderComp>(S)->UploadUniformMat4("u_Transform", Transformation);
-        std::unique_ptr<RenderCommand> r;
-       r->DrawIndexed(VAO);
+        
+        RenderCommand::DrawIndexed(VAO);
 
     }
 

@@ -1,16 +1,6 @@
 #include "RenderCommand.hpp"
-
+#include"Renderer.hpp"
 namespace Knight {
-	std::unique_ptr<GraphicsAPI> RenderCommand::s_API = nullptr;
-	
-	RenderCommand::RenderCommand()
-	{
-		s_API = CreateGraphicsAPI();
-	}
-
-	void RenderCommand::DrawIndexed(std::shared_ptr<VertexArray> VAO)
-	{
-		s_API->DrawIndexed(VAO);
-	}
+	std::unique_ptr<GraphicsAPI> RenderCommand::s_RendererAPI = CreateGraphicsAPI();
 
 }
