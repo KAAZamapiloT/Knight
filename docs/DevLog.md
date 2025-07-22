@@ -454,3 +454,64 @@ class Camera {
 ---
 
 _"The linker is the final boss of C++ compilation — defeating it makes the rest of the journey possible."_
+
+Of course\! Here is the devlog entry from the document, formatted as a Markdown code block with some emojis added for flair.
+
+```markdown
+# DevLog Entry – Rendering Pipeline & Camera System Debugging ⚙️
+
+**Date:** 2025-07-22
+**Module:** Graphics & Input Systems
+**Author:** mikazama
+
+---
+
+## 📝 Summary
+- After resolving the major build and linker issues, the engine was running but nothing was rendering on screen, or camera controls were not behaving as expected.
+- A systematic, back-to-basics debugging approach was used, starting with a simple 2D triangle and building back up to a 3D scene.
+- This process revealed and resolved several subtle but critical bugs in the renderer initialization, buffer setup, and camera control logic.
+
+---
+
+## 🛠️ Key Fixes & Discoveries
+- **Incorrect Initialization Order:** The root cause of many early rendering failures. The `Renderer` was being initialized *before* the `Window` and its OpenGL context were created, leading to silent failures or crashes.
+  - ✅ **Solution:** Corrected the `Application` constructor to ensure the `Window` is always created first, providing a valid graphics context for the `Renderer` to initialize against.
+
+- **Incorrect Buffer Layout (`Assertion Failed`):** An assertion was failing because the `VertexArray` was being told to apply a layout to a `VertexBuffer` that had not yet been associated with that layout.
+  - ✅ **Solution:** The architecture was corrected to have the `BufferLayout` set directly on the `VertexBuffer`. The `VertexArray` now reads the layout from the buffer when it's added, which is a more robust design.
+
+- **Camera Math Bug (`Degrees vs. Radians`):** The camera's vertical (pitch) rotation was locked. The issue was traced to the `ClampPitch` function in the `Camera` class.
+  - ✅ **Solution:** The clamp value was being calculated in radians while the pitch was stored in degrees, causing the clamp to engage almost immediately. The fix was to perform the clamp using degrees (`-89.0f` to `89.0f`) to match the units of the `m_Pitch` variable.
+
+- **Ineffective Camera Movement:** The camera's position values were not changing despite input events being registered.
+  - ✅ **Solution:** The default `M_CameraSpeed` in the `CameraController` was found to be too low (`0.001f`), making movement imperceptible. This was increased to a practical default (`5.0f`), and runtime controls (J/K keys) were added to fine-tune it.
+
+- **Architectural Clarification (Static vs. Instanced):** There was confusion about whether the `Renderer` should be a global static class or an instance owned by the `Application`.
+  - ✅ **Solution:** Solidified the design where the `Application` owns a single, static instance of the `Renderer`, which is accessed via `Application::GetRenderer()`. This provides a clear ownership model while still allowing convenient global-like access.
+
+---
+
+## 🚀 Next Steps
+- Re-implement the buffered rendering design by having `Renderer::SubmitCommand` add to a queue and `Renderer::EndFrame` process that queue.
+- Expand the `ExampleLayer` with more complex objects and materials to further test the renderer.
+- Implement a more complete `InputManager` that polls the actual keyboard and mouse state from the underlying windowing library (e.g., SDL).
+
+---
+
+## 📌 Notes
+- Debugging rendering issues is most effective when simplifying the problem down to the most basic case (a "hello triangle").
+- Mismatches in units (like degrees vs. radians) are a common and difficult-to-spot source of bugs in 3D math.
+- Logging the state of objects (like camera position) in the UI via ImGui is an invaluable tool for real-time debugging.
+
+---
+
+## ✨ Impact
+- The core rendering pipeline is now verified and functional.
+- The camera control system is robust and debuggable.
+- The engine has a stable foundation for building more advanced graphics features.
+
+---
+
+💬 _"A blank screen tells a thousand stories; a single triangle tells the truth."_
+```
+```

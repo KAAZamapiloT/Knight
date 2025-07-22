@@ -204,8 +204,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 		KE_TAG_LOG_CRITICAL("WindowsWindow", "Window could not be created! SDL_Error: {}", SDL_GetError());
 		return;
 	}
-	CheckSDLError("SDL_CreateWindow");
-	// You can attach user data here if needed
+	
 
 
 	m_GLContext = SDL_GL_CreateContext(m_Window);

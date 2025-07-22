@@ -46,7 +46,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -72,6 +72,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PublicIncludeDirectories>$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)\external\SDL3-3.2.14\include;$(ProjectDir)\external\glm;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -111,8 +114,10 @@
       <AdditionalIncludeDirectories>$(ProjectDir)\assets;$(ProjectDir)\external\stb_image;$(ProjectDir)\external\imgui\backends;$(ProjectDir)\external\imgui;$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\glm-1.0.1;$(ProjectDir)\shaders;$(ProjectDir)KnightEngine\external\glm;$(ProjectDir)\src;$(ProjectDir)\external\include;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8
  %(AdditionalOptions)</AdditionalOptions>
-      <PrecompiledHeaderFile>stdafx.h ,KnightEnginepch</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile> KnightEnginepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,8 +134,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\shaders;$(ProjectDir)\external\imgui-1.91.9b\backends;$(ProjectDir)\external\imgui-1.91.9b;$(ProjectDir)\src;$(ProjectDir)\KnightEngine\external\src;$(ProjectDir)\external\include;$(ProjectDir)\external\glm-1.0.1\glm;$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>H:\GameEngine\KnightEngine\KnightEngine\external\stb_image;$(ProjectDir)\shaders;$(ProjectDir)\external\imgui\backends;H:\GameEngine\KnightEngine\KnightEngine\external\glm-1.0.1;$(ProjectDir)\external\imgui;$(ProjectDir)\src;$(ProjectDir)\KnightEngine\external\src;$(ProjectDir)\external\include;$(ProjectDir)\external\glm-1.0.1\glm;$(ProjectDir)\external\spdlog-1.15.3\include;$(ProjectDir)\external\SDL3-3.2.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,17 +149,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="external\stb_image\stb_image.cpp" />
+    <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\imgui\backends\imgui_impl_sdl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\stb_image\stb_image.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\input\CameraController.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLShaderComp.cpp" />
     <ClCompile Include="src\Graphics\BufferLayout.cpp" />
-    <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="external\imgui\backends\imgui_impl_sdl3.cpp" />
-    <ClCompile Include="external\imgui\imgui.cpp" />
-    <ClCompile Include="external\imgui\imgui_demo.cpp" />
-    <ClCompile Include="external\imgui\imgui_draw.cpp" />
-    <ClCompile Include="external\imgui\imgui_tables.cpp" />
-    <ClCompile Include="external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="shaders\shaderComp.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLContext.cpp" />
     <ClCompile Include="src\Graphics\GraphicsContext.cpp" />
@@ -193,19 +216,23 @@
     <ClCompile Include="src\Event\WindowEvent.cpp" />
     <ClCompile Include="src\Platform\Window.cpp" />
     <ClCompile Include="src\Platform\WindowsWindow.cpp" />
+    <ClCompile Include="src\input\StateLessController.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="external\stb_image\stb_image.h" />
-    <ClInclude Include="src\Core\Core.h" />
-    <ClInclude Include="src\input\CameraController.hpp" />
-    <ClInclude Include="src\OpenGl\OpenGLShaderComp.hpp" />
-    <ClInclude Include="src\Graphics\BufferLayout.hpp" />
     <ClInclude Include="external\imgui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="external\imgui\backends\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="external\imgui\backends\imgui_impl_sdl3.h" />
     <ClInclude Include="external\imgui\imconfig.h" />
     <ClInclude Include="external\imgui\imgui.h" />
     <ClInclude Include="external\imgui\imgui_internal.h" />
+    <ClInclude Include="external\imgui\imstb_rectpack.h" />
+    <ClInclude Include="external\imgui\imstb_textedit.h" />
+    <ClInclude Include="external\imgui\imstb_truetype.h" />
+    <ClInclude Include="external\stb_image\stb_image.h" />
+    <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\input\CameraController.hpp" />
+    <ClInclude Include="src\OpenGl\OpenGLShaderComp.hpp" />
+    <ClInclude Include="src\Graphics\BufferLayout.hpp" />
     <ClInclude Include="shaders\shaderComp.h" />
     <ClInclude Include="src\KeyCodes.h" />
     <ClInclude Include="src\Knight.hpp" />
@@ -379,10 +406,14 @@
     <ClInclude Include="src\Event\WindowEvent.hpp" />
     <ClInclude Include="src\Platform\Window.hpp" />
     <ClInclude Include="src\Platform\WindowsWindow.hpp" />
+    <ClInclude Include="src\input\StateLessController.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="docs\DevLog.md" />
     <None Include="docs\Logger.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="external\SDL3-3.2.14\lib\x64\SDL3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -64,13 +64,14 @@ namespace Knight {
 		 */
 		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
 		{
+			
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
 
 		// Other potential commands from the Hazel example
 		// static void DrawLines(const std::shared_ptr<KnightEngine::VertexArray>& vertexArray, uint32_t vertexCount);
 		// static void SetLineWidth(float width);
-
+		static GraphicsAPI* GetApi() { return s_RendererAPI.get(); }
 	private:
 		// This static pointer holds the one and only instance of the graphics API.
 		// It must be initialized once by the Application.

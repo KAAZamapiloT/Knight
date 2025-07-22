@@ -13,16 +13,20 @@ namespace Knight{
 	public:
 		static void Init();
 		static void BeginFrame(Camera&camera);
+		//for debugging to check if its renderer or camera  fault
+		static void BeginFrame() {
+			RenderCommand::SetClearColor(glm::vec4(0.1, 0.1, 0.1, 1.0));
+		}
 		static void EndFrame();
 
 		static void SubmitCommand(const std::shared_ptr<VertexArray> VAO,const std::shared_ptr<KnightEngine::ShaderComp> S,MAT4x4 Transformation =  glm::mat4(1.0));
 
 		void ClearCommand();
-		static inline GraphicsAPI* GetAPI() { return s_API.get(); }
+		static inline GraphicsAPI* GetAPI() { return RenderCommand::GetApi(); }
 		static inline RenderQueue* GetRenderQueue() { return s_RenderQueue.get(); }
 	private:
 		
-	static  std::unique_ptr<GraphicsAPI> s_API;
+	
 	static  std::unique_ptr<RenderQueue> s_RenderQueue;
 
 	struct SceneData {

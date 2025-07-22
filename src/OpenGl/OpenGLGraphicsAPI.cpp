@@ -12,7 +12,7 @@ void OpenGLGraphicsAPI::Init()
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
@@ -26,6 +26,7 @@ void OpenGLGraphicsAPI::Clear(float r, float g, float b, float a)
 
 	// 2. Clear the framebuffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	KE_TAG_LOG_DEBUG("OPEN GL GRPAHICS API", "COLOR IS GETTING CLEARED");
 }
 
 void OpenGLGraphicsAPI::SetViewport(int x, int y, int width, int height)
@@ -34,6 +35,7 @@ void OpenGLGraphicsAPI::SetViewport(int x, int y, int width, int height)
 	m_VWidth = width;
 	m_VHeight = height;
 	KE_TAG_LOG_DEBUG("OpenGLGraphicsAPI", "Viewport set to ({}, {}, {}, {})", x, y, width, height);
+	
 }
 
 void OpenGLGraphicsAPI::Draw()
@@ -45,6 +47,7 @@ void OpenGLGraphicsAPI::DrawIndexed(std::shared_ptr<VertexArray>VAO)
 {
 	VAO->Bind();
 	glDrawElements(GL_TRIANGLES, VAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 }
 
 void OpenGLGraphicsAPI::DrawLine()

@@ -6,6 +6,7 @@
 #include"Event/ApplicationEvents.hpp"
 #include"Event/MouseEvent.hpp"
 #include"Event/EventDispatcher.hpp"
+#include"utils/Math.hpp"
 namespace Knight {
 	class KNIGHT_ENGINE_API CameraController {
 	public:
@@ -24,8 +25,8 @@ namespace Knight {
 		float m_ZoomLevel = 1.0f;
 		Camera M_Camera;
 
-		float M_CameraSpeed = 0.001f;
-		float M_CameraRotationSpeed = 0.001f;
+		float M_CameraSpeed = 0.1f;
+		float M_CameraRotationSpeed = 0.1f;
 		bool m_MouseRotationEnabled = false;
 		glm::vec2 m_LastMousePosition;
 		float m_MouseSensitivity=0.001f;

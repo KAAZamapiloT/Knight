@@ -1,65 +1,50 @@
-#include "Renderer.hpp"
-#include"RenderCommand.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Graphics/RenderCommand.hpp" // Renderer now uses RenderCommand
 #include "Core/Logger.hpp"
-#include"OpenGl/OpenGLShaderComp.hpp"
+#include "OpenGl/OpenGLShaderComp.hpp"
+
 namespace Knight {
-    std::unique_ptr<GraphicsAPI> Renderer::s_API = nullptr;
-    std::unique_ptr<RenderQueue> Renderer::s_RenderQueue = std::make_unique<RenderQueue>();
+
+    // The Renderer no longer owns the API. It only owns scene-level data.
     Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
 
+    /**
+     * @brief Initializes the rendering system.
+     * @details This function now correctly delegates the low-level API initialization
+     * to the RenderCommand class.
+     */
     void Renderer::Init() {
-        s_API = CreateGraphicsAPI();
-        if (!s_RenderQueue) {
-            KE_TAG_LOG_CRITICAL("Renderer", "Failed to create RenderQueue instance");
-            return;
-        }
-        if (!s_API) {
-            KE_TAG_LOG_CRITICAL("Renderer", "Failed to create GraphicsAPI instance");
-            return;
-        }
-   //     s_API->Init();
-        RenderCommand::Init();
-        KE_TAG_LOG_INFO("Renderer", "Renderer initialized successfully");
+        RenderCommand::Init(); // Tell the command dispatcher to set itself up.
+        KE_TAG_LOG_INFO("Renderer", "Renderer initialized successfully.");
     }
 
     void Renderer::BeginFrame(Camera& camera) {
-        RenderCommand::SetClearColor(glm::vec4(0.05, 0.05,0.05, 1.0));
+        // High-level frame setup
+        RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
     }
 
-
-
-
-
-
-
     void Renderer::EndFrame() {
-        for (auto& it : s_RenderQueue->GetCommands()) {
-
-        }
-
+        // In a buffered system, this would flush the command queue.
     }
 
+    /**
+     * @brief Submits a mesh to be drawn.
+     * @details This high-level function prepares the shader and then tells the
+     * low-level RenderCommand to perform the actual draw call.
+     */
     void Renderer::SubmitCommand(const std::shared_ptr<VertexArray> VAO, const std::shared_ptr<KnightEngine::ShaderComp> S, MAT4x4 Transformation)
     {
-        //TEMPRORY IMPL
-        std::dynamic_pointer_cast<OpenGLShaderComp>(S)->Bind();
-        std::dynamic_pointer_cast<OpenGLShaderComp>(S)->UploadUniformMat4("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
-        std::dynamic_pointer_cast<OpenGLShaderComp>(S)->UploadUniformMat4("u_Transform", Transformation);
-        
+        auto openglShader = std::dynamic_pointer_cast<OpenGLShaderComp>(S);
+        if (!openglShader) return;
+
+        openglShader->Bind();
+        openglShader->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+        openglShader->UploadUniformMat4("u_Transform", Transformation);
+
         RenderCommand::DrawIndexed(VAO);
-
     }
-
     void Renderer::ClearCommand()
     {
-        s_RenderQueue.get()->ClearCommands();
     }
-
-
-
-
-
-
-
 }

@@ -20,6 +20,7 @@ namespace Knight {
         };
 
          static API GetAPI() {
+             KE_TAG_LOG_DEBUG("GRAPHICS API"," REQUEST FOR GRAPHICS API ");
 			return m_CurrentAPI;
          }
          

@@ -259,17 +259,15 @@ namespace Knight {
     }
 
     void Camera::UpdateRotationFromEuler() {
-        Quat yawRotation = glm::angleAxis(m_Yaw, vec3(0, 1, 0));
-        Quat pitchRotation = glm::angleAxis(m_Pitch, vec3(1, 0, 0));
-        Quat rollRotation = glm::angleAxis(m_Roll, vec3(0, 0, 1));
-
-        m_Rotation = yawRotation * pitchRotation * rollRotation;
+        Quat yawRotation = glm::angleAxis(glm::radians(m_Yaw), vec3(0, 1, 0));
+        Quat pitchRotation = glm::angleAxis(glm::radians(m_Pitch), vec3(1, 0, 0));
+        m_Rotation = yawRotation * pitchRotation; // Roll is omitted for a simple FPS-style camera
         m_ViewDirty = true;
     }
 
     void Camera::ClampPitch() {
-        constexpr float maxPitch = glm::radians(89.0f);
-        m_Pitch = glm::clamp(m_Pitch, -maxPitch, maxPitch);
+        //constexpr float maxPitch = glm::radians(89.0f);
+        m_Pitch = glm::clamp(m_Pitch, -89.0f, 89.0f);
     }
 
 } // namespace Knight
