@@ -43,14 +43,31 @@ namespace Knight {
     {
         const float speed = M_CameraSpeed * (float)ts;
         bool moved = false;
+        const float rotationSpeed = M_CameraRotationSpeed * (float)ts;
+        bool rotated = false;
+        if (M_Camera.GetType() == ECameraType::Orthographic) {
+            // --- Orthographic Camera Controls (2D Top-Down) ---
+            glm::vec3 pos = M_Camera.GetPosition();
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_W, 0)) { pos.y += speed; moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_S, 0)) { pos.y -= speed; moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_A, 0)) { pos.x -= speed; moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_D, 0)) { pos.x += speed; moved = true; }
+            if (moved) M_Camera.SetPosition(pos);
 
-        // --- Keyboard Movement (Direct Polling) ---
-        if (KnightEngine::InputManager::IsKeyPressed(KnightK_W, 0)) { M_Camera.MoveForward(speed); moved = true; }
-        if (KnightEngine::InputManager::IsKeyPressed(KnightK_S, 0)) { M_Camera.MoveForward(-speed); moved = true; }
-        if (KnightEngine::InputManager::IsKeyPressed(KnightK_A, 0)) { M_Camera.MoveRight(-speed); moved = true; }
-        if (KnightEngine::InputManager::IsKeyPressed(KnightK_D, 0)) { M_Camera.MoveRight(speed); moved = true; }
-        if (KnightEngine::InputManager::IsKeyPressed(KnightK_E, 0)) { M_Camera.MoveUp(speed); moved = true; }
-        if (KnightEngine::InputManager::IsKeyPressed(KnightK_Q, 0)) { M_Camera.MoveUp(-speed); moved = true; }
+            // Rotation with arrow keys
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_LEFT, 0)) { M_Camera.RotateRoll(rotationSpeed); rotated = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_RIGHT, 0)) { M_Camera.RotateRoll(-rotationSpeed); rotated = true; }
+        }
+        else {
+            // --- Keyboard Movement (Direct Polling) ---
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_W, 0)) { M_Camera.MoveForward(speed); moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_S, 0)) { M_Camera.MoveForward(-speed); moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_A, 0)) { M_Camera.MoveRight(-speed); moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_D, 0)) { M_Camera.MoveRight(speed); moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_E, 0)) { M_Camera.MoveUp(speed); moved = true; }
+            if (KnightEngine::InputManager::IsKeyPressed(KnightK_Q, 0)) { M_Camera.MoveUp(-speed); moved = true; }
+        }
+        
 
         if (moved) {
             const auto& pos = M_Camera.GetPosition();
@@ -69,7 +86,9 @@ namespace Knight {
                 KE_TAG_LOG_DEBUG("CameraController", "Mouse rotation detected. Delta: ({:.2f}, {:.2f})", delta.x, delta.y);
             }
         }
-
+        if (rotated) {
+            KE_TAG_LOG_DEBUG("CameraController", "Rotation detected.");
+        }
         // Final step: ensure the camera's internal matrices are updated.
         M_Camera.UpdateMatrices();
     }
@@ -125,6 +144,28 @@ namespace Knight {
             m_MouseSensitivity /= 1.5f;
             if (m_MouseSensitivity < 0.01f) m_MouseSensitivity = 0.01f;
             KE_TAG_LOG_DEBUG("CameraController", "Mouse sensitivity decreased to: {:.3f}", m_MouseSensitivity);
+            return true;
+        }
+        case KnightK_C: // NEW: Toggle camera type
+        {
+            if (M_Camera.GetType() == ECameraType::Perspective)
+            {
+                M_Camera.SetType(ECameraType::Orthographic);
+                // Set some sensible default ortho bounds
+                float left = -m_AspectRatio * m_ZoomLevel;
+                float right = m_AspectRatio * m_ZoomLevel;
+                float bottom = -m_ZoomLevel;
+                float top = m_ZoomLevel;
+                M_Camera.SetOrthographic(left, right, bottom, top, -1.0f, 1.0f);
+                KE_TAG_LOG_INFO("CameraController", "Switched to Orthographic camera.");
+            }
+            else
+            {
+                M_Camera.SetType(ECameraType::Perspective);
+                // Set some sensible default perspective values
+                M_Camera.SetPerspective(45.0f, m_AspectRatio, 0.1f, 1000.0f);
+                KE_TAG_LOG_INFO("CameraController", "Switched to Perspective camera.");
+            }
             return true;
         }
         }
