@@ -2,11 +2,11 @@
 #include"Graphics/Renderer.hpp"
 #include"OpenGl/OpenGLVertexArray.hpp"
 
-VertexArray* VertexArray::Create()
+Knight::Ref<VertexArray> VertexArray::Create()
 {
 	switch (Knight::Renderer::GetAPI()->GetAPI()) {
 	case Knight::GraphicsAPI::API::OpenGL: {
-		return new OpenGLVertexArray();
+		return std::make_shared<OpenGLVertexArray>();
 	}
 	case Knight::GraphicsAPI::API::Vulkan: {
 		KE_TAG_LOG_CRITICAL("VertexArray", "Vulkan API not implemented yet");

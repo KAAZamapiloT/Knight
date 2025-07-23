@@ -47,3 +47,6 @@
 #include <string>
 #include <memory>
 #include"KnightEnginepch.h"
+
+// --- OPEN GL SPECIFIC --
+#include "OpenGl/OpenGLShaderComp.hpp"
