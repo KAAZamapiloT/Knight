@@ -48,7 +48,7 @@ namespace KnightEngine {
 		int m_width = 1240;
 		int m_height = 720;
 		bool m_Running = true;
-
+		bool m_Minimized = false;
 		Knight::Scope<Window> M_Window;
 		LayerStack m_LayerStack;
 		ImguiLayer* m_ImGuiLayer;

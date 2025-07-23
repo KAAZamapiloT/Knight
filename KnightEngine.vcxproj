@@ -230,6 +230,7 @@
     <ClInclude Include="external\imgui\imstb_truetype.h" />
     <ClInclude Include="external\stb_image\stb_image.h" />
     <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\Graphics\Lights.hpp" />
     <ClInclude Include="src\input\CameraController.hpp" />
     <ClInclude Include="src\OpenGl\OpenGLShaderComp.hpp" />
     <ClInclude Include="src\Graphics\BufferLayout.hpp" />

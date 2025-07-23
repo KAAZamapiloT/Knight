@@ -16,6 +16,8 @@ namespace Knight {
 		void OnEvent(Event& e);
 		Camera& GetCamera() { return M_Camera; }
 		const Camera& GetCamera() const { return M_Camera; }
+		void SetZoomLevel(float level) { m_ZoomLevel = level; }
+		float GetZoomLevel() const { return m_ZoomLevel; }
 	private:
 		bool OnMouseScroll(MouseScrolledEvent& ms);
 		bool OnWindowResize(WindowResizeEvent& re);

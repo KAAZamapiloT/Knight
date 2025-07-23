@@ -89,11 +89,13 @@ namespace KnightEngine {
             float time = (float)SDL_GetTicks() / 1000.0f;
             TimeStamp timestep = time - m_LastTime;
             m_LastTime = time;
-
-            for (Layer* layer : m_LayerStack)
-            {
-                layer->OnUpdate(timestep);
+            if (!m_Minimized) {
+                for (Layer* layer : m_LayerStack)
+                {
+                    layer->OnUpdate(timestep);
+                }
             }
+           
 
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)
@@ -118,12 +120,13 @@ namespace KnightEngine {
     {
         if (e.GetWidth() == 0 || e.GetHeight() == 0)
         {
+            m_Minimized = true;
             return false;
         }
 
         m_width = e.GetWidth();
         m_height = e.GetHeight();
-
+        m_Minimized = false;
         // Correct: Use RenderCommand as a static utility class.
         Knight::RenderCommand::SetViewport(0, 0, e.GetWidth(), e.GetHeight());
 

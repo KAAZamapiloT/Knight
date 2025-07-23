@@ -193,6 +193,9 @@ namespace Knight {
         }
         m_AspectRatio = (float)re.GetWidth() / (float)re.GetHeight();
         M_Camera.SetAspectRatio(m_AspectRatio);
+        M_Camera.UpdateMatrices();
+
+         
         KE_TAG_LOG_DEBUG("CameraController", "Window resized, new aspect ratio: {:.2f}", m_AspectRatio);
         return false;
     }

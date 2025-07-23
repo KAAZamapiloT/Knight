@@ -240,6 +240,7 @@ void KnightEngine::WindowsWindow::Init(const WindowProps& props)
 	
 		data.Width = width;
 		data.Height = height;
+		
 		WindowResizeEvent resizeEvent(width, height);
 		data.EventCallback(resizeEvent);
 		});
