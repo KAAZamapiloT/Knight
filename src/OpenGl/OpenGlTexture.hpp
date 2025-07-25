@@ -7,11 +7,12 @@ namespace Knight {
 	{
 	public:
 		OpenGLTexture2D(const std::string& path);
+		OpenGLTexture2D(uint32_t Width, uint32_t Height);
 		virtual ~OpenGLTexture2D();
 
 		
 		virtual void Bind(unsigned int slot = 0) const ;
-		
+		virtual void SetData(void* data, uint32_t size) override;
 		virtual void Unbind() const ;
 		virtual uint32_t GetWidth() const ;
 		virtual uint32_t GetHeight() const ;
