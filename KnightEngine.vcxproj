@@ -173,6 +173,8 @@
     <ClCompile Include="external\stb_image\stb_image.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer2D.cpp" />
+    <ClCompile Include="src\Core\Profiler.cpp" />
     <ClCompile Include="src\input\CameraController.cpp" />
     <ClCompile Include="src\OpenGl\OpenGLShaderComp.cpp" />
     <ClCompile Include="src\Graphics\BufferLayout.cpp" />
@@ -229,6 +231,8 @@
     <ClInclude Include="external\imgui\imstb_textedit.h" />
     <ClInclude Include="external\imgui\imstb_truetype.h" />
     <ClInclude Include="external\stb_image\stb_image.h" />
+    <ClInclude Include="src\Graphics\Renderer2D.hpp" />
+    <ClInclude Include="src\Core\Profiler.hpp" />
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Graphics\Lights.hpp" />
     <ClInclude Include="src\input\CameraController.hpp" />

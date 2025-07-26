@@ -1,9 +1,9 @@
 #include "VertexBuffer.hpp"
 #include"Graphics/Renderer.hpp"
-
+#include"Core/Core.h"
 #include"OpenGl/OpenGLVertexBuffer.hpp"
 
-	VertexBuffer* VertexBuffer::Create(float* data, uint32_t size)
+	Knight::Ref<VertexBuffer> VertexBuffer::Create(float* data, uint32_t size)
 	{
 		switch (Knight::Renderer::GetAPI()->GetAPI()) {
 		case Knight::GraphicsAPI::API::Vulkan: {
@@ -11,7 +11,7 @@
 		}
 		case Knight::GraphicsAPI::API::OpenGL: {
 			KE_TAG_LOG_CRITICAL("VertexBuffer", "Vulkan API not implemented yet");
-			return new OpenGLVertexBuffer(data,size);
+			return std::make_shared<OpenGLVertexBuffer>(data,size);
 
 		};
 		case Knight::GraphicsAPI::API::None: {

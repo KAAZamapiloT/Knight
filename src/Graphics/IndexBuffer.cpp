@@ -1,7 +1,7 @@
 #include "IndexBuffer.hpp"
 #include "OpenGl/OpenGLIndexBuffer.hpp"
 #include "Graphics/Renderer.hpp"
-IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
+Knight::Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 {
 	switch (Knight::Renderer::GetAPI()->GetAPI()) {
 	case Knight::GraphicsAPI::API::Vulkan: {
@@ -9,7 +9,7 @@ IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	}
 	case Knight::GraphicsAPI::API::OpenGL: {
 		KE_TAG_LOG_CRITICAL("IndexBuffer", "Vulkan API not implemented yet");
-		return new OpenGLIndexBuffer(indices, count);
+		return std::make_shared<OpenGLIndexBuffer>(indices, count);
 
 	};
 	case Knight::GraphicsAPI::API::None: {

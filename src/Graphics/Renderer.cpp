@@ -24,9 +24,11 @@ namespace Knight {
         m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
     }
 
-    void Renderer::EndFrame() {
-        // In a buffered system, this would flush the command queue.
-    }
+   void Renderer::EndFrame() {
+        // High-level frame cleanup
+        RenderCommand::Clear(); // Clear the screen with the set clear color
+       
+   }
 
     /**
      * @brief Submits a mesh to be drawn.
