@@ -80,11 +80,30 @@ namespace Knight {
 
     void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
     {
-
+		auto openglShader = std::dynamic_pointer_cast<OpenGLShaderComp>(s_Data->Shader);
+        // 1. Calculate the unique transformation matrix for this rotated quad.
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
+            * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+            * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+        // 2. Upload the transform and color uniforms.
+        openglShader->UploadUniformMat4("u_Transform", transform);
+        openglShader->UploadUniformfloat3("u_Color", { color.r, color.g, color.b });
+        // 3. Perform the draw call.
+		RenderCommand::DrawIndexed(s_Data->QuadVAO);
     }
 
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
     {
+        auto openglShader = std::dynamic_pointer_cast<OpenGLShaderComp>(s_Data->Shader);
+        // 1. Calculate the unique transformation matrix for this rotated quad.
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+            * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+            * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+        // 2. Upload the transform and color uniforms.
+        openglShader->UploadUniformMat4("u_Transform", transform);
+        openglShader->UploadUniformfloat3("u_Color", { color.r, color.g, color.b });
+        // 3. Perform the draw call.
+		RenderCommand::DrawIndexed(s_Data->QuadVAO);
     }
 
     // This overload simply calls the main vec3 version.
@@ -96,10 +115,35 @@ namespace Knight {
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tintColor)
 	{
+        auto openglShader = std::dynamic_pointer_cast<OpenGLShaderComp>(s_Data->Shader);
+        // 1. Calculate the unique transformation matrix for this rotated quad.
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
+            * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+            * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+        // 2. Upload the transform and color uniforms.
+        openglShader->UploadUniformMat4("u_Transform", transform);
+        openglShader->UploadUniformfloat3("u_Color", { tintColor.r, tintColor.g, tintColor.b });
+        // Bind the texture
+        texture->Bind();
+        // 3. Perform the draw call.
+		RenderCommand::DrawIndexed(s_Data->QuadVAO);
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tintColor)
 	{
+        auto openglShader = std::dynamic_pointer_cast<OpenGLShaderComp>(s_Data->Shader);
+        // 1. Calculate the unique transformation matrix for this rotated quad.
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+            * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+            * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+        // 2. Upload the transform and color uniforms.
+        openglShader->UploadUniformMat4("u_Transform", transform);
+        openglShader->UploadUniformfloat3("u_Color", { tintColor.r, tintColor.g, tintColor.b });
+        // Bind the texture
+        texture->Bind();
+        // 3. Perform the draw call.
+		RenderCommand::DrawIndexed(s_Data->QuadVAO);
+		RenderCommand::DrawIndexed(s_Data->QuadVAO);
 	}
 
 }
