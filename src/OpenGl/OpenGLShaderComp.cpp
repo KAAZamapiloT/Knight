@@ -87,6 +87,21 @@ void OpenGLShaderComp::UploadUniformint(const std::string& name, const int col)
 	
 }
 
+void OpenGLShaderComp::SetFloat3(std::string name,const glm::vec3& value)
+{
+	UploadUniformfloat3(name, value);
+}
+
+void OpenGLShaderComp::SetFloat2(std::string name,const glm::vec2& value)
+{
+	UploadUniformfloat2(name, value);
+}
+
+void OpenGLShaderComp::SetMat4(std::string name,const glm::mat4& value)
+{
+	UploadUniformMat4(name, value);
+}
+
 void OpenGLShaderComp::Compile(const std::unordered_map<GLenum, std::string>& ShaderSources)
 {
 	GLuint program = glCreateProgram();

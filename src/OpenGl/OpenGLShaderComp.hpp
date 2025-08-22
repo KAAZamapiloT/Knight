@@ -12,14 +12,18 @@ public:
 	virtual ~OpenGLShaderComp();
 	void Bind() const override;
 	void Unbind() const override;
-	void UploadUniformMat4(const std::string& name, const glm::mat4 Matrix) ;
-	void UploadUniformMat3(const std::string& name, const glm::mat3 Matrix);
-	void UploadUniformfloat4(const std::string& name, const glm::vec4 col) ;
-	void UploadUniformfloat3(const std::string& name, const glm::vec3 col);
-	void UploadUniformfloat2(const std::string& name, const glm::vec2 col);
-	void UploadUniformint(const std::string& name, const int col);
+	void UploadUniformMat4(const std::string& name, const glm::mat4 Matrix) override;
+	void UploadUniformMat3(const std::string& name, const glm::mat3 Matrix) override;
+	void UploadUniformfloat4(const std::string& name, const glm::vec4 col) override;
+	void UploadUniformfloat3(const std::string& name, const glm::vec3 col) override;
+	void UploadUniformfloat2(const std::string& name, const glm::vec2 col) override;
+	void UploadUniformint(const std::string& name, const int col) override;
 
 	const std::string& GetName() const override { return m_Name; }
+
+	void SetFloat3(std::string name,const glm::vec3& value) override;
+	void SetFloat2(std::string name,const glm::vec2& value) override;
+	void SetMat4(std::string name,const glm::mat4& value) override;
 private:
 	void Compile(const std::unordered_map<GLenum, std::string>&ShaderSources);
 	std::unordered_map<GLenum,std::string> Preprocess(const std::string& ShaderString);
