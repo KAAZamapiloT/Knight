@@ -8,6 +8,7 @@ namespace Knight {
     struct Renderer2DData {
         Ref<VertexArray> QuadVAO;
         Ref<KnightEngine::ShaderComp> Shader;
+		Ref<KnightEngine::ShaderComp> TextureShader;
         glm::mat4 ViewProjectionMatrix; // Store the camera matrix
     };
 
@@ -17,14 +18,14 @@ namespace Knight {
         s_Data = new Renderer2DData();
         s_Data->QuadVAO = VertexArray::Create();
 
-        float Vertices[] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f,
-            -0.5f,  0.5f, 0.0f
+        float Vertices[5*4] = {
+			-0.5f, -0.5f, 0.0f,0.0f,0.0f,
+			 0.5f, -0.5f, 0.0f,1.0f,0.0f,
+			 0.5f,  0.5f, 0.0f,1.0f,1.0f,
+			-0.5f,  0.5f, 0.0f,0.0f,1.0f
         };
 
-        BufferLayout layout = { { EDataType::Float3, "a_Position" } };
+        BufferLayout layout = { { EDataType::Float3, "a_Position" },{EDataType::Float2,"a_TexCord"}};
         Ref<VertexBuffer> QuadVB = VertexBuffer::Create(Vertices, sizeof(Vertices));
         QuadVB->SetLayout(layout);
 
@@ -35,6 +36,10 @@ namespace Knight {
         s_Data->QuadVAO->SetIndexBuffer(QuadIB);
 
         s_Data->Shader = KnightEngine::ShaderComp::Create("H:\\GameEngine\\KnightEngine\\KnightCore\\Assets\\Shaders\\Cube.glsl");
+        s_Data->TextureShader = KnightEngine::ShaderComp::Create("H:\\GameEngine\\KnightEngine\\KnightCore\\Assets\\Shaders\\Texture.glsl");
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->UploadUniformint("u_Texture", 0);
+        
     }
 
     void Renderer2D::Shutdown() {
@@ -78,6 +83,29 @@ namespace Knight {
         s_Data->Shader->UploadUniformfloat3("u_Color", { color.r, color.g, color.b });
 		s_Data->QuadVAO->Bind();
         // 3. Perform the draw call.
+        RenderCommand::DrawIndexed(s_Data->QuadVAO);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tintColor)
+    {
+        DrawQuad({ position.x, position.y, 0.0f }, size, texture, tintColor);
+		
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tintColor)
+    {
+        s_Data->TextureShader->Bind();
+        texture->Bind(0);
+        s_Data->TextureShader->UploadUniformint("u_Texture", 0);
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+            * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+        s_Data->TextureShader->UploadUniformMat4("u_Transform", transform);
+        // FIX: The shader expects a vec3 for u_Color, so we only send the RGB components.
+        s_Data->TextureShader->UploadUniformfloat3("u_Color", { tintColor.r, tintColor.g, tintColor.b });
+
+        s_Data->QuadVAO->Bind();
         RenderCommand::DrawIndexed(s_Data->QuadVAO);
     }
 
