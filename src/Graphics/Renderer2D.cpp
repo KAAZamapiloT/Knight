@@ -10,8 +10,8 @@ namespace Knight {
 
     struct Renderer2DData {
         Ref<VertexArray> QuadVAO;
-        Ref<KnightEngine::ShaderComp> FlatColorShader;
         Ref<KnightEngine::ShaderComp> TextureShader;
+		Ref<Texture2D> WhiteTexture;
         glm::mat4 ViewProjectionMatrix; // Store the camera matrix for the frame
     };
 
@@ -43,8 +43,12 @@ namespace Knight {
         s_Data->QuadVAO->AddVertexBuffer(quadVB);
         s_Data->QuadVAO->SetIndexBuffer(quadIB);
 
-        s_Data->FlatColorShader = KnightEngine::ShaderComp::Create("H:\\GameEngine\\KnightEngine\\KnightCore\\Assets\\Shaders\\Cube.glsl");
+      //  s_Data->FlatColorShader = KnightEngine::ShaderComp::Create("H:\\GameEngine\\KnightEngine\\KnightCore\\Assets\\Shaders\\Cube.glsl");
         s_Data->TextureShader = KnightEngine::ShaderComp::Create("H:\\GameEngine\\KnightEngine\\KnightCore\\Assets\\Shaders\\Texture.glsl");
+
+		s_Data->WhiteTexture = Knight::Texture2D::Create(1, 1);
+		uint32_t whitePixel = 0xffffffff;
+		s_Data->WhiteTexture->SetData(&whitePixel, sizeof(whitePixel));
     }
 
     void Renderer2D::Shutdown() {
@@ -71,14 +75,18 @@ namespace Knight {
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
     {
-        s_Data->FlatColorShader->Bind();
-        s_Data->FlatColorShader->UploadUniformMat4("u_ViewProjection", s_Data->ViewProjectionMatrix);
+        s_Data->TextureShader->Bind();
+        s_Data->TextureShader->UploadUniformMat4("u_ViewProjection", s_Data->ViewProjectionMatrix);
+
+		s_Data->WhiteTexture->Bind();
+
+       
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-        s_Data->FlatColorShader->UploadUniformMat4("u_Transform", transform);
-        s_Data->FlatColorShader->UploadUniformfloat3("u_Color", { color.r, color.g, color.b });
+        s_Data->TextureShader->UploadUniformMat4("u_Transform", transform);
+        s_Data->TextureShader->UploadUniformfloat4("u_Color", { color.r, color.g, color.b,color.a });
 
         s_Data->QuadVAO->Bind();
         RenderCommand::DrawIndexed(s_Data->QuadVAO);
@@ -99,11 +107,13 @@ namespace Knight {
         texture->Bind(0);
         s_Data->TextureShader->UploadUniformint("u_Texture", 0);
 
+        s_Data->WhiteTexture->Bind();
+
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         s_Data->TextureShader->UploadUniformMat4("u_Transform", transform);
-        s_Data->TextureShader->UploadUniformfloat3("u_Color", { tintColor.r, tintColor.g, tintColor.b });
+        s_Data->TextureShader->UploadUniformfloat4("u_Color", { tintColor.r, tintColor.g, tintColor.b ,tintColor.a});
 
         s_Data->QuadVAO->Bind();
         RenderCommand::DrawIndexed(s_Data->QuadVAO);
@@ -116,13 +126,16 @@ namespace Knight {
 
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
     {
-       s_Data->FlatColorShader->Bind();
-        s_Data->FlatColorShader->UploadUniformMat4("u_ViewProjection", s_Data->ViewProjectionMatrix);
+       s_Data->TextureShader->Bind();
+        s_Data->TextureShader->UploadUniformMat4("u_ViewProjection", s_Data->ViewProjectionMatrix);
+
+        s_Data->WhiteTexture->Bind();
+
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f })
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-        s_Data->FlatColorShader->UploadUniformMat4("u_Transform", transform);
-        s_Data->FlatColorShader->UploadUniformfloat3("u_Color", { color.r, color.g, color.b });
+        s_Data->TextureShader->UploadUniformMat4("u_Transform", transform);
+        s_Data->TextureShader->UploadUniformfloat4("u_Color", { color.r, color.g, color.b,color.a });
         s_Data->QuadVAO->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVAO);
     }
@@ -137,12 +150,15 @@ namespace Knight {
         s_Data->TextureShader->Bind();
         s_Data->TextureShader->UploadUniformMat4("u_ViewProjection", s_Data->ViewProjectionMatrix);
         texture->Bind(0);
+
+        s_Data->WhiteTexture->Bind();
+
         s_Data->TextureShader->UploadUniformint("u_Texture", 0);
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f })
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
         s_Data->TextureShader->UploadUniformMat4("u_Transform", transform);
-        s_Data->TextureShader->UploadUniformfloat3("u_Color", { tintColor.r, tintColor.g, tintColor.b });
+        s_Data->TextureShader->UploadUniformfloat4("u_Color", { tintColor.r, tintColor.g, tintColor.b,tintColor.a });
         s_Data->QuadVAO->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVAO);
     }
@@ -155,3 +171,10 @@ namespace Knight {
 
 
 }
+
+
+/* IMPROTATNT THINGFS:
+    TODO: BINDING SHADER ONCE PER FRAME IN BEGIN FRAME VS BINDING IN DRAW CALL
+		  -> DOING BINFING OF SHADER IN DRAW CALL VS IN BEGIN FRAME
+
+*/

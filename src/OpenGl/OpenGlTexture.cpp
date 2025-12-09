@@ -67,9 +67,9 @@ namespace Knight {
     void OpenGLTexture2D::SetData(void* data, uint32_t size)
     {
         uint32_t bpp = 4; // 4 bytes per pixel for RGBA
-        //KE_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be for the entire texture!");
+        KE_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be for the entire texture!");
 
-        glBindTexture(GL_TEXTURE_2D, m_RendererID);
+        //glBindTexture(GL_TEXTURE_2D, m_RendererID);
         // Use glTexSubImage2D to upload data to the existing texture storage.
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_Width, m_Height, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
