@@ -63,7 +63,7 @@ Key areas:
 | Texture System    | 🛠️ WIP     | Supports 2D textures         |
 | Mesh & Model Load | ❌ Planned | Via custom or Assimp         |
 | Math Module       | ✅ Basic   | GLM-based, extendable        |
-| Event System      | ❌ Planned | Input, resize, dispatch      |
+| Event System      | ✅ Basic   | Input, resize, dispatch      |
 | Scene Graph       | ❌ Planned | ECS or simple node hierarchy |
 | Editor Tools      | ❌ Future  | Using ImGui                  |
 
